@@ -17,6 +17,7 @@ function createPin(
 export abstract class Gate {
   readonly id: string;
   readonly type: GateType;
+  readonly label: string;
   readonly inputs: Pin[];
   readonly outputs: Pin[];
 
@@ -25,9 +26,11 @@ export abstract class Gate {
     inputNames: string[],
     outputNames: string[],
     id?: string,
+    label?: string,
   ) {
     this.id = id ?? crypto.randomUUID();
     this.type = type;
+    this.label = label ?? '';
     this.inputs = inputNames.map((n) => createPin(this.id, n, 'input'));
     this.outputs = outputNames.map((n) => createPin(this.id, n, 'output'));
   }
@@ -119,6 +122,26 @@ export class XorGate extends Gate {
   }
 }
 
+export class InputGate extends Gate {
+  constructor(label: string, id?: string) {
+    super(GateType.INPUT, [], ['out'], id, label);
+  }
+
+  evaluate(): void {
+    // no-op: output is set externally by the simulator
+  }
+}
+
+export class OutputGate extends Gate {
+  constructor(label: string, id?: string) {
+    super(GateType.OUTPUT, ['in'], [], id, label);
+  }
+
+  evaluate(): void {
+    // no-op: input is read after simulation
+  }
+}
+
 export function createGate(config: GateConfig): Gate {
   switch (config.type) {
     case GateType.NAND:
@@ -131,5 +154,9 @@ export function createGate(config: GateConfig): Gate {
       return new NotGate(config.id);
     case GateType.XOR:
       return new XorGate(config.id);
+    case GateType.INPUT:
+      return new InputGate(config.label ?? '', config.id);
+    case GateType.OUTPUT:
+      return new OutputGate(config.label ?? '', config.id);
   }
 }

@@ -6,6 +6,8 @@ export enum GateType {
   OR = 'OR',
   NOT = 'NOT',
   XOR = 'XOR',
+  INPUT = 'INPUT',
+  OUTPUT = 'OUTPUT',
 }
 
 export interface Pin {
@@ -19,6 +21,7 @@ export interface Pin {
 export interface GateConfig {
   type: GateType;
   id?: string;
+  label?: string;
 }
 
 export interface Position {
@@ -30,6 +33,7 @@ export interface SerializedGate {
   type: GateType;
   id: string;
   position: Position;
+  label?: string;
 }
 
 export interface SerializedWire {

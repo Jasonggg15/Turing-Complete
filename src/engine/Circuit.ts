@@ -12,11 +12,24 @@ export class Circuit {
   private wires = new Map<string, Wire>();
   private positions = new Map<string, Position>();
 
-  addGate(type: GateType, position: Position): Gate {
-    const gate = createGate({ type });
+  addGate(type: GateType, position: Position, label?: string): Gate {
+    const gate = createGate({ type, label });
     this.gates.set(gate.id, gate);
     this.positions.set(gate.id, { ...position });
     return gate;
+  }
+
+  setGatePosition(id: string, position: Position): void {
+    if (!this.gates.has(id)) {
+      throw new Error(`Gate "${id}" not found in circuit`);
+    }
+    this.positions.set(id, { ...position });
+  }
+
+  clear(): void {
+    this.gates.clear();
+    this.wires.clear();
+    this.positions.clear();
   }
 
   removeGate(id: string): void {
@@ -90,6 +103,7 @@ export class Circuit {
         type: gate.type,
         id: gate.id,
         position: pos ? { ...pos } : { x: 0, y: 0 },
+        ...(gate.label ? { label: gate.label } : {}),
       };
     });
 
@@ -106,7 +120,7 @@ export class Circuit {
     const circuit = new Circuit();
 
     for (const sg of data.gates) {
-      const gate = createGate({ type: sg.type, id: sg.id });
+      const gate = createGate({ type: sg.type, id: sg.id, label: sg.label });
       circuit.gates.set(gate.id, gate);
       circuit.positions.set(gate.id, { ...sg.position });
     }
