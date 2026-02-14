@@ -20,3 +20,25 @@ export interface GateConfig {
   type: GateType;
   id?: string;
 }
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface SerializedGate {
+  type: GateType;
+  id: string;
+  position: Position;
+}
+
+export interface SerializedWire {
+  id: string;
+  from: string;
+  to: string;
+}
+
+export interface SerializedCircuit {
+  gates: SerializedGate[];
+  wires: SerializedWire[];
+}
