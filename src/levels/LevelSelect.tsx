@@ -29,16 +29,16 @@ interface SectionBanner {
 const NODE_W = 170;
 const NODE_H = 38;
 const ROW_GAP = 80;
-const COL_GAP = 30;
+const COL_GAP = 40;
 const PADDING_TOP = 70;
-const SVG_WIDTH = 1000;
+const BANNER_HEIGHT = 60;
 
 export default function LevelSelect() {
   const navigate = useNavigate();
 
   const completed = useMemo(() => new Set(getCompletedLevels()), []);
 
-  const { nodes, edges, banners, svgHeight } = useMemo(() => {
+  const { nodes, edges, banners, svgHeight, svgWidth } = useMemo(() => {
     const levelMap = new Map<string, Level>();
     levels.forEach((l) => levelMap.set(l.id, l));
 
@@ -89,33 +89,44 @@ export default function LevelSelect() {
       rowGroups.get(row)!.push(l);
     });
 
-    // Detect section transitions and insert banner rows
+    // Determine section first-appearance rows (one banner per section)
     const orderedLevels = levels
       .filter((l) => rowMap.has(l.id))
       .sort((a, b) => rowMap.get(a.id)! - rowMap.get(b.id)!);
 
-    let currentSection: LevelSection | null = null;
+    const sectionFirstRow = new Map<LevelSection, number>();
+    for (const lvl of orderedLevels) {
+      const row = rowMap.get(lvl.id)!;
+      if (!sectionFirstRow.has(lvl.section)) {
+        sectionFirstRow.set(lvl.section, row);
+      }
+    }
+
+    // Build set of rows that need a banner
+    const bannerAtRow = new Map<number, string[]>();
+    for (const [section, row] of sectionFirstRow) {
+      if (!bannerAtRow.has(row)) bannerAtRow.set(row, []);
+      bannerAtRow.get(row)!.push(section.toUpperCase());
+    }
+
+    // Compute cumulative Y offset and banners for each row
+    const maxRow = Math.max(...rowMap.values());
     const bannerList: SectionBanner[] = [];
     const rowYOffset = new Map<number, number>();
     let bannerOffset = 0;
-    const seenBannerRows = new Set<number>();
 
-    for (const lvl of orderedLevels) {
-      const row = rowMap.get(lvl.id)!;
-      if (lvl.section !== currentSection) {
-        currentSection = lvl.section;
-        if (!seenBannerRows.has(row)) {
-          seenBannerRows.add(row);
-          bannerOffset += 50;
+    for (let r = 0; r <= maxRow; r++) {
+      const labels = bannerAtRow.get(r);
+      if (labels) {
+        for (const label of labels) {
+          bannerOffset += BANNER_HEIGHT;
           bannerList.push({
-            label: lvl.section.toUpperCase().replace(/_/g, ' '),
-            y: PADDING_TOP + row * ROW_GAP + bannerOffset - 40,
+            label,
+            y: PADDING_TOP + r * ROW_GAP + bannerOffset - 40,
           });
         }
       }
-      if (!rowYOffset.has(row)) {
-        rowYOffset.set(row, bannerOffset);
-      }
+      rowYOffset.set(r, bannerOffset);
     }
 
     // Compute unlocked set using prerequisites
@@ -130,7 +141,16 @@ export default function LevelSelect() {
       }
     });
 
-    const centerX = SVG_WIDTH / 2;
+    // Compute dynamic SVG width from widest row
+    let maxNodesInRow = 1;
+    for (const [, group] of rowGroups) {
+      maxNodesInRow = Math.max(maxNodesInRow, group.length);
+    }
+    const svgWidth = Math.max(
+      1000,
+      maxNodesInRow * NODE_W + (maxNodesInRow - 1) * COL_GAP + 120,
+    );
+    const centerX = svgWidth / 2;
 
     // Build nodes with horizontal layout
     const nodeList: NodePos[] = [];
@@ -180,6 +200,7 @@ export default function LevelSelect() {
       edges: edgeList,
       banners: bannerList,
       svgHeight: h,
+      svgWidth,
     };
   }, [completed]);
 
@@ -243,7 +264,7 @@ export default function LevelSelect() {
         }}
       >
         <svg
-          width={SVG_WIDTH}
+          width={svgWidth}
           height={svgHeight}
           style={{ display: 'block' }}
         >
@@ -280,16 +301,16 @@ export default function LevelSelect() {
           {banners.map((b, i) => (
             <g key={`banner-${i}`}>
               <line
-                x1={SVG_WIDTH / 2 - 200}
+                x1={svgWidth / 2 - 200}
                 y1={b.y + 10}
-                x2={SVG_WIDTH / 2 + 200}
+                x2={svgWidth / 2 + 200}
                 y2={b.y + 10}
                 stroke="#D4A843"
                 strokeWidth={1}
                 opacity={0.35}
               />
               <text
-                x={SVG_WIDTH / 2}
+                x={svgWidth / 2}
                 y={b.y}
                 textAnchor="middle"
                 fill="#D4A843"
@@ -303,9 +324,9 @@ export default function LevelSelect() {
                 {b.label}
               </text>
               <line
-                x1={SVG_WIDTH / 2 - 200}
+                x1={svgWidth / 2 - 200}
                 y1={b.y - 12}
-                x2={SVG_WIDTH / 2 + 200}
+                x2={svgWidth / 2 + 200}
                 y2={b.y - 12}
                 stroke="#D4A843"
                 strokeWidth={1}
