@@ -122,6 +122,30 @@ export class XorGate extends Gate {
   }
 }
 
+export class NorGate extends Gate {
+  constructor(id?: string) {
+    super(GateType.NOR, ['a', 'b'], ['out'], id);
+  }
+
+  evaluate(): void {
+    const a = this.readInput('a');
+    const b = this.readInput('b');
+    this.writeOutput('out', !(a || b));
+  }
+}
+
+export class XnorGate extends Gate {
+  constructor(id?: string) {
+    super(GateType.XNOR, ['a', 'b'], ['out'], id);
+  }
+
+  evaluate(): void {
+    const a = this.readInput('a');
+    const b = this.readInput('b');
+    this.writeOutput('out', a === b);
+  }
+}
+
 export class InputGate extends Gate {
   constructor(label: string, id?: string) {
     super(GateType.INPUT, [], ['out'], id, label);
@@ -154,6 +178,10 @@ export function createGate(config: GateConfig): Gate {
       return new NotGate(config.id);
     case GateType.XOR:
       return new XorGate(config.id);
+    case GateType.NOR:
+      return new NorGate(config.id);
+    case GateType.XNOR:
+      return new XnorGate(config.id);
     case GateType.INPUT:
       return new InputGate(config.label ?? '', config.id);
     case GateType.OUTPUT:

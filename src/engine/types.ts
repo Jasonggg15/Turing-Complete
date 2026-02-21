@@ -6,6 +6,8 @@ export enum GateType {
   OR = 'OR',
   NOT = 'NOT',
   XOR = 'XOR',
+  NOR = 'NOR',
+  XNOR = 'XNOR',
   INPUT = 'INPUT',
   OUTPUT = 'OUTPUT',
 }
