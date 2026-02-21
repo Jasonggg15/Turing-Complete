@@ -6,11 +6,7 @@ import { Simulator } from '../engine/Simulator';
 import { levels } from '../levels/levels/index';
 import type { LevelResult } from '../levels/Level';
 import { LevelRunner } from '../levels/LevelRunner';
-import {
-  saveCircuit,
-  loadCircuit,
-  completeLevel,
-} from '../save/SaveManager';
+import { saveCircuit, loadCircuit, completeLevel } from '../save/SaveManager';
 import Canvas from '../editor/Canvas';
 import Toolbar from '../editor/Toolbar';
 
@@ -33,7 +29,11 @@ function createInitialCircuit(
   const outputSpacing = 80;
 
   levelInputs.forEach((pin, i) => {
-    circuit.addGate(GateType.INPUT, { x: 60, y: 80 + i * inputSpacing }, pin.name);
+    circuit.addGate(
+      GateType.INPUT,
+      { x: 60, y: 80 + i * inputSpacing },
+      pin.name,
+    );
   });
 
   levelOutputs.forEach((pin, i) => {
@@ -65,13 +65,16 @@ export default function Play() {
   const [selectedGateId, setSelectedGateId] = useState<string | null>(null);
   const [verifyResult, setVerifyResult] = useState<LevelResult | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [simulationResult, setSimulationResult] = useState<Map<string, boolean> | null>(null);
-  const [, forceUpdate] = useState(0);
+  const [simulationResult, setSimulationResult] = useState<Map<
+    string,
+    boolean
+  > | null>(null);
+  const [renderVersion, setRenderVersion] = useState(0);
 
   const handleCircuitChange = useCallback(() => {
     if (!level || !circuitRef.current) return;
     saveCircuit(level.id, circuitRef.current.serialize());
-    forceUpdate((n) => n + 1);
+    setRenderVersion((n) => n + 1);
 
     try {
       const inputGates = circuitRef.current
@@ -106,9 +109,7 @@ export default function Play() {
     if (!level || !circuitRef.current) return;
     const ioGates = circuitRef.current
       .getGates()
-      .filter(
-        (g) => g.type !== GateType.INPUT && g.type !== GateType.OUTPUT,
-      );
+      .filter((g) => g.type !== GateType.INPUT && g.type !== GateType.OUTPUT);
     for (const gate of ioGates) {
       circuitRef.current.removeGate(gate.id);
     }
@@ -125,7 +126,7 @@ export default function Play() {
     setSelectedTool(null);
     setSelectedGateId(null);
     saveCircuit(level.id, circuitRef.current.serialize());
-    forceUpdate((n) => n + 1);
+    setRenderVersion((n) => n + 1);
   }, [level]);
 
   useEffect(() => {
@@ -204,6 +205,7 @@ export default function Play() {
             onCircuitChange={handleCircuitChange}
             selectedGateId={selectedGateId}
             onSelectGate={setSelectedGateId}
+            renderVersion={renderVersion}
             level={level}
           />
 
@@ -231,9 +233,7 @@ export default function Play() {
                   border: '2px solid #22c55e',
                 }}
               >
-                <div style={{ fontSize: '3rem', marginBottom: '12px' }}>
-                  🎉
-                </div>
+                <div style={{ fontSize: '3rem', marginBottom: '12px' }}>🎉</div>
                 <h2 style={{ color: '#22c55e', marginBottom: '8px' }}>
                   Level Complete!
                 </h2>
@@ -413,44 +413,42 @@ export default function Play() {
             </div>
           )}
 
-            <div>
-              <h3 style={{ fontSize: '0.95rem', marginBottom: '8px' }}>
-                Current Output
-              </h3>
-              {circuit
-                .getGates()
-                .filter((g) => g.type === GateType.OUTPUT)
-                .map((g) => {
-                  const inPin = g.inputs[0];
-                  const val = inPin
-                    ? simulationResult.get(inPin.id)
-                    : undefined;
-                  return (
-                    <div
-                      key={g.id}
+          <div>
+            <h3 style={{ fontSize: '0.95rem', marginBottom: '8px' }}>
+              Current Output
+            </h3>
+            {circuit
+              .getGates()
+              .filter((g) => g.type === GateType.OUTPUT)
+              .map((g) => {
+                const inPin = g.inputs[0];
+                const val = inPin ? simulationResult?.get(inPin.id) : undefined;
+                return (
+                  <div
+                    key={g.id}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      padding: '6px 8px',
+                      background: '#0f0f1a',
+                      borderRadius: '4px',
+                      marginBottom: '4px',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    <span>{g.label}</span>
+                    <span
                       style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '6px 8px',
-                        background: '#0f0f1a',
-                        borderRadius: '4px',
-                        marginBottom: '4px',
-                        fontSize: '0.9rem',
+                        color: val ? '#22c55e' : '#6b7280',
+                        fontWeight: 'bold',
                       }}
                     >
-                      <span>{g.label}</span>
-                      <span
-                        style={{
-                          color: val ? '#22c55e' : '#6b7280',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {val ? '1' : '0'}
-                      </span>
-                    </div>
-                  );
-                })}
-            </div>
+                      {val ? '1' : '0'}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
     </div>
