@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { levels } from './levels/index';
 import { getCompletedLevels } from '../save/SaveManager';
@@ -30,14 +30,15 @@ const PADDING_X = 200;
 const PADDING_TOP = 80;
 
 const STATUS_COLORS: Record<string, string> = {
-  completed: '#4ade80',
-  unlocked: '#eab308',
+  completed: '#22c55e',
+  unlocked: '#D4A843',
   locked: '#991b1b',
 };
 
 export default function LevelSelect() {
   const navigate = useNavigate();
   const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   const completed = useMemo(() => new Set(getCompletedLevels()), []);
 
@@ -161,7 +162,6 @@ export default function LevelSelect() {
     sortedSections.forEach(([section, row]) => {
       if (!seenSections.has(section)) {
         seenSections.add(section);
-        const y = PADDING_TOP + row * ROW_GAP - ROW_GAP / 2 + shift * 0;
         // Place divider above the first row of this section
         dividerList.push({
           label: section.toString().toUpperCase().replace(/_/g, ' '),
@@ -188,6 +188,7 @@ export default function LevelSelect() {
 
   return (
     <div
+      className="level-select-bg"
       style={{
         background: '#0f0f1a',
         minHeight: '100vh',
@@ -224,47 +225,51 @@ export default function LevelSelect() {
         </a>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 60 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 60, position: 'relative', zIndex: 1 }}>
         <svg
           width={width}
           height={height}
           style={{ display: 'block' }}
         >
-          {/* Section dividers */}
+          {/* Section dividers with glowing underline */}
           {dividers.map((d, i) => (
-            <g key={`div-${i}`}>
+            <g key={`div-${i}`} className="section-header-glow">
               <line
-                x1={40}
-                y1={d.y}
-                x2={width - 40}
-                y2={d.y}
-                stroke="#334155"
+                x1={60}
+                y1={d.y + 6}
+                x2={width - 60}
+                y2={d.y + 6}
+                stroke="#D4A843"
                 strokeWidth={1}
-                strokeDasharray="6 4"
+                strokeOpacity={0.2}
+                className="section-underline"
               />
               <text
                 x={60}
-                y={d.y - 8}
-                fill="#64748b"
+                y={d.y - 2}
+                fill="#D4A843"
                 fontSize={11}
                 fontFamily="inherit"
-                letterSpacing="2px"
+                letterSpacing="3px"
+                opacity={0.7}
               >
                 {d.label}
               </text>
             </g>
           ))}
 
-          {/* Edges */}
+          {/* Edges — animated flowing dashes */}
           {edges.map((e, i) => (
             <line
               key={`edge-${i}`}
+              className="edge-line"
               x1={e.x1}
               y1={e.y1}
               x2={e.x2}
               y2={e.y2}
               stroke="#334155"
               strokeWidth={2}
+              fill="none"
             />
           ))}
 
@@ -273,13 +278,22 @@ export default function LevelSelect() {
             const color = STATUS_COLORS[node.status];
             const half = NODE_SIZE / 2;
             const clickable = node.status !== 'locked';
+            const isHovered = hoveredNode === node.level.id;
+            const scale = isHovered && clickable ? 1.15 : 1;
 
             return (
               <g
                 key={node.level.id}
-                style={{ cursor: clickable ? 'pointer' : 'not-allowed' }}
+                className="node-group"
+                style={{
+                  cursor: clickable ? 'pointer' : 'not-allowed',
+                  transform: `translate(${node.x}px, ${node.y}px) scale(${scale})`,
+                  transformOrigin: `${node.x}px ${node.y}px`,
+                  transition: 'transform 0.2s ease',
+                }}
                 onClick={() => handleClick(node)}
                 onMouseEnter={(e) => {
+                  setHoveredNode(node.level.id);
                   const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect();
                   setTooltip({
                     text: node.level.name,
@@ -287,8 +301,43 @@ export default function LevelSelect() {
                     y: node.y + rect.top - half - 12,
                   });
                 }}
-                onMouseLeave={() => setTooltip(null)}
+                onMouseLeave={() => {
+                  setHoveredNode(null);
+                  setTooltip(null);
+                }}
               >
+                {/* Completed node green pulse ring */}
+                {node.status === 'completed' && (
+                  <rect
+                    className="node-completed-pulse"
+                    x={node.x - half - 6}
+                    y={node.y - half - 6}
+                    width={NODE_SIZE + 12}
+                    height={NODE_SIZE + 12}
+                    rx={4}
+                    fill="none"
+                    stroke="#22c55e"
+                    strokeWidth={2}
+                    transform={`rotate(45 ${node.x} ${node.y})`}
+                  />
+                )}
+
+                {/* Hover glow ring */}
+                {clickable && (
+                  <rect
+                    className="node-hover-ring"
+                    x={node.x - half - 4}
+                    y={node.y - half - 4}
+                    width={NODE_SIZE + 8}
+                    height={NODE_SIZE + 8}
+                    rx={3}
+                    fill="none"
+                    stroke={color}
+                    strokeWidth={1.5}
+                    transform={`rotate(45 ${node.x} ${node.y})`}
+                  />
+                )}
+
                 {/* Glow for unlocked */}
                 {node.status === 'unlocked' && (
                   <rect
@@ -305,6 +354,7 @@ export default function LevelSelect() {
                   />
                 )}
                 <rect
+                  className="node-diamond"
                   x={node.x - half}
                   y={node.y - half}
                   width={NODE_SIZE}
