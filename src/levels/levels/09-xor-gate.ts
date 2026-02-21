@@ -1,12 +1,18 @@
 import { GateType } from '../../engine/types';
 import type { Level } from '../Level';
 
-export const level04Xor: Level = {
-  id: '04-xor',
-  name: 'XOR',
+export const level09XorGate: Level = {
+  id: '09-xor-gate',
+  name: 'XOR Gate',
   description:
-    'Build an XOR gate. An XOR gate outputs 1 when exactly one input is 1.',
-  availableGates: [GateType.NAND, GateType.AND, GateType.OR, GateType.NOT],
+    'Build an XOR gate. It outputs true if the inputs are different.',
+  availableGates: [
+    GateType.NAND,
+    GateType.NOT,
+    GateType.NOR,
+    GateType.OR,
+    GateType.AND,
+  ],
   inputs: [{ name: 'A' }, { name: 'B' }],
   outputs: [{ name: 'OUT' }],
   truthTable: [
@@ -15,6 +21,6 @@ export const level04Xor: Level = {
     { inputs: { A: true, B: false }, outputs: { OUT: true } },
     { inputs: { A: true, B: true }, outputs: { OUT: false } },
   ],
-  hints: ['(A OR B) AND NOT (A AND B)'],
-  unlocks: ['05-half-adder'],
+  hints: ['Classic solution uses exactly 4 NAND gates'],
+  unlocks: ['10-bigger-or-gate'],
 };

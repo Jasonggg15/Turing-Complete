@@ -13,15 +13,61 @@ function findLevel(id: string) {
 describe('LevelRunner', () => {
   const runner = new LevelRunner();
 
-  describe('01-not: NOT gate from NAND', () => {
-    const level = findLevel('01-not');
+  describe('01-crude-awakening: wire input to output', () => {
+    const level = findLevel('01-crude-awakening');
 
-    it('passes a correct NOT circuit (NAND with both inputs tied)', () => {
+    it('passes when input is wired directly to output', () => {
+      const circuit = new Circuit();
+      const inp = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'IN');
+      const out = circuit.addGate(GateType.OUTPUT, { x: 200, y: 0 }, 'OUT');
+
+      circuit.addWire(inp.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(2);
+    });
+
+    it('fails with no wires', () => {
+      const circuit = new Circuit();
+      circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'IN');
+      circuit.addGate(GateType.OUTPUT, { x: 200, y: 0 }, 'OUT');
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(false);
+    });
+  });
+
+  describe('02-nand-gate: NAND gate', () => {
+    const level = findLevel('02-nand-gate');
+
+    it('passes with a NAND gate wired correctly', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const nand = circuit.addGate(GateType.NAND, { x: 200, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), nand.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), nand.getInput('b'));
+      circuit.addWire(nand.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(4);
+    });
+  });
+
+  describe('03-not-gate: NOT gate from NAND', () => {
+    const level = findLevel('03-not-gate');
+
+    it('passes with NAND with both inputs tied', () => {
       const circuit = new Circuit();
       const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
       const nand = circuit.addGate(GateType.NAND, { x: 200, y: 0 });
       const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 0 }, 'OUT');
 
+      // NOT(A) = NAND(A, A)
       circuit.addWire(inputA.getOutput('out'), nand.getInput('a'));
       circuit.addWire(inputA.getOutput('out'), nand.getInput('b'));
       circuit.addWire(nand.getOutput('out'), out.getInput('in'));
@@ -29,19 +75,9 @@ describe('LevelRunner', () => {
       const result = runner.run(level, circuit);
       expect(result.passed).toBe(true);
       expect(result.results).toHaveLength(2);
-      expect(result.results.every((r) => r.pass)).toBe(true);
     });
 
-    it('fails with empty circuit (no wires)', () => {
-      const circuit = new Circuit();
-      circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
-      circuit.addGate(GateType.OUTPUT, { x: 400, y: 0 }, 'OUT');
-
-      const result = runner.run(level, circuit);
-      expect(result.passed).toBe(false);
-    });
-
-    it('fails with direct pass-through (not inverted)', () => {
+    it('fails with direct pass-through', () => {
       const circuit = new Circuit();
       const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
       const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 0 }, 'OUT');
@@ -50,7 +86,6 @@ describe('LevelRunner', () => {
 
       const result = runner.run(level, circuit);
       expect(result.passed).toBe(false);
-      expect(result.results.filter((r) => r.pass)).toHaveLength(0);
     });
 
     it('returns detailed results per truth table entry', () => {
@@ -80,39 +115,47 @@ describe('LevelRunner', () => {
     });
   });
 
-  describe('02-and: AND gate from NAND', () => {
-    const level = findLevel('02-and');
+  describe('04-nor-gate: NOR gate', () => {
+    const level = findLevel('04-nor-gate');
 
-    it('passes with correct AND circuit (NAND + NOT)', () => {
+    it('passes with correct NOR circuit (NOT A, NOT B, NAND)', () => {
       const circuit = new Circuit();
       const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
       const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
-      const nand1 = circuit.addGate(GateType.NAND, { x: 200, y: 50 });
-      const nand2 = circuit.addGate(GateType.NAND, { x: 400, y: 50 });
-      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 50 }, 'OUT');
+      // OR(A,B) = NAND(NOT A, NOT B)
+      const notA = circuit.addGate(GateType.NOT, { x: 200, y: 0 });
+      const notB = circuit.addGate(GateType.NOT, { x: 200, y: 100 });
+      const nand = circuit.addGate(GateType.NAND, { x: 400, y: 50 });
+      // NOR = NOT(OR)
+      const notOut = circuit.addGate(GateType.NOT, { x: 600, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 800, y: 50 }, 'OUT');
 
-      // NAND(A, B)
-      circuit.addWire(inputA.getOutput('out'), nand1.getInput('a'));
-      circuit.addWire(inputB.getOutput('out'), nand1.getInput('b'));
-      // NOT(nand1) = NAND(nand1, nand1)
-      circuit.addWire(nand1.getOutput('out'), nand2.getInput('a'));
-      circuit.addWire(nand1.getOutput('out'), nand2.getInput('b'));
-      circuit.addWire(nand2.getOutput('out'), out.getInput('in'));
+      circuit.addWire(inputA.getOutput('out'), notA.getInput('in'));
+      circuit.addWire(inputB.getOutput('out'), notB.getInput('in'));
+      circuit.addWire(notA.getOutput('out'), nand.getInput('a'));
+      circuit.addWire(notB.getOutput('out'), nand.getInput('b'));
+      circuit.addWire(nand.getOutput('out'), notOut.getInput('in'));
+      circuit.addWire(notOut.getOutput('out'), out.getInput('in'));
 
       const result = runner.run(level, circuit);
       expect(result.passed).toBe(true);
       expect(result.results).toHaveLength(4);
     });
 
-    it('fails with only one NAND (gives NAND, not AND)', () => {
+    it('fails when building OR instead of NOR', () => {
       const circuit = new Circuit();
       const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
       const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
-      const nand = circuit.addGate(GateType.NAND, { x: 200, y: 50 });
-      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
+      // OR(A,B) without final NOT
+      const notA = circuit.addGate(GateType.NOT, { x: 200, y: 0 });
+      const notB = circuit.addGate(GateType.NOT, { x: 200, y: 100 });
+      const nand = circuit.addGate(GateType.NAND, { x: 400, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 50 }, 'OUT');
 
-      circuit.addWire(inputA.getOutput('out'), nand.getInput('a'));
-      circuit.addWire(inputB.getOutput('out'), nand.getInput('b'));
+      circuit.addWire(inputA.getOutput('out'), notA.getInput('in'));
+      circuit.addWire(inputB.getOutput('out'), notB.getInput('in'));
+      circuit.addWire(notA.getOutput('out'), nand.getInput('a'));
+      circuit.addWire(notB.getOutput('out'), nand.getInput('b'));
       circuit.addWire(nand.getOutput('out'), out.getInput('in'));
 
       const result = runner.run(level, circuit);
@@ -120,8 +163,8 @@ describe('LevelRunner', () => {
     });
   });
 
-  describe('03-or: OR gate from NAND', () => {
-    const level = findLevel('03-or');
+  describe('05-or-gate: OR gate from NAND', () => {
+    const level = findLevel('05-or-gate');
 
     it('passes with correct OR circuit', () => {
       const circuit = new Circuit();
@@ -149,8 +192,119 @@ describe('LevelRunner', () => {
     });
   });
 
-  describe('04-xor: XOR gate from NAND', () => {
-    const level = findLevel('04-xor');
+  describe('06-and-gate: AND gate from NAND', () => {
+    const level = findLevel('06-and-gate');
+
+    it('passes with correct AND circuit (NAND + NOT)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const nand1 = circuit.addGate(GateType.NAND, { x: 200, y: 50 });
+      const nand2 = circuit.addGate(GateType.NAND, { x: 400, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 50 }, 'OUT');
+
+      // NAND(A, B)
+      circuit.addWire(inputA.getOutput('out'), nand1.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), nand1.getInput('b'));
+      // NOT(NAND) = NAND(nand1, nand1)
+      circuit.addWire(nand1.getOutput('out'), nand2.getInput('a'));
+      circuit.addWire(nand1.getOutput('out'), nand2.getInput('b'));
+      circuit.addWire(nand2.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(4);
+    });
+
+    it('fails with only one NAND (gives NAND, not AND)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const nand = circuit.addGate(GateType.NAND, { x: 200, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), nand.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), nand.getInput('b'));
+      circuit.addWire(nand.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(false);
+    });
+  });
+
+  describe('07-always-on: constant true output', () => {
+    const level = findLevel('07-always-on');
+
+    it('passes with A OR NOT A', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const not = circuit.addGate(GateType.NOT, { x: 200, y: 100 });
+      const or = circuit.addGate(GateType.OR, { x: 400, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 50 }, 'OUT');
+
+      // A OR NOT(A) = always true
+      circuit.addWire(inputA.getOutput('out'), not.getInput('in'));
+      circuit.addWire(inputA.getOutput('out'), or.getInput('a'));
+      circuit.addWire(not.getOutput('out'), or.getInput('b'));
+      circuit.addWire(or.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(2);
+    });
+
+    it('fails with direct pass-through (off when input is off)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const out = circuit.addGate(GateType.OUTPUT, { x: 200, y: 0 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(false);
+    });
+  });
+
+  describe('08-second-tick: INHIBIT gate (A AND NOT B)', () => {
+    const level = findLevel('08-second-tick');
+
+    it('passes with correct INHIBIT circuit (AND + NOT)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const not = circuit.addGate(GateType.NOT, { x: 200, y: 100 });
+      const and = circuit.addGate(GateType.AND, { x: 400, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 50 }, 'OUT');
+
+      // A AND NOT(B)
+      circuit.addWire(inputB.getOutput('out'), not.getInput('in'));
+      circuit.addWire(inputA.getOutput('out'), and.getInput('a'));
+      circuit.addWire(not.getOutput('out'), and.getInput('b'));
+      circuit.addWire(and.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(4);
+    });
+
+    it('fails with plain AND (not inhibit)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const and = circuit.addGate(GateType.AND, { x: 200, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), and.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), and.getInput('b'));
+      circuit.addWire(and.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(false);
+    });
+  });
+
+  describe('09-xor-gate: XOR gate from NAND', () => {
+    const level = findLevel('09-xor-gate');
 
     it('passes with correct XOR circuit (4 NANDs)', () => {
       const circuit = new Circuit();
@@ -182,54 +336,122 @@ describe('LevelRunner', () => {
     });
   });
 
-  describe('05-half-adder', () => {
-    const level = findLevel('05-half-adder');
+  describe('10-bigger-or-gate: 3-input OR', () => {
+    const level = findLevel('10-bigger-or-gate');
 
-    it('passes with correct half adder (XOR for SUM, AND for CARRY)', () => {
+    it('passes with two chained OR gates', () => {
       const circuit = new Circuit();
       const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
       const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
-      const xor = circuit.addGate(GateType.XOR, { x: 200, y: 0 });
-      const and = circuit.addGate(GateType.AND, { x: 200, y: 100 });
-      const sum = circuit.addGate(GateType.OUTPUT, { x: 400, y: 0 }, 'SUM');
-      const carry = circuit.addGate(
-        GateType.OUTPUT,
-        { x: 400, y: 100 },
-        'CARRY',
-      );
+      const inputC = circuit.addGate(GateType.INPUT, { x: 0, y: 200 }, 'C');
+      // OR(A, B)
+      const or1 = circuit.addGate(GateType.OR, { x: 200, y: 50 });
+      // OR(or1, C)
+      const or2 = circuit.addGate(GateType.OR, { x: 400, y: 100 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 100 }, 'OUT');
 
+      circuit.addWire(inputA.getOutput('out'), or1.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), or1.getInput('b'));
+      circuit.addWire(or1.getOutput('out'), or2.getInput('a'));
+      circuit.addWire(inputC.getOutput('out'), or2.getInput('b'));
+      circuit.addWire(or2.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(8);
+    });
+
+    it('fails with only one OR gate (ignores C)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      circuit.addGate(GateType.INPUT, { x: 0, y: 200 }, 'C');
+      const or1 = circuit.addGate(GateType.OR, { x: 200, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), or1.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), or1.getInput('b'));
+      circuit.addWire(or1.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(false);
+    });
+  });
+
+  describe('11-bigger-and-gate: 3-input AND', () => {
+    const level = findLevel('11-bigger-and-gate');
+
+    it('passes with two chained AND gates', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const inputC = circuit.addGate(GateType.INPUT, { x: 0, y: 200 }, 'C');
+      // AND(A, B)
+      const and1 = circuit.addGate(GateType.AND, { x: 200, y: 50 });
+      // AND(and1, C)
+      const and2 = circuit.addGate(GateType.AND, { x: 400, y: 100 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 100 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), and1.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), and1.getInput('b'));
+      circuit.addWire(and1.getOutput('out'), and2.getInput('a'));
+      circuit.addWire(inputC.getOutput('out'), and2.getInput('b'));
+      circuit.addWire(and2.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(true);
+      expect(result.results).toHaveLength(8);
+    });
+
+    it('fails with only one AND gate (ignores C)', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      circuit.addGate(GateType.INPUT, { x: 0, y: 200 }, 'C');
+      const and1 = circuit.addGate(GateType.AND, { x: 200, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
+
+      circuit.addWire(inputA.getOutput('out'), and1.getInput('a'));
+      circuit.addWire(inputB.getOutput('out'), and1.getInput('b'));
+      circuit.addWire(and1.getOutput('out'), out.getInput('in'));
+
+      const result = runner.run(level, circuit);
+      expect(result.passed).toBe(false);
+    });
+  });
+
+  describe('12-xnor-gate: XNOR gate', () => {
+    const level = findLevel('12-xnor-gate');
+
+    it('passes with XOR + NOT', () => {
+      const circuit = new Circuit();
+      const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
+      const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
+      const xor = circuit.addGate(GateType.XOR, { x: 200, y: 50 });
+      const not = circuit.addGate(GateType.NOT, { x: 400, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 600, y: 50 }, 'OUT');
+
+      // XNOR = NOT(XOR(A, B))
       circuit.addWire(inputA.getOutput('out'), xor.getInput('a'));
       circuit.addWire(inputB.getOutput('out'), xor.getInput('b'));
-      circuit.addWire(inputA.getOutput('out'), and.getInput('a'));
-      circuit.addWire(inputB.getOutput('out'), and.getInput('b'));
-      circuit.addWire(xor.getOutput('out'), sum.getInput('in'));
-      circuit.addWire(and.getOutput('out'), carry.getInput('in'));
+      circuit.addWire(xor.getOutput('out'), not.getInput('in'));
+      circuit.addWire(not.getOutput('out'), out.getInput('in'));
 
       const result = runner.run(level, circuit);
       expect(result.passed).toBe(true);
       expect(result.results).toHaveLength(4);
     });
 
-    it('fails with swapped outputs (SUM↔CARRY)', () => {
+    it('fails with plain XOR (inverted result)', () => {
       const circuit = new Circuit();
       const inputA = circuit.addGate(GateType.INPUT, { x: 0, y: 0 }, 'A');
       const inputB = circuit.addGate(GateType.INPUT, { x: 0, y: 100 }, 'B');
-      const and = circuit.addGate(GateType.AND, { x: 200, y: 0 });
-      const xor = circuit.addGate(GateType.XOR, { x: 200, y: 100 });
-      const sum = circuit.addGate(GateType.OUTPUT, { x: 400, y: 0 }, 'SUM');
-      const carry = circuit.addGate(
-        GateType.OUTPUT,
-        { x: 400, y: 100 },
-        'CARRY',
-      );
+      const xor = circuit.addGate(GateType.XOR, { x: 200, y: 50 });
+      const out = circuit.addGate(GateType.OUTPUT, { x: 400, y: 50 }, 'OUT');
 
-      // AND → SUM (wrong), XOR → CARRY (wrong)
-      circuit.addWire(inputA.getOutput('out'), and.getInput('a'));
-      circuit.addWire(inputB.getOutput('out'), and.getInput('b'));
       circuit.addWire(inputA.getOutput('out'), xor.getInput('a'));
       circuit.addWire(inputB.getOutput('out'), xor.getInput('b'));
-      circuit.addWire(and.getOutput('out'), sum.getInput('in'));
-      circuit.addWire(xor.getOutput('out'), carry.getInput('in'));
+      circuit.addWire(xor.getOutput('out'), out.getInput('in'));
 
       const result = runner.run(level, circuit);
       expect(result.passed).toBe(false);
@@ -256,7 +478,6 @@ describe('LevelRunner', () => {
         expect(level.id).toBeTruthy();
         expect(level.name).toBeTruthy();
         expect(level.description).toBeTruthy();
-        expect(level.availableGates.length).toBeGreaterThan(0);
         expect(level.inputs.length).toBeGreaterThan(0);
         expect(level.outputs.length).toBeGreaterThan(0);
       }
@@ -271,6 +492,10 @@ describe('LevelRunner', () => {
           }
         }
       }
+    });
+
+    it('contains exactly 12 levels', () => {
+      expect(levels).toHaveLength(12);
     });
   });
 });

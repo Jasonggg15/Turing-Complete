@@ -7,7 +7,7 @@ export default function LevelSelect() {
   const completed = getCompletedLevels();
 
   function isAvailable(levelId: string): boolean {
-    if (levelId === '01-not') return true;
+    if (levelId === '01-crude-awakening') return true;
     return levels.some(
       (l) =>
         completed.includes(l.id) &&
@@ -72,8 +72,7 @@ export default function LevelSelect() {
                 transition: 'border-color 0.15s, transform 0.1s',
               }}
               onMouseEnter={(e) => {
-                if (available)
-                  e.currentTarget.style.borderColor = '#6366f1';
+                if (available) e.currentTarget.style.borderColor = '#6366f1';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = done
