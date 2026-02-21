@@ -1,10 +1,40 @@
 import { useNavigate } from 'react-router-dom';
 import { levels } from './levels/index';
 import { getCompletedLevels } from '../save/SaveManager';
+import type { Level, LevelSection } from './Level';
+
+const SECTION_ORDER: LevelSection[] = [
+  'Basic Logic',
+  'Arithmetic',
+  'Memory',
+  'CPU Architecture',
+  'Programming',
+  'CPU Architecture 2',
+  'Functions',
+  'Assembly Challenges',
+];
+
+function groupBySection(
+  allLevels: Level[],
+): { section: LevelSection; levels: Level[] }[] {
+  const groups = new Map<LevelSection, Level[]>();
+  for (const level of allLevels) {
+    const section = level.section;
+    if (!groups.has(section)) {
+      groups.set(section, []);
+    }
+    groups.get(section)!.push(level);
+  }
+  return SECTION_ORDER.filter((s) => groups.has(s)).map((s) => ({
+    section: s,
+    levels: groups.get(s)!,
+  }));
+}
 
 export default function LevelSelect() {
   const navigate = useNavigate();
   const completed = getCompletedLevels();
+  const sections = groupBySection(levels);
 
   function isAvailable(levelId: string): boolean {
     if (levelId === '01-crude-awakening') return true;
@@ -44,70 +74,90 @@ export default function LevelSelect() {
       >
         Complete levels to unlock new challenges
       </p>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-          gap: '20px',
-          maxWidth: '960px',
-          margin: '0 auto',
-        }}
-      >
-        {levels.map((level) => {
-          const done = completed.includes(level.id);
-          const available = isAvailable(level.id);
-          const icon = done ? '✅' : available ? '🔓' : '🔒';
-
-          return (
-            <div
-              key={level.id}
-              onClick={() => available && navigate(`/play/${level.id}`)}
+      <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+        {sections.map(({ section, levels: sectionLevels }) => (
+          <div key={section} style={{ marginBottom: '40px' }}>
+            <h2
               style={{
-                padding: '20px',
-                background: '#1a1a2e',
-                border: `1px solid ${done ? '#22c55e' : available ? '#4a4a6a' : '#2d2d44'}`,
-                borderRadius: '10px',
-                cursor: available ? 'pointer' : 'not-allowed',
-                opacity: available ? 1 : 0.5,
-                transition: 'border-color 0.15s, transform 0.1s',
-              }}
-              onMouseEnter={(e) => {
-                if (available) e.currentTarget.style.borderColor = '#6366f1';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = done
-                  ? '#22c55e'
-                  : available
-                    ? '#4a4a6a'
-                    : '#2d2d44';
+                fontSize: '1.4rem',
+                color: '#a78bfa',
+                borderBottom: '1px solid #3b3b5c',
+                paddingBottom: '8px',
+                marginBottom: '20px',
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '8px',
-                }}
-              >
-                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-                  {level.name}
-                </span>
-                <span style={{ fontSize: '1.3rem' }}>{icon}</span>
-              </div>
-              <p
-                style={{
-                  fontSize: '0.85rem',
-                  color: '#94a3b8',
-                  margin: 0,
-                  lineHeight: '1.4',
-                }}
-              >
-                {level.description}
-              </p>
+              {section}
+            </h2>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gap: '20px',
+              }}
+            >
+              {sectionLevels.map((level) => {
+                const done = completed.includes(level.id);
+                const available = isAvailable(level.id);
+                const icon = done
+                  ? '\u2705'
+                  : available
+                    ? '\uD83D\uDD13'
+                    : '\uD83D\uDD12';
+
+                return (
+                  <div
+                    key={level.id}
+                    onClick={() => available && navigate(`/play/${level.id}`)}
+                    style={{
+                      padding: '20px',
+                      background: '#1a1a2e',
+                      border: `1px solid ${done ? '#22c55e' : available ? '#4a4a6a' : '#2d2d44'}`,
+                      borderRadius: '10px',
+                      cursor: available ? 'pointer' : 'not-allowed',
+                      opacity: available ? 1 : 0.5,
+                      transition: 'border-color 0.15s, transform 0.1s',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (available)
+                        e.currentTarget.style.borderColor = '#6366f1';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = done
+                        ? '#22c55e'
+                        : available
+                          ? '#4a4a6a'
+                          : '#2d2d44';
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '8px',
+                      }}
+                    >
+                      <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                        {level.name}
+                      </span>
+                      <span style={{ fontSize: '1.3rem' }}>{icon}</span>
+                    </div>
+                    <p
+                      style={{
+                        fontSize: '0.85rem',
+                        color: '#94a3b8',
+                        margin: 0,
+                        lineHeight: '1.4',
+                      }}
+                    >
+                      {level.description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );
