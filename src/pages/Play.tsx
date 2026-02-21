@@ -142,6 +142,8 @@ export default function Play() {
     }
     setVerifyResult(null);
     setSimulationResult(null);
+    setSelectedTool(null);
+    setSelectedGateId(null);
     saveCircuit(level.id, circuitRef.current.serialize());
     forceUpdate((n) => n + 1);
   }, [level]);
