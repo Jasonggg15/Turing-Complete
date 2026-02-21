@@ -175,8 +175,12 @@ body {
 }
 
 /* Scale up on hover for clickable nodes */
+.tree-node--completed,
+.tree-node--unlocked {
+  transform-box: fill-box;
+  transform-origin: center;
+}
 .tree-node--completed:hover,
 .tree-node--unlocked:hover {
   transform: scale(1.05);
-  transform-origin: center;
 }
