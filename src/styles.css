@@ -113,9 +113,8 @@ body {
   transform: translateX(0);
 }
 
-/* ===== LevelSelect Page ===== */
+/* ===== LevelSelect Page — Tech Tree ===== */
 
-/* Particle/dot background */
 .level-select-bg {
   position: relative;
 }
@@ -125,18 +124,11 @@ body {
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(1px 1px at 10% 20%, rgba(212, 168, 67, 0.15) 50%, transparent 50%),
-    radial-gradient(1px 1px at 25% 60%, rgba(212, 168, 67, 0.1) 50%, transparent 50%),
-    radial-gradient(1px 1px at 40% 10%, rgba(212, 168, 67, 0.12) 50%, transparent 50%),
-    radial-gradient(1px 1px at 55% 45%, rgba(212, 168, 67, 0.08) 50%, transparent 50%),
-    radial-gradient(1px 1px at 70% 80%, rgba(212, 168, 67, 0.15) 50%, transparent 50%),
-    radial-gradient(1px 1px at 85% 30%, rgba(212, 168, 67, 0.1) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 15% 75%, rgba(34, 197, 94, 0.1) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 60% 90%, rgba(34, 197, 94, 0.08) 50%, transparent 50%),
-    radial-gradient(1px 1px at 90% 55%, rgba(212, 168, 67, 0.12) 50%, transparent 50%),
-    radial-gradient(1px 1px at 35% 35%, rgba(212, 168, 67, 0.1) 50%, transparent 50%),
-    radial-gradient(1px 1px at 80% 15%, rgba(212, 168, 67, 0.08) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 50% 70%, rgba(34, 197, 94, 0.06) 50%, transparent 50%);
+    radial-gradient(1px 1px at 10% 20%, rgba(212, 168, 67, 0.12) 50%, transparent 50%),
+    radial-gradient(1px 1px at 40% 10%, rgba(212, 168, 67, 0.08) 50%, transparent 50%),
+    radial-gradient(1px 1px at 70% 80%, rgba(212, 168, 67, 0.1) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 15% 75%, rgba(34, 197, 94, 0.06) 50%, transparent 50%),
+    radial-gradient(1px 1px at 90% 55%, rgba(212, 168, 67, 0.08) 50%, transparent 50%);
   background-size: 200px 200px;
   animation: particles-drift 30s linear infinite;
   pointer-events: none;
@@ -144,77 +136,47 @@ body {
 }
 
 @keyframes particles-drift {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 200px 200px;
-  }
+  0% { background-position: 0 0; }
+  100% { background-position: 200px 200px; }
 }
 
-/* Flowing dashed connection lines */
-.edge-line {
-  stroke-dasharray: 8 6;
-  animation: flow-dash 1.5s linear infinite;
+/* Tree node base */
+.tree-node {
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-@keyframes flow-dash {
-  0% {
-    stroke-dashoffset: 0;
-  }
-  100% {
-    stroke-dashoffset: -28;
-  }
+.tree-node:hover rect {
+  filter: brightness(1.3);
 }
 
-/* Section header glowing underline */
-.section-header-glow {
-  filter: drop-shadow(0 0 4px rgba(212, 168, 67, 0.3));
+/* Completed node hover */
+.tree-node--completed:hover rect {
+  stroke: #4ade80;
+  filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
 }
 
-.section-underline {
-  animation: underline-glow 3s ease-in-out infinite;
+/* Unlocked node pulse */
+.tree-node--unlocked rect {
+  animation: unlocked-pulse 2.5s ease-in-out infinite;
 }
 
-@keyframes underline-glow {
+@keyframes unlocked-pulse {
   0%, 100% {
-    stroke-opacity: 0.3;
-    filter: drop-shadow(0 0 2px rgba(212, 168, 67, 0.2));
+    filter: drop-shadow(0 0 4px rgba(212, 168, 67, 0.3));
   }
   50% {
-    stroke-opacity: 0.7;
-    filter: drop-shadow(0 0 6px rgba(212, 168, 67, 0.5));
+    filter: drop-shadow(0 0 12px rgba(212, 168, 67, 0.7));
   }
 }
 
-/* Completed node green pulse */
-.node-completed-pulse {
-  animation: green-pulse 2.5s ease-in-out infinite;
+.tree-node--unlocked:hover rect {
+  stroke: #eab308;
+  filter: drop-shadow(0 0 10px rgba(212, 168, 67, 0.6));
 }
 
-@keyframes green-pulse {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Node hover effect */
-.node-group {
-  transition: transform 0.2s ease;
-}
-
-.node-group:hover .node-diamond {
-  filter: drop-shadow(0 0 12px currentColor);
-}
-
-.node-hover-ring {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.node-group:hover .node-hover-ring {
-  opacity: 0.6;
+/* Scale up on hover for clickable nodes */
+.tree-node--completed:hover,
+.tree-node--unlocked:hover {
+  transform: scale(1.05);
+  transform-origin: center;
 }
