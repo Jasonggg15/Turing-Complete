@@ -66,7 +66,6 @@ export default function Play() {
   const [verifyResult, setVerifyResult] = useState<LevelResult | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [simulationResult, setSimulationResult] = useState<Map<string, boolean> | null>(null);
-  const [renderVersion, setRenderVersion] = useState(0);
   const [, forceUpdate] = useState(0);
 
   const handleCircuitChange = useCallback(() => {
@@ -91,26 +90,6 @@ export default function Play() {
       setSimulationResult(null);
     }
   }, [level]);
-
-  const handleRun = useCallback(() => {
-    if (!circuitRef.current) return;
-    try {
-      const inputGates = circuitRef.current
-        .getGates()
-        .filter((g) => g.type === GateType.INPUT);
-      const inputsMap = new Map<string, boolean>();
-      for (const ig of inputGates) {
-        const outPin = ig.outputs[0];
-        if (outPin) {
-          inputsMap.set(outPin.id, outPin.value ?? false);
-        }
-      }
-      const result = new Simulator().simulate(circuitRef.current, inputsMap);
-      setSimulationResult(result);
-    } catch {
-      setSimulationResult(null);
-    }
-  }, []);
 
   const handleVerify = useCallback(() => {
     if (!level || !circuitRef.current) return;
@@ -145,7 +124,6 @@ export default function Play() {
     setSimulationResult(null);
     setSelectedTool(null);
     setSelectedGateId(null);
-    setRenderVersion((v) => v + 1);
     saveCircuit(level.id, circuitRef.current.serialize());
     forceUpdate((n) => n + 1);
   }, [level]);
@@ -208,7 +186,6 @@ export default function Play() {
         availableGates={level.availableGates}
         selectedTool={selectedTool}
         onSelectTool={setSelectedTool}
-        onRun={handleRun}
         onVerify={handleVerify}
         onClear={handleClear}
       />
@@ -227,7 +204,6 @@ export default function Play() {
             onCircuitChange={handleCircuitChange}
             selectedGateId={selectedGateId}
             onSelectGate={setSelectedGateId}
-            renderVersion={renderVersion}
             level={level}
           />
 
@@ -437,7 +413,6 @@ export default function Play() {
             </div>
           )}
 
-          {simulationResult && (
             <div>
               <h3 style={{ fontSize: '0.95rem', marginBottom: '8px' }}>
                 Current Output
@@ -476,7 +451,6 @@ export default function Play() {
                   );
                 })}
             </div>
-          )}
         </div>
       </div>
     </div>

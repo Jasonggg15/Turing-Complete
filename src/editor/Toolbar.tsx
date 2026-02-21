@@ -4,7 +4,6 @@ interface ToolbarProps {
   availableGates: GateType[];
   selectedTool: GateType | null;
   onSelectTool: (tool: GateType | null) => void;
-  onRun: () => void;
   onVerify: () => void;
   onClear: () => void;
 }
@@ -37,7 +36,6 @@ export default function Toolbar({
   availableGates,
   selectedTool,
   onSelectTool,
-  onRun,
   onVerify,
   onClear,
 }: ToolbarProps) {
@@ -57,9 +55,7 @@ export default function Toolbar({
         <button
           key={gate}
           style={selectedTool === gate ? selectedStyle : buttonBase}
-          onClick={() =>
-            onSelectTool(selectedTool === gate ? null : gate)
-          }
+          onClick={() => onSelectTool(selectedTool === gate ? null : gate)}
         >
           {gate}
         </button>
@@ -74,9 +70,6 @@ export default function Toolbar({
         }}
       />
 
-      <button style={actionStyle} onClick={onRun}>
-        ▶ Simulate
-      </button>
       <button
         style={{ ...actionStyle, borderColor: '#22c55e', color: '#22c55e' }}
         onClick={onVerify}
