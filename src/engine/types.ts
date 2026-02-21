@@ -10,6 +10,7 @@ export enum GateType {
   XNOR = 'XNOR',
   INPUT = 'INPUT',
   OUTPUT = 'OUTPUT',
+  D_FLIPFLOP = 'D_FLIPFLOP',
 }
 
 export interface Pin {

@@ -14,6 +14,15 @@ function createPin(
   };
 }
 
+export interface Stateful {
+  tick(): void;
+  resetState(): void;
+}
+
+export function isStateful(gate: Gate): gate is Gate & Stateful {
+  return 'tick' in gate && 'resetState' in gate;
+}
+
 export abstract class Gate {
   readonly id: string;
   readonly type: GateType;
@@ -166,6 +175,31 @@ export class OutputGate extends Gate {
   }
 }
 
+/**
+ * D flip-flop: On tick(), latches the value of input 'd' into internal state.
+ * evaluate() outputs the current stored state to 'q' and its complement to 'qn'.
+ */
+export class DFlipFlopGate extends Gate implements Stateful {
+  private state: boolean = false;
+
+  constructor(id?: string) {
+    super(GateType.D_FLIPFLOP, ['d'], ['q', 'qn'], id);
+  }
+
+  evaluate(): void {
+    this.writeOutput('q', this.state);
+    this.writeOutput('qn', !this.state);
+  }
+
+  tick(): void {
+    this.state = this.readInput('d');
+  }
+
+  resetState(): void {
+    this.state = false;
+  }
+}
+
 export function createGate(config: GateConfig): Gate {
   switch (config.type) {
     case GateType.NAND:
@@ -186,5 +220,7 @@ export function createGate(config: GateConfig): Gate {
       return new InputGate(config.label ?? '', config.id);
     case GateType.OUTPUT:
       return new OutputGate(config.label ?? '', config.id);
+    case GateType.D_FLIPFLOP:
+      return new DFlipFlopGate(config.id);
   }
 }

@@ -21,9 +21,15 @@ export interface TruthTableEntry {
   outputs: Record<string, boolean>;
 }
 
+export interface TestSequenceStep {
+  inputs: Record<string, boolean>;
+  outputs: Record<string, boolean>;
+}
+
 export interface LevelResult {
   passed: boolean;
   results: Array<{
+    tick?: number;
     inputs: Record<string, boolean>;
     outputs: Record<string, boolean>;
     expected: Record<string, boolean>;
@@ -41,6 +47,8 @@ export interface Level {
   inputs: PinDefinition[];
   outputs: PinDefinition[];
   truthTable: TruthTableEntry[];
+  /** Sequential test: array of steps evaluated tick-by-tick. */
+  testSequence?: TestSequenceStep[];
   hints?: string[];
   unlocks?: string[];
   maxGates?: number;

@@ -27,6 +27,18 @@ import { level24SignedNegator } from './24-signed-negator';
 import { level251BitDecoder } from './25-1-bit-decoder';
 import { level263BitDecoder } from './26-3-bit-decoder';
 import { level27LogicEngine } from './27-logic-engine';
+// Memory
+import { level28CircularDependency } from './28-circular-dependency';
+import { level29DelayedLines } from './29-delayed-lines';
+import { level30OddTicks } from './30-odd-ticks';
+import { level31BitInverter } from './31-bit-inverter';
+import { level32BitSwitch } from './32-bit-switch';
+import { level33InputSelector } from './33-input-selector';
+import { level34TheBus } from './34-the-bus';
+import { level35SavingGracefully } from './35-saving-gracefully';
+import { level36SavingBytes } from './36-saving-bytes';
+import { level37LittleBox } from './37-little-box';
+import { level38Counter } from './38-counter';
 
 export const levels: Level[] = [
   // Basic Logic
@@ -58,4 +70,16 @@ export const levels: Level[] = [
   level251BitDecoder,
   level263BitDecoder,
   level27LogicEngine,
+  // Memory
+  level28CircularDependency,
+  level29DelayedLines,
+  level30OddTicks,
+  level31BitInverter,
+  level32BitSwitch,
+  level33InputSelector,
+  level34TheBus,
+  level35SavingGracefully,
+  level36SavingBytes,
+  level37LittleBox,
+  level38Counter,
 ];

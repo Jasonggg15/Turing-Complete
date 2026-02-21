@@ -1336,15 +1336,19 @@ describe('LevelRunner', () => {
   });
 
   describe('level definitions', () => {
-    it('all levels have valid truth tables', () => {
+    it('all levels have valid truth tables or test sequences', () => {
       for (const level of levels) {
-        expect(level.truthTable.length).toBeGreaterThan(0);
-        for (const entry of level.truthTable) {
-          for (const input of level.inputs) {
-            expect(entry.inputs).toHaveProperty(input.name);
-          }
-          for (const output of level.outputs) {
-            expect(entry.outputs).toHaveProperty(output.name);
+        const hasTruthTable = level.truthTable && level.truthTable.length > 0;
+        const hasTestSequence = (level as any).testSequence && (level as any).testSequence.length > 0;
+        expect(hasTruthTable || hasTestSequence).toBe(true);
+        if (hasTruthTable) {
+          for (const entry of level.truthTable) {
+            for (const input of level.inputs) {
+              expect(entry.inputs).toHaveProperty(input.name);
+            }
+            for (const output of level.outputs) {
+              expect(entry.outputs).toHaveProperty(output.name);
+            }
           }
         }
       }
@@ -1372,7 +1376,7 @@ describe('LevelRunner', () => {
     });
 
     it('contains exactly 27 levels', () => {
-      expect(levels).toHaveLength(27);
+      expect(levels).toHaveLength(38);
     });
   });
 });

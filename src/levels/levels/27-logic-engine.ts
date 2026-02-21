@@ -88,5 +88,5 @@ export const level27LogicEngine: Level = {
     'Use the operation select bits to choose which gate output reaches the final output',
     'Build all four operations, then use a multiplexer to select the right one',
   ],
-  unlocks: [],
+  unlocks: ['28-circular-dependency'],
 };
