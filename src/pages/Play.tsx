@@ -66,6 +66,7 @@ export default function Play() {
   const [verifyResult, setVerifyResult] = useState<LevelResult | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [simulationResult, setSimulationResult] = useState<Map<string, boolean> | null>(null);
+  const [renderVersion, setRenderVersion] = useState(0);
   const [, forceUpdate] = useState(0);
 
   const handleCircuitChange = useCallback(() => {
@@ -144,6 +145,7 @@ export default function Play() {
     setSimulationResult(null);
     setSelectedTool(null);
     setSelectedGateId(null);
+    setRenderVersion((v) => v + 1);
     saveCircuit(level.id, circuitRef.current.serialize());
     forceUpdate((n) => n + 1);
   }, [level]);
@@ -225,6 +227,7 @@ export default function Play() {
             onCircuitChange={handleCircuitChange}
             selectedGateId={selectedGateId}
             onSelectGate={setSelectedGateId}
+            renderVersion={renderVersion}
             level={level}
           />
 

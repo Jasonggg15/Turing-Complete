@@ -15,6 +15,7 @@ interface CanvasProps {
   onCircuitChange: () => void;
   selectedGateId: string | null;
   onSelectGate: (id: string | null) => void;
+  renderVersion: number;
   level?: Level;
 }
 
@@ -24,6 +25,7 @@ export default function Canvas({
   onCircuitChange,
   selectedGateId,
   onSelectGate,
+  renderVersion,
   level,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -75,13 +77,7 @@ export default function Canvas({
     for (const gate of circuit.getGates()) {
       const pos = circuit.getGatePosition(gate.id);
       if (pos) {
-        drawGate(
-          ctx,
-          gate,
-          pos,
-          gate.id === selectedGateId,
-          simulationResult,
-        );
+        drawGate(ctx, gate, pos, gate.id === selectedGateId, simulationResult);
       }
     }
 
@@ -147,7 +143,7 @@ export default function Canvas({
 
   useEffect(() => {
     requestRender();
-  }, [circuit, requestRender]);
+  }, [circuit, renderVersion, requestRender]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
