@@ -1,12 +1,18 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { Circuit } from '../engine/Circuit';
 import { GateType } from '../engine/types';
 import { Simulator } from '../engine/Simulator';
 import { levels } from '../levels/levels/index';
 import type { LevelResult } from '../levels/Level';
 import { LevelRunner } from '../levels/LevelRunner';
-import { saveCircuit, loadCircuit, completeLevel } from '../save/SaveManager';
+import {
+  saveCircuit,
+  loadCircuit,
+  completeLevel,
+  isLevelUnlocked,
+  clearOutOfOrderProgress,
+} from '../save/SaveManager';
 import Canvas from '../editor/Canvas';
 import Toolbar from '../editor/Toolbar';
 
@@ -52,14 +58,27 @@ export default function Play() {
   const navigate = useNavigate();
   const level = levels.find((l) => l.id === levelId);
 
+  // Clean up any save data for levels completed out of order (one-time per mount)
+  const cleanedRef = useRef(false);
+  if (!cleanedRef.current) {
+    clearOutOfOrderProgress(levels);
+    cleanedRef.current = true;
+  }
+
+  // Block access to locked levels
+  const locked = level !== undefined && !isLevelUnlocked(level.id, levels);
+
   const circuitRef = useRef<Circuit | null>(null);
-  if (!circuitRef.current && level) {
+  if (!circuitRef.current && level && !locked) {
     circuitRef.current = createInitialCircuit(
       level.id,
       level.inputs,
       level.outputs,
     );
   }
+
+  if (!level) return <Navigate to="/levels" replace />;
+  if (locked) return <Navigate to="/levels" replace />;
 
   const [selectedTool, setSelectedTool] = useState<GateType | null>(null);
   const [selectedGateId, setSelectedGateId] = useState<string | null>(null);
