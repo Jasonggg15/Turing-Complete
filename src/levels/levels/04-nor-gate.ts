@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level04NorGate: Level = {
   id: '04-nor-gate',
   name: 'NOR Gate',
+  section: 'Basic Logic',
   description:
     'Build a NOR gate. It outputs true only when both inputs are false.',
   availableGates: [GateType.NAND, GateType.NOT],

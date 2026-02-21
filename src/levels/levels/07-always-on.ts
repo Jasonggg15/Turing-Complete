@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level07AlwaysOn: Level = {
   id: '07-always-on',
   name: 'Always On',
+  section: 'Basic Logic',
   description: 'Build a circuit that always outputs true, regardless of input.',
   availableGates: [
     GateType.NAND,

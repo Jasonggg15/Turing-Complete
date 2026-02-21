@@ -3,6 +3,7 @@ import type { Level } from '../Level';
 export const level01CrudeAwakening: Level = {
   id: '01-crude-awakening',
   name: 'Crude Awakening',
+  section: 'Basic Logic',
   description:
     'Welcome! Click the input gate to toggle it and observe the output. Just wire the input to the output.',
   availableGates: [],

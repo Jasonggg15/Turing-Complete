@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level06AndGate: Level = {
   id: '06-and-gate',
   name: 'AND Gate',
+  section: 'Basic Logic',
   description:
     'Build an AND gate. It outputs true only when both inputs are true.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.NOR, GateType.OR],

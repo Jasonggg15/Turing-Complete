@@ -1,5 +1,17 @@
 import { GateType } from '../engine/types';
 
+export type LevelSection =
+  | 'Basic Logic'
+  | 'Arithmetic'
+  | 'Memory'
+  | 'CPU Architecture'
+  | 'Programming'
+  | 'CPU Architecture 2'
+  | 'Functions'
+  | 'Assembly Challenges';
+
+export type LevelType = 'circuit' | 'minigame';
+
 export interface PinDefinition {
   name: string;
 }
@@ -22,11 +34,14 @@ export interface LevelResult {
 export interface Level {
   id: string;
   name: string;
+  section: LevelSection;
   description: string;
+  type?: LevelType;
   availableGates: GateType[];
   inputs: PinDefinition[];
   outputs: PinDefinition[];
   truthTable: TruthTableEntry[];
   hints?: string[];
   unlocks?: string[];
+  maxGates?: number;
 }

@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level08SecondTick: Level = {
   id: '08-second-tick',
   name: 'Second Tick',
+  section: 'Basic Logic',
   description:
     'Build an INHIBIT gate: output is true only when the first input is true AND the second input is false.',
   availableGates: [

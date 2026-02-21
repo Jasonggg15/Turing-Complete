@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level03NotGate: Level = {
   id: '03-not-gate',
   name: 'NOT Gate',
+  section: 'Basic Logic',
   description:
     'Build a NOT gate using only NAND gates. A NOT gate inverts its input.',
   availableGates: [GateType.NAND],

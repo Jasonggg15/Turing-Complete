@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level10BiggerOrGate: Level = {
   id: '10-bigger-or-gate',
   name: 'Bigger OR Gate',
+  section: 'Basic Logic',
   description: 'Build a 3-input OR gate. Output is true if any input is true.',
   availableGates: [
     GateType.NAND,

@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level05OrGate: Level = {
   id: '05-or-gate',
   name: 'OR Gate',
+  section: 'Basic Logic',
   description:
     'Build an OR gate. It outputs true if at least one input is true.',
   availableGates: [GateType.NAND, GateType.NOT],

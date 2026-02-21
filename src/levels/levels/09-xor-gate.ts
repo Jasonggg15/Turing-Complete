@@ -4,6 +4,7 @@ import type { Level } from '../Level';
 export const level09XorGate: Level = {
   id: '09-xor-gate',
   name: 'XOR Gate',
+  section: 'Basic Logic',
   description:
     'Build an XOR gate. It outputs true if the inputs are different.',
   availableGates: [
