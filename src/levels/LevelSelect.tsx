@@ -26,7 +26,7 @@ interface SectionBanner {
   y: number;
 }
 
-const NODE_W = 180;
+const NODE_W = 240;
 const NODE_H = 38;
 const ROW_GAP = 100;
 const PADDING_TOP = 70;
