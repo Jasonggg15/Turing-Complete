@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level24SignedNegator: Level = {
   id: '24-signed-negator',
   name: 'Signed Negator',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['23-negative-numbers'],
   description:
     "Negate a 4-bit two's complement number. To negate: invert all bits, then add 1.",
   availableGates: [
@@ -88,5 +89,4 @@ export const level24SignedNegator: Level = {
     "Two's complement negation: invert all bits, then add 1",
     'You can build this with NOT gates and a chain of half/full adders',
   ],
-  unlocks: ['25-1-bit-decoder'],
 };

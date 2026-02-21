@@ -10,6 +10,7 @@ export const level74Functions: Level = {
   id: '74-functions',
   name: 'Functions',
   section: 'Functions',
+  prerequisites: ['73-push-and-pop'],
   type: 'programming',
   description:
     'Master functions! Compute the factorial of R0 (R0!). Use CALL to jump to a subroutine and RET to return. Factorial: 0!=1, 1!=1, N!=N×(N-1)×...×1. Use a loop with repeated multiplication (via addition).',
@@ -34,5 +35,4 @@ export const level74Functions: Level = {
     'Main loop: result=1, for i=R0 down to 1: result = result × i',
     'Use PUSH/POP to save registers before CALL and restore after RET',
   ],
-  unlocks: ['75-ai-showdown'],
 };

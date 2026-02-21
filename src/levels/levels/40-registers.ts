@@ -13,6 +13,7 @@ export const level40Registers: Level = {
   id: '40-registers',
   name: 'Registers',
   section: 'CPU Architecture',
+  prerequisites: ['26-3-bit-decoder'],
   description:
     'Build a register file with two 2-bit registers. ADDR selects the register. When WRITE is high, store the 2-bit input (D1, D0) into the selected register. Outputs Q1, Q0 always show the selected register value.',
   availableGates: [
@@ -53,5 +54,4 @@ export const level40Registers: Level = {
     'Each register needs two D flip-flops (one per bit)',
     'Use a mux on the output to select which register to read based on ADDR',
   ],
-  unlocks: ['41-component-factory'],
 };

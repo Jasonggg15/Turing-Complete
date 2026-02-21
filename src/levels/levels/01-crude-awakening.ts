@@ -4,6 +4,7 @@ export const level01CrudeAwakening: Level = {
   id: '01-crude-awakening',
   name: 'Crude Awakening',
   section: 'Basic Logic',
+  prerequisites: [],
   description:
     'Welcome! Click the input gate to toggle it and observe the output. Just wire the input to the output.',
   availableGates: [],
@@ -14,5 +15,4 @@ export const level01CrudeAwakening: Level = {
     { inputs: { IN: true }, outputs: { OUT: true } },
   ],
   hints: ['Connect the input directly to the output'],
-  unlocks: ['02-nand-gate'],
 };

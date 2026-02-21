@@ -10,6 +10,7 @@ export const level54Xor: Level = {
   id: '54-xor',
   name: 'XOR',
   section: 'CPU Architecture 2',
+  prerequisites: ['53-the-maze'],
   description:
     'Build a 4-bit bitwise XOR unit. Each output bit Ri = Ai XOR Bi.',
   availableGates: [
@@ -46,5 +47,4 @@ export const level54Xor: Level = {
   hints: [
     'Simply wire 4 parallel XOR gates: R0 = A0 XOR B0, etc.',
   ],
-  unlocks: ['55-byte-constant'],
 };

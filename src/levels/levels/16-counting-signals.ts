@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level16CountingSignals: Level = {
   id: '16-counting-signals',
   name: 'Counting Signals',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['14-double-trouble'],
   description:
     'Count how many of the 3 inputs are ON and output the count as a 2-bit binary number.',
   availableGates: [
@@ -53,5 +54,4 @@ export const level16CountingSignals: Level = {
     'S0 is 1 when an odd number of inputs are on (parity)',
     'S1 is 1 when at least 2 inputs are on (majority)',
   ],
-  unlocks: ['17-double-the-number'],
 };

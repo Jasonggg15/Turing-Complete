@@ -15,7 +15,8 @@ function byteNotEntry(val: number): TruthTableEntry {
 export const level19ByteNot: Level = {
   id: '19-byte-not',
   name: 'Byte NOT',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['17-double-the-number'],
   description:
     'Invert every bit of an 8-bit number. Each output bit is the NOT of the corresponding input bit.',
   availableGates: [
@@ -66,5 +67,4 @@ export const level19ByteNot: Level = {
     byteNotEntry(0x12),
   ],
   hints: ['Each output bit is independent', 'You need 8 NOT operations'],
-  unlocks: ['20-half-adder'],
 };

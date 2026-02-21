@@ -11,6 +11,7 @@ export const level70Stack: Level = {
   id: '70-stack',
   name: 'Stack',
   section: 'Functions',
+  prerequisites: ['67-ram'],
   description:
     'Build a 4-entry 1-bit stack. When PUSH=1, push DATA onto the stack. When POP=1, pop the top value and output it on OUT. The stack pointer starts at 0 (empty). OUT shows the most recently pushed value (top of stack) when idle.',
   availableGates: [
@@ -53,5 +54,4 @@ export const level70Stack: Level = {
     'PUSH increments SP and writes DATA at the new SP position',
     'POP decrements SP — the output mux reads the value at current SP',
   ],
-  unlocks: ['71-the-lab'],
 };

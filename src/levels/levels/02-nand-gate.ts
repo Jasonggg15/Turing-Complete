@@ -5,6 +5,7 @@ export const level02NandGate: Level = {
   id: '02-nand-gate',
   name: 'NAND Gate',
   section: 'Basic Logic',
+  prerequisites: ['01-crude-awakening'],
   description:
     'The NAND gate outputs false only when both inputs are true. Build a circuit that implements this truth table.',
   availableGates: [GateType.NAND],
@@ -17,5 +18,4 @@ export const level02NandGate: Level = {
     { inputs: { A: true, B: true }, outputs: { OUT: false } },
   ],
   hints: ['Place a NAND gate and connect both inputs through it'],
-  unlocks: ['03-not-gate'],
 };

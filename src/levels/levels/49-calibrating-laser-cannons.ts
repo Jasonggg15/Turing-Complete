@@ -10,6 +10,7 @@ export const level49CalibratingLaserCannons: Level = {
   id: '49-calibrating-laser-cannons',
   name: 'Calibrating Laser Cannons',
   section: 'Programming',
+  prerequisites: ['48-add-5'],
   type: 'programming',
   description:
     'Calibrate the laser cannons! Compute output = input × 3 + 1. R0 contains the input. Use MOV, ADD, and OUT to calculate the result. Hint: multiplying by 3 is the same as adding the value to itself twice.',
@@ -30,5 +31,4 @@ export const level49CalibratingLaserCannons: Level = {
     'ADD R0, R1 doubles R0. ADD R0, R1 again triples the original.',
     'Then ADD R0, 1 and OUT R0',
   ],
-  unlocks: ['50-masking-time'],
 };

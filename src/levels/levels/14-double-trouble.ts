@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level14DoubleTrouble: Level = {
   id: '14-double-trouble',
   name: 'Double Trouble',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['10-bigger-or-gate'],
   description:
     'Solve two independent logic problems at once. Output X = A AND B, and Y = C OR D.',
   availableGates: [
@@ -88,5 +89,4 @@ export const level14DoubleTrouble: Level = {
     'Each output depends on a different pair of inputs',
     'X needs AND, Y needs OR',
   ],
-  unlocks: ['15-binary-racer'],
 };

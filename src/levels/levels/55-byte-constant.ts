@@ -11,6 +11,7 @@ export const level55ByteConstant: Level = {
   id: '55-byte-constant',
   name: 'Byte Constant',
   section: 'CPU Architecture 2',
+  prerequisites: ['54-xor'],
   description:
     'Output the constant byte 0xA5 (10100101 in binary). Wire each output bit to always-on or always-off to produce the fixed value. No inputs are provided — this is a constant generator.',
   availableGates: [
@@ -37,5 +38,4 @@ export const level55ByteConstant: Level = {
     '0xA5 = 10100101: wire ON to bits 7, 5, 2, 0',
     'Use NOT gates on ON for the zero bits, or leave them unconnected (default false)',
   ],
-  unlocks: ['56-byte-xor'],
 };

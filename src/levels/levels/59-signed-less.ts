@@ -24,6 +24,7 @@ export const level59SignedLess: Level = {
   id: '59-signed-less',
   name: 'Signed Less',
   section: 'CPU Architecture 2',
+  prerequisites: ['57-equality'],
   description:
     "Build a 4-bit signed comparator (two's complement). Output LT=1 when the signed value A is strictly less than B. Range is -8 to +7.",
   availableGates: [
@@ -60,5 +61,4 @@ export const level59SignedLess: Level = {
     'Flip the sign bits of both inputs, then use an unsigned comparator',
     'Alternatively: subtract A - B, then check if the result is negative (considering overflow)',
   ],
-  unlocks: ['60-wide-instructions'],
 };

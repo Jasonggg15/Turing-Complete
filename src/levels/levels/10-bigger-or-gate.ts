@@ -5,6 +5,7 @@ export const level10BiggerOrGate: Level = {
   id: '10-bigger-or-gate',
   name: 'Bigger OR Gate',
   section: 'Basic Logic',
+  prerequisites: ['09-xor-gate'],
   description: 'Build a 3-input OR gate. Output is true if any input is true.',
   availableGates: [
     GateType.NAND,
@@ -27,5 +28,4 @@ export const level10BiggerOrGate: Level = {
     { inputs: { A: true, B: true, C: true }, outputs: { OUT: true } },
   ],
   hints: ['Chain two OR gates'],
-  unlocks: ['11-bigger-and-gate'],
 };

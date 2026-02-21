@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level37LittleBox: Level = {
   id: '37-little-box',
   name: 'Little Box',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['25-1-bit-decoder'],
   description:
     'Build a 4x1-bit RAM. Two address bits (A1, A0) select one of four 1-bit cells. When SAVE is high, store DATA into the selected cell. Output always shows the value at the selected address.',
   availableGates: [
@@ -56,5 +57,5 @@ export const level37LittleBox: Level = {
     'Decode the 2-bit address to enable one of 4 registers for writing',
     'Use a 4-to-1 multiplexer on the output to select which register to read',
   ],
-  unlocks: ['38-counter'],
+
 };

@@ -11,6 +11,7 @@ export const level68Delay: Level = {
   id: '68-delay',
   name: 'Delay',
   section: 'Functions',
+  prerequisites: ['64-conditionals'],
   description:
     'Build a 4-bit delay line that outputs the input from 2 ticks ago. Chain two stages of D flip-flops to create a 2-tick pipeline delay.',
   availableGates: [
@@ -43,5 +44,4 @@ export const level68Delay: Level = {
     'Chain two D flip-flops per bit: D → FF1 → FF2 → Q',
     'The first stage delays by 1 tick, the second by another tick = 2 ticks total',
   ],
-  unlocks: ['69-the-product-of-nibbles'],
 };

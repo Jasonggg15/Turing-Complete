@@ -26,11 +26,12 @@ interface SectionBanner {
   y: number;
 }
 
-const NODE_W = 240;
+const NODE_W = 170;
 const NODE_H = 38;
-const ROW_GAP = 100;
+const ROW_GAP = 80;
+const COL_GAP = 30;
 const PADDING_TOP = 70;
-const SVG_WIDTH = 600;
+const SVG_WIDTH = 1000;
 
 export default function LevelSelect() {
   const navigate = useNavigate();
@@ -41,18 +42,20 @@ export default function LevelSelect() {
     const levelMap = new Map<string, Level>();
     levels.forEach((l) => levelMap.set(l.id, l));
 
-    // Build parent map
-    const parentMap = new Map<string, string[]>();
+    // Build child map from prerequisites
+    const childMap = new Map<string, string[]>();
     levels.forEach((l) => {
-      (l.unlocks ?? []).forEach((childId) => {
-        if (!parentMap.has(childId)) parentMap.set(childId, []);
-        parentMap.get(childId)!.push(l.id);
+      (l.prerequisites ?? []).forEach((prereqId) => {
+        if (!childMap.has(prereqId)) childMap.set(prereqId, []);
+        childMap.get(prereqId)!.push(l.id);
       });
     });
 
-    const roots = levels.filter((l) => !parentMap.has(l.id));
+    const roots = levels.filter(
+      (l) => !l.prerequisites || l.prerequisites.length === 0,
+    );
 
-    // BFS to assign rows
+    // BFS to assign rows (longest path from any root)
     const rowMap = new Map<string, number>();
     const queue: string[] = roots.map((r) => r.id);
     roots.forEach((r) => rowMap.set(r.id, 0));
@@ -60,10 +63,16 @@ export default function LevelSelect() {
     while (queue.length > 0) {
       const id = queue.shift()!;
       const row = rowMap.get(id)!;
-      const lvl = levelMap.get(id)!;
-      (lvl.unlocks ?? []).forEach((childId) => {
+      const children = childMap.get(id) ?? [];
+      children.forEach((childId) => {
+        const childLevel = levelMap.get(childId);
+        if (!childLevel) return;
+        // Row = max(all prerequisite rows) + 1
+        const prereqRows = (childLevel.prerequisites ?? []).map(
+          (p) => rowMap.get(p) ?? 0,
+        );
+        const newRow = Math.max(...prereqRows, row) + 1;
         const existing = rowMap.get(childId);
-        const newRow = row + 1;
         if (existing === undefined || newRow > existing) {
           rowMap.set(childId, newRow);
         }
@@ -71,24 +80,33 @@ export default function LevelSelect() {
       });
     }
 
+    // Group nodes by row for horizontal layout
+    const rowGroups = new Map<number, Level[]>();
+    levels.forEach((l) => {
+      const row = rowMap.get(l.id);
+      if (row === undefined) return;
+      if (!rowGroups.has(row)) rowGroups.set(row, []);
+      rowGroups.get(row)!.push(l);
+    });
+
     // Detect section transitions and insert banner rows
-    // First, compute a mapping of row -> effective Y with banners inserted
     const orderedLevels = levels
       .filter((l) => rowMap.has(l.id))
       .sort((a, b) => rowMap.get(a.id)! - rowMap.get(b.id)!);
 
     let currentSection: LevelSection | null = null;
     const bannerList: SectionBanner[] = [];
-    const rowYOffset = new Map<number, number>(); // row -> extra Y offset from banners
+    const rowYOffset = new Map<number, number>();
     let bannerOffset = 0;
+    const seenBannerRows = new Set<number>();
 
     for (const lvl of orderedLevels) {
       const row = rowMap.get(lvl.id)!;
       if (lvl.section !== currentSection) {
         currentSection = lvl.section;
-        // Banner sits above this row
-        if (!rowYOffset.has(row)) {
-          bannerOffset += 50; // space for banner
+        if (!seenBannerRows.has(row)) {
+          seenBannerRows.add(row);
+          bannerOffset += 50;
           bannerList.push({
             label: lvl.section.toUpperCase().replace(/_/g, ' '),
             y: PADDING_TOP + row * ROW_GAP + bannerOffset - 40,
@@ -100,49 +118,56 @@ export default function LevelSelect() {
       }
     }
 
-    // Compute unlocked set
+    // Compute unlocked set using prerequisites
     const unlockedSet = new Set<string>();
-    roots.forEach((r) => unlockedSet.add(r.id));
-    completed.forEach((id) => {
-      const lvl = levelMap.get(id);
-      (lvl?.unlocks ?? []).forEach((childId) => unlockedSet.add(childId));
+    levels.forEach((l) => {
+      if (!l.prerequisites || l.prerequisites.length === 0) {
+        unlockedSet.add(l.id);
+        return;
+      }
+      if (l.prerequisites.every((p) => completed.has(p))) {
+        unlockedSet.add(l.id);
+      }
     });
 
-    // Center X
     const centerX = SVG_WIDTH / 2;
 
-    // Build nodes
-    const nodeList: NodePos[] = orderedLevels.map((l) => {
-      const row = rowMap.get(l.id)!;
+    // Build nodes with horizontal layout
+    const nodeList: NodePos[] = [];
+    for (const [row, group] of rowGroups) {
+      const n = group.length;
+      const totalW = n * NODE_W + (n - 1) * COL_GAP;
+      const startX = centerX - totalW / 2 + NODE_W / 2;
       const extraY = rowYOffset.get(row) ?? 0;
       const y = PADDING_TOP + row * ROW_GAP + extraY;
 
-      let status: NodePos['status'] = 'locked';
-      if (completed.has(l.id)) status = 'completed';
-      else if (unlockedSet.has(l.id)) status = 'unlocked';
+      group.forEach((l, i) => {
+        const x = startX + i * (NODE_W + COL_GAP);
+        let status: NodePos['status'] = 'locked';
+        if (completed.has(l.id)) status = 'completed';
+        else if (unlockedSet.has(l.id)) status = 'unlocked';
+        nodeList.push({ level: l, x, y, row, status });
+      });
+    }
 
-      return { level: l, x: centerX, y, row, status };
-    });
-
-    // Build edges
+    // Build edges from prerequisites
     const nodeMap = new Map<string, NodePos>();
     nodeList.forEach((n) => nodeMap.set(n.level.id, n));
 
     const edgeList: Edge[] = [];
     levels.forEach((l) => {
-      const from = nodeMap.get(l.id);
-      if (!from) return;
-      (l.unlocks ?? []).forEach((childId) => {
-        const to = nodeMap.get(childId);
-        if (!to) return;
-        const parentCompleted = completed.has(l.id);
+      const to = nodeMap.get(l.id);
+      if (!to) return;
+      (l.prerequisites ?? []).forEach((prereqId) => {
+        const from = nodeMap.get(prereqId);
+        if (!from) return;
         edgeList.push({
           x1: from.x,
           y1: from.y + NODE_H / 2,
           x2: to.x,
           y2: to.y - NODE_H / 2,
-          completed: parentCompleted,
-          id: `${l.id}-${childId}`,
+          completed: completed.has(prereqId),
+          id: `${prereqId}-${l.id}`,
         });
       });
     });
@@ -150,7 +175,12 @@ export default function LevelSelect() {
     const maxY = Math.max(...nodeList.map((n) => n.y), 200);
     const h = maxY + NODE_H / 2 + 80;
 
-    return { nodes: nodeList, edges: edgeList, banners: bannerList, svgHeight: h };
+    return {
+      nodes: nodeList,
+      edges: edgeList,
+      banners: bannerList,
+      svgHeight: h,
+    };
   }, [completed]);
 
   const handleClick = useCallback(
@@ -159,7 +189,7 @@ export default function LevelSelect() {
         navigate(`/play/${node.level.id}`);
       }
     },
-    [navigate]
+    [navigate],
   );
 
   return (
@@ -169,7 +199,8 @@ export default function LevelSelect() {
         background: '#0f0f1a',
         minHeight: '100vh',
         color: '#e2e8f0',
-        fontFamily: "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
+        fontFamily:
+          "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
         overflow: 'auto',
         position: 'relative',
       }}
@@ -211,18 +242,32 @@ export default function LevelSelect() {
           zIndex: 1,
         }}
       >
-        <svg width={SVG_WIDTH} height={svgHeight} style={{ display: 'block' }}>
+        <svg
+          width={SVG_WIDTH}
+          height={svgHeight}
+          style={{ display: 'block' }}
+        >
           <defs>
-            {/* Glow filter for unlocked nodes */}
-            <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+            <filter
+              id="glow-gold"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
               <feGaussianBlur stdDeviation="4" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            {/* Glow filter for completed connections */}
-            <filter id="glow-green" x="-50%" y="-50%" width="200%" height="200%">
+            <filter
+              id="glow-green"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
               <feGaussianBlur stdDeviation="2" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
@@ -235,9 +280,9 @@ export default function LevelSelect() {
           {banners.map((b, i) => (
             <g key={`banner-${i}`}>
               <line
-                x1={SVG_WIDTH / 2 - 160}
+                x1={SVG_WIDTH / 2 - 200}
                 y1={b.y + 10}
-                x2={SVG_WIDTH / 2 + 160}
+                x2={SVG_WIDTH / 2 + 200}
                 y2={b.y + 10}
                 stroke="#D4A843"
                 strokeWidth={1}
@@ -258,9 +303,9 @@ export default function LevelSelect() {
                 {b.label}
               </text>
               <line
-                x1={SVG_WIDTH / 2 - 160}
+                x1={SVG_WIDTH / 2 - 200}
                 y1={b.y - 12}
-                x2={SVG_WIDTH / 2 + 160}
+                x2={SVG_WIDTH / 2 + 200}
                 y2={b.y - 12}
                 stroke="#D4A843"
                 strokeWidth={1}
@@ -269,11 +314,12 @@ export default function LevelSelect() {
             </g>
           ))}
 
-          {/* Connection lines */}
+          {/* Connection lines (bezier curves for DAG) */}
           {edges.map((e) => {
             const color = e.completed ? '#22c55e' : '#444';
             const pathId = `path-${e.id}`;
-            const d = `M ${e.x1} ${e.y1} L ${e.x2} ${e.y2}`;
+            const dy = (e.y2 - e.y1) * 0.4;
+            const d = `M ${e.x1} ${e.y1} C ${e.x1} ${e.y1 + dy}, ${e.x2} ${e.y2 - dy}, ${e.x2} ${e.y2}`;
             return (
               <g key={e.id}>
                 <path
@@ -284,8 +330,11 @@ export default function LevelSelect() {
                   fill="none"
                   filter={e.completed ? 'url(#glow-green)' : undefined}
                 />
-                {/* Flow dot */}
-                <circle r={3} fill={e.completed ? '#22c55e' : '#888'} opacity={0.8}>
+                <circle
+                  r={3}
+                  fill={e.completed ? '#22c55e' : '#888'}
+                  opacity={0.8}
+                >
                   <animateMotion dur="2s" repeatCount="indefinite">
                     <mpath href={`#${pathId}`} />
                   </animateMotion>
@@ -332,7 +381,6 @@ export default function LevelSelect() {
                 style={{ cursor: clickable ? 'pointer' : 'not-allowed' }}
                 onClick={() => handleClick(node)}
               >
-                {/* Node rect */}
                 <rect
                   x={nx}
                   y={ny}
@@ -342,28 +390,32 @@ export default function LevelSelect() {
                   fill={bg}
                   stroke={border}
                   strokeWidth={2}
-                  filter={node.status === 'unlocked' ? 'url(#glow-gold)' : undefined}
+                  filter={
+                    node.status === 'unlocked'
+                      ? 'url(#glow-gold)'
+                      : undefined
+                  }
                 />
-                {/* Icon left */}
                 {icon && (
                   <text
                     x={nx + 14}
                     y={node.y + 1}
                     dominantBaseline="central"
                     fontSize={node.status === 'locked' ? 12 : 14}
-                    fill={node.status === 'completed' ? '#22c55e' : '#666'}
+                    fill={
+                      node.status === 'completed' ? '#22c55e' : '#666'
+                    }
                   >
                     {icon}
                   </text>
                 )}
-                {/* Level name */}
                 <text
                   x={node.x}
                   y={node.y + 1}
                   textAnchor="middle"
                   dominantBaseline="central"
                   fill={textColor}
-                  fontSize={12}
+                  fontSize={11}
                   fontFamily="inherit"
                 >
                   {node.level.name}

@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level17DoubleTheNumber: Level = {
   id: '17-double-the-number',
   name: 'Double the Number',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['15-binary-racer'],
   description:
     'Double a 3-bit binary number by shifting it left. The result is a 4-bit number.',
   availableGates: [
@@ -56,5 +57,4 @@ export const level17DoubleTheNumber: Level = {
     'Doubling in binary is the same as shifting left by one position',
     'The least significant bit of the result is always 0',
   ],
-  unlocks: ['18-byte-or'],
 };

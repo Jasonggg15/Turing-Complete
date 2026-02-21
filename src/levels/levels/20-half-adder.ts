@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level20HalfAdder: Level = {
   id: '20-half-adder',
   name: 'Half Adder',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['16-counting-signals'],
   description:
     'Build a half adder that adds two single bits. It produces a sum bit and a carry bit.',
   availableGates: [
@@ -28,5 +29,4 @@ export const level20HalfAdder: Level = {
     'SUM is 1 when inputs differ (XOR)',
     'CARRY is 1 when both inputs are 1 (AND)',
   ],
-  unlocks: ['21-full-adder'],
 };

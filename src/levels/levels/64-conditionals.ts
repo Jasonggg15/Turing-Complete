@@ -12,6 +12,7 @@ export const level64Conditionals: Level = {
   id: '64-conditionals',
   name: 'Conditionals',
   section: 'CPU Architecture 2',
+  prerequisites: ['63-immediate-values-leg'],
   description:
     'Build a conditional branch evaluator. Given three flags (ZERO, NEG, CARRY) and a 2-bit condition code (CC1, CC0), output BRANCH=1 when the condition is met: 00=always branch, 01=branch if ZERO, 10=branch if NEG, 11=branch if CARRY.',
   availableGates: [
@@ -62,5 +63,4 @@ export const level64Conditionals: Level = {
     'CC1 and CC0 are the select lines for the mux',
     'For CC=00 (always), BRANCH is always 1',
   ],
-  unlocks: ['65-hex-racer'],
 };

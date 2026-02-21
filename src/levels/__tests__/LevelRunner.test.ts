@@ -1367,12 +1367,12 @@ describe('LevelRunner', () => {
       }
     });
 
-    it('unlock chain is valid (each unlocked level exists)', () => {
+    it('prerequisite DAG is valid (each prerequisite level exists)', () => {
       const ids = new Set(levels.map((l) => l.id));
       for (const level of levels) {
-        if (level.unlocks) {
-          for (const unlockId of level.unlocks) {
-            expect(ids.has(unlockId)).toBe(true);
+        if (level.prerequisites) {
+          for (const prereqId of level.prerequisites) {
+            expect(ids.has(prereqId)).toBe(true);
           }
         }
       }

@@ -22,6 +22,7 @@ export const level66Shift: Level = {
   id: '66-shift',
   name: 'Shift',
   section: 'Functions',
+  prerequisites: ['64-conditionals'],
   description:
     'Build a 4-bit left barrel shifter. Shift the input (D3-D0) left by the amount specified by S1:S0 (0-3 positions). Vacated bits fill with 0, bits shifted out are discarded.',
   availableGates: [
@@ -54,5 +55,4 @@ export const level66Shift: Level = {
     'Build in two stages: first shift by S0 (0 or 1), then shift by S1 (0 or 2)',
     'Each stage is a row of 2:1 muxes choosing between shifted and unshifted',
   ],
-  unlocks: ['67-ram'],
 };

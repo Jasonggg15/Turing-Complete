@@ -11,6 +11,7 @@ export const level60WideInstructions: Level = {
   id: '60-wide-instructions',
   name: 'Wide Instructions',
   section: 'CPU Architecture 2',
+  prerequisites: ['58-unsigned-less', '59-signed-less'],
   description:
     'Split a 16-bit instruction word into its fields. Bits 15-12 are the opcode (OP3-OP0), bits 11-8 are register A (RA3-RA0), bits 7-4 are register B (RB3-RB0), and bits 3-0 are the immediate value (IM3-IM0). This is a wiring puzzle — route each input bit to the correct output.',
   availableGates: [
@@ -53,5 +54,4 @@ export const level60WideInstructions: Level = {
     'This is purely a wiring puzzle — no logic gates needed',
     'Wire I15→OP3, I14→OP2, ..., I12→OP0, I11→RA3, ..., I0→IM0',
   ],
-  unlocks: ['61-wire-spaghetti'],
 };

@@ -22,6 +22,7 @@ export const level56ByteXor: Level = {
   id: '56-byte-xor',
   name: 'Byte XOR',
   section: 'CPU Architecture 2',
+  prerequisites: ['54-xor'],
   description:
     'Build an 8-bit bitwise XOR unit. Each output bit Ri = Ai XOR Bi.',
   availableGates: [
@@ -56,5 +57,4 @@ export const level56ByteXor: Level = {
   hints: [
     'Wire 8 parallel XOR gates — one per bit',
   ],
-  unlocks: ['57-equality'],
 };

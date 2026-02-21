@@ -10,6 +10,7 @@ export const level77UnseenFruit: Level = {
   id: '77-unseen-fruit',
   name: 'Unseen Fruit',
   section: 'Assembly Challenges',
+  prerequisites: ['75-ai-showdown'],
   type: 'programming',
   description:
     'Find the unseen fruit! Memory address 0 contains N. Addresses 1..N-1 contain N-1 distinct numbers from the range 1..N (one is missing). Find and output the missing number. Hint: sum of 1..N minus sum of given numbers = missing number.',
@@ -52,5 +53,4 @@ export const level77UnseenFruit: Level = {
     'Actual sum = sum of all values in memory[1..N-1]',
     'Missing number = expected sum - actual sum',
   ],
-  unlocks: ['78-delicious-order'],
 };

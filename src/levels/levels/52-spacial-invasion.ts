@@ -10,6 +10,7 @@ export const level52SpacialInvasion: Level = {
   id: '52-spacial-invasion',
   name: 'Spacial Invasion',
   section: 'Programming',
+  prerequisites: ['49-calibrating-laser-cannons'],
   type: 'programming',
   description:
     'Defend against the spacial invasion! Compute the sum of all integers from 1 to N (where N is the input in R0). Output the total. You will need a loop: add the counter to an accumulator, decrement, and repeat until zero.',
@@ -33,5 +34,4 @@ export const level52SpacialInvasion: Level = {
     'Use JNZ to jump back to the loop start while R0 > 0',
     'After the loop, OUT R1',
   ],
-  unlocks: ['53-the-maze'],
 };

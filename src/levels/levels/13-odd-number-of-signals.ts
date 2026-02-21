@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level13OddNumberOfSignals: Level = {
   id: '13-odd-number-of-signals',
   name: 'ODD Number of Signals',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['12-xnor-gate'],
   description:
     'Determine if an odd number of inputs are ON. Output true when the count of active inputs is odd.',
   availableGates: [
@@ -73,5 +74,4 @@ export const level13OddNumberOfSignals: Level = {
     'XOR of two signals is 1 when they differ',
     'Chain XOR gates together',
   ],
-  unlocks: ['14-double-trouble'],
 };

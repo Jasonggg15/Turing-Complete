@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level29DelayedLines: Level = {
   id: '29-delayed-lines',
   name: 'Delayed Lines',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['28-circular-dependency'],
   description:
     'Output the input signal delayed by one clock cycle. The output at tick N should equal the input at tick N-1.',
   availableGates: [
@@ -41,5 +42,5 @@ export const level29DelayedLines: Level = {
     'A D flip-flop delays its input by exactly one clock cycle',
     'Wire IN directly to the D input and Q to the output',
   ],
-  unlocks: ['30-odd-ticks'],
+
 };

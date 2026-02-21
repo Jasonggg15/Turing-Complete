@@ -10,6 +10,7 @@ export const level50MaskingTime: Level = {
   id: '50-masking-time',
   name: 'Masking Time',
   section: 'Programming',
+  prerequisites: ['51-storage-cracker'],
   type: 'programming',
   description:
     'Extract the upper and lower nibbles of a byte using bitwise operations. R0 contains the input byte. Output two values: first the lower nibble (bits 0-3), then the upper nibble (bits 4-7). Use AND to mask bits.',
@@ -31,5 +32,4 @@ export const level50MaskingTime: Level = {
     'To get the upper nibble, use SHR (shift right) by 4 bits',
     'Use MOV to save the original value before masking',
   ],
-  unlocks: ['51-storage-cracker'],
 };

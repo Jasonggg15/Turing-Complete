@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level23NegativeNumbers: Level = {
   id: '23-negative-numbers',
   name: 'Negative Numbers',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['18-byte-or', '22-adding-bytes'],
   description:
     "Determine if a 4-bit two's complement number is negative. In two's complement, the most significant bit is the sign bit.",
   availableGates: [
@@ -88,5 +89,4 @@ export const level23NegativeNumbers: Level = {
     "In two's complement, the most significant bit is the sign bit",
     'A negative number always has its MSB set to 1',
   ],
-  unlocks: ['24-signed-negator'],
 };

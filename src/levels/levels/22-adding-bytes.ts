@@ -16,7 +16,8 @@ function addBytesEntry(a: number, b: number, cin: number): TruthTableEntry {
 export const level22AddingBytes: Level = {
   id: '22-adding-bytes',
   name: 'Adding Bytes',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['17-double-the-number', '21-full-adder', '32-bit-switch'],
   description:
     'Add two 8-bit binary numbers with a carry-in. Chain full adders to build an 8-bit ripple-carry adder.',
   availableGates: [
@@ -85,5 +86,4 @@ export const level22AddingBytes: Level = {
     'Chain 8 full adders from LSB to MSB',
     "Each full adder's carry-out connects to the next one's carry-in",
   ],
-  unlocks: ['23-negative-numbers'],
 };

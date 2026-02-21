@@ -14,6 +14,7 @@ export const level45Conditions: Level = {
   id: '45-conditions',
   name: 'Conditions',
   section: 'CPU Architecture',
+  prerequisites: ['41-component-factory', '43-calculations'],
   description:
     'Build a condition evaluator. Given a 4-bit value (A3-A0) and a SEL input: when SEL=0, output RESULT=1 if the value is zero (all bits 0). When SEL=1, output RESULT=1 if the value is negative (A3=1, sign bit set).',
   availableGates: [
@@ -64,5 +65,4 @@ export const level45Conditions: Level = {
     'NEGATIVE flag = A3 (just the sign bit)',
     'Use a 2:1 mux to select between ZERO and NEGATIVE based on SEL',
   ],
-  unlocks: ['46-immediate-values'],
 };

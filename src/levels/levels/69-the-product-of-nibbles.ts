@@ -10,6 +10,7 @@ export const level69TheProductOfNibbles: Level = {
   id: '69-the-product-of-nibbles',
   name: 'The Product of Nibbles',
   section: 'Functions',
+  prerequisites: ['66-shift'],
   type: 'programming',
   description:
     'Compute the product of two nibbles! R0 and R1 contain two values (0-15). Output R0 × R1. You only have addition and loops — no multiply instruction!',
@@ -31,5 +32,4 @@ export const level69TheProductOfNibbles: Level = {
     'Use R2 as accumulator (start at 0), loop R1 times adding R0 each iteration',
     'Handle the zero case: if R1 is 0, skip the loop entirely',
   ],
-  unlocks: ['70-stack'],
 };

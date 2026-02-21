@@ -5,6 +5,7 @@ export const level12XnorGate: Level = {
   id: '12-xnor-gate',
   name: 'XNOR Gate',
   section: 'Basic Logic',
+  prerequisites: ['10-bigger-or-gate', '11-bigger-and-gate'],
   description:
     'Build an XNOR gate. It outputs true if the inputs are the same.',
   availableGates: [
@@ -24,5 +25,4 @@ export const level12XnorGate: Level = {
     { inputs: { A: true, B: true }, outputs: { OUT: true } },
   ],
   hints: ['XNOR is the inverse of XOR'],
-  unlocks: ['13-odd-number-of-signals'],
 };

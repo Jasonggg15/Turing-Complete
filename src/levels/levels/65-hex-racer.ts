@@ -10,6 +10,7 @@ export const level65HexRacer: Level = {
   id: '65-hex-racer',
   name: 'Hex Racer',
   section: 'Functions',
+  prerequisites: ['64-conditionals'],
   type: 'programming',
   description:
     'Race through hex conversion! Given a byte in R0, output its two hexadecimal digits: first the upper nibble (bits 7-4), then the lower nibble (bits 3-0). Each digit is a value 0-15.',
@@ -30,5 +31,4 @@ export const level65HexRacer: Level = {
     'Use AND R0, 0x0F to get the lower nibble',
     'Save the original value before shifting',
   ],
-  unlocks: ['66-shift'],
 };

@@ -19,6 +19,7 @@ export const level58UnsignedLess: Level = {
   id: '58-unsigned-less',
   name: 'Unsigned Less',
   section: 'CPU Architecture 2',
+  prerequisites: ['57-equality'],
   description:
     'Build a 4-bit unsigned comparator. Output LT=1 when the unsigned value A is strictly less than B.',
   availableGates: [
@@ -56,5 +57,4 @@ export const level58UnsignedLess: Level = {
     'Alternatively, compare bit-by-bit from MSB to LSB',
     'A < B when the subtraction A - B produces a borrow (no carry out)',
   ],
-  unlocks: ['59-signed-less'],
 };

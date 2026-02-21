@@ -10,6 +10,7 @@ export const level51StorageCracker: Level = {
   id: '51-storage-cracker',
   name: 'Storage Cracker',
   section: 'Programming',
+  prerequisites: ['52-spacial-invasion'],
   type: 'programming',
   description:
     'Crack the storage vault! Read the values at memory addresses 0 and 1, add them together, store the sum at address 2, and output it. Use LOAD_MEM, ADD, STORE, and OUT.',
@@ -55,5 +56,4 @@ export const level51StorageCracker: Level = {
     'LOAD_MEM R1, 1 reads address 1 into R1',
     'ADD R0, R1 then STORE 2, R0 and OUT R0',
   ],
-  unlocks: ['52-spacial-invasion'],
 };

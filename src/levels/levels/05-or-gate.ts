@@ -5,6 +5,7 @@ export const level05OrGate: Level = {
   id: '05-or-gate',
   name: 'OR Gate',
   section: 'Basic Logic',
+  prerequisites: ['03-not-gate'],
   description:
     'Build an OR gate. It outputs true if at least one input is true.',
   availableGates: [GateType.NAND, GateType.NOT],
@@ -17,5 +18,4 @@ export const level05OrGate: Level = {
     { inputs: { A: true, B: true }, outputs: { OUT: true } },
   ],
   hints: ['Invert both inputs, then NAND them'],
-  unlocks: ['06-and-gate'],
 };

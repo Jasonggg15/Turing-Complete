@@ -19,6 +19,7 @@ export const level57Equality: Level = {
   id: '57-equality',
   name: 'Equality',
   section: 'CPU Architecture 2',
+  prerequisites: ['55-byte-constant'],
   description:
     'Build a 4-bit equality comparator. Output EQ=1 when the two 4-bit inputs A and B have the same value, EQ=0 otherwise.',
   availableGates: [
@@ -52,5 +53,4 @@ export const level57Equality: Level = {
     'XNOR each pair of bits: Ai XNOR Bi = 1 when equal',
     'AND all four XNOR results together for the final EQ output',
   ],
-  unlocks: ['58-unsigned-less'],
 };

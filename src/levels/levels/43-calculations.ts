@@ -12,6 +12,7 @@ export const level43Calculations: Level = {
   id: '43-calculations',
   name: 'Calculations',
   section: 'CPU Architecture',
+  prerequisites: ['42-instruction-decoder', '40-registers'],
   description:
     'Build a 2-bit accumulator register. When ADD=1, add the input value (V1, V0) to the stored accumulator value. When ADD=0, hold the current value. Output the accumulator value as A1, A0.',
   availableGates: [
@@ -52,5 +53,4 @@ export const level43Calculations: Level = {
     'Use a mux per bit: when ADD=1, feed adder result to flip-flop; when ADD=0, feed back current value',
     'Chain the carry from bit 0 adder to bit 1 adder',
   ],
-  unlocks: ['44-program'],
 };

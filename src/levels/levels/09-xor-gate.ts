@@ -5,6 +5,7 @@ export const level09XorGate: Level = {
   id: '09-xor-gate',
   name: 'XOR Gate',
   section: 'Basic Logic',
+  prerequisites: ['08-second-tick'],
   description:
     'Build an XOR gate. It outputs true if the inputs are different.',
   availableGates: [
@@ -23,5 +24,4 @@ export const level09XorGate: Level = {
     { inputs: { A: true, B: true }, outputs: { OUT: false } },
   ],
   hints: ['Classic solution uses exactly 4 NAND gates'],
-  unlocks: ['10-bigger-or-gate'],
 };

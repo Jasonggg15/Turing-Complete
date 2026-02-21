@@ -12,6 +12,7 @@ export const level46ImmediateValues: Level = {
   id: '46-immediate-values',
   name: 'Immediate Values',
   section: 'CPU Architecture',
+  prerequisites: ['44-program'],
   description:
     'Sign-extend a 4-bit value to 8 bits. Copy the 4 input bits (I3-I0) to the lower 4 output bits (E3-E0). Fill the upper 4 output bits (E7-E4) with the sign bit (I3). This preserves the signed value: +5 (0101) → 00000101, -3 (1101) → 11111101.',
   availableGates: [
@@ -86,5 +87,4 @@ export const level46ImmediateValues: Level = {
     'The upper 4 bits all copy the sign bit: E4=E5=E6=E7=I3',
     'This is mostly a wiring puzzle — no complex logic needed!',
   ],
-  unlocks: ['47-turing-complete'],
 };

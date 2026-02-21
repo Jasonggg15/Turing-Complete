@@ -10,6 +10,7 @@ export const level76RobotRacing: Level = {
   id: '76-robot-racing',
   name: 'Robot Racing',
   section: 'Assembly Challenges',
+  prerequisites: ['74-functions'],
   type: 'programming',
   description:
     'Race your robot! Memory address 0 contains the number of time steps N. Addresses 1..N contain speed values for each step. Compute the total distance (sum of all speeds) and output it.',
@@ -52,5 +53,4 @@ export const level76RobotRacing: Level = {
     'Loop N times: LOAD_MEM from pointer, add to sum, increment pointer',
     'After the loop, OUT the sum',
   ],
-  unlocks: ['77-unseen-fruit'],
 };

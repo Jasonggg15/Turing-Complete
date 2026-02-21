@@ -11,6 +11,7 @@ export const level67Ram: Level = {
   id: '67-ram',
   name: 'RAM',
   section: 'Functions',
+  prerequisites: ['64-conditionals'],
   description:
     'Build a 4×2-bit RAM. Two address bits (A1, A0) select one of four 2-bit cells. When WRITE is high, store the data (D1, D0) into the selected cell. Outputs Q1, Q0 always show the value at the selected address.',
   availableGates: [
@@ -55,5 +56,4 @@ export const level67Ram: Level = {
     'Use a 4:1 mux on the output to select which register pair to read',
     'Each cell needs 2 D flip-flops (one per bit), gated by WRITE AND address decode',
   ],
-  unlocks: ['68-delay'],
 };

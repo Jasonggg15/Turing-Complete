@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level263BitDecoder: Level = {
   id: '26-3-bit-decoder',
   name: '3 Bit Decoder',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['25-1-bit-decoder'],
   description:
     'Build a 3-to-8 decoder. Given a 3-bit binary input, activate exactly one of 8 outputs corresponding to the input value.',
   availableGates: [
@@ -137,5 +138,4 @@ export const level263BitDecoder: Level = {
     'Each output needs a unique combination of AND and NOT gates',
     'Use NOT to invert each input, then AND together the right combination for each output',
   ],
-  unlocks: ['27-logic-engine'],
 };

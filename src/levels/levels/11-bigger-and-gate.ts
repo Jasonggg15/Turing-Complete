@@ -5,6 +5,7 @@ export const level11BiggerAndGate: Level = {
   id: '11-bigger-and-gate',
   name: 'Bigger AND Gate',
   section: 'Basic Logic',
+  prerequisites: ['09-xor-gate'],
   description:
     'Build a 3-input AND gate. Output is true only if all inputs are true.',
   availableGates: [
@@ -28,5 +29,4 @@ export const level11BiggerAndGate: Level = {
     { inputs: { A: true, B: true, C: true }, outputs: { OUT: true } },
   ],
   hints: ['Chain two AND gates'],
-  unlocks: ['12-xnor-gate'],
 };

@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level35SavingGracefully: Level = {
   id: '35-saving-gracefully',
   name: 'Saving Gracefully',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['33-input-selector'],
   description:
     'Build a 1-bit register. When SAVE is high, store the value of IN. When SAVE is low, hold the stored value. Output the stored value.',
   availableGates: [
@@ -46,5 +47,5 @@ export const level35SavingGracefully: Level = {
     'Use a mux pattern: D = SAVE ? IN : Q',
     'AND the input with SAVE, AND the feedback with NOT SAVE, OR them together',
   ],
-  unlocks: ['36-saving-bytes'],
+
 };

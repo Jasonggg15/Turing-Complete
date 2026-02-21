@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level31BitInverter: Level = {
   id: '31-bit-inverter',
   name: 'Bit Inverter',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['30-odd-ticks'],
   description:
     'Build a circuit that stores a single bit. When TOGGLE is high, invert the stored value. When TOGGLE is low, hold the current value. Output the stored bit.',
   availableGates: [
@@ -44,5 +45,5 @@ export const level31BitInverter: Level = {
     'XOR the current stored value with TOGGLE to compute the next value',
     'Feed Q back through XOR with TOGGLE into D',
   ],
-  unlocks: ['32-bit-switch'],
+
 };

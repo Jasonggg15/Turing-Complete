@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level15BinaryRacer: Level = {
   id: '15-binary-racer',
   name: 'Binary Racer',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['10-bigger-or-gate'],
   description:
     'Detect when a 3-bit binary input represents exactly the number 5 (binary 101).',
   availableGates: [
@@ -32,5 +33,4 @@ export const level15BinaryRacer: Level = {
     'The number 5 in binary is 101',
     'Use AND with NOT to detect a specific pattern',
   ],
-  unlocks: ['16-counting-signals'],
 };

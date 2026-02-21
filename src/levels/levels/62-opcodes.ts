@@ -10,6 +10,7 @@ export const level62Opcodes: Level = {
   id: '62-opcodes',
   name: 'Opcodes',
   section: 'CPU Architecture 2',
+  prerequisites: ['61-wire-spaghetti'],
   description:
     'Build a 4-bit to 8-line decoder. Given a 4-bit opcode (OP3-OP0), activate exactly one of eight output lines (Y0-Y7) corresponding to opcodes 0-7. For opcodes 8-15, all outputs should be low.',
   availableGates: [
@@ -39,5 +40,4 @@ export const level62Opcodes: Level = {
     'Decode the lower 3 bits (OP2, OP1, OP0) into 8 lines using AND gates',
     'Each Yi = NOT(OP3) AND (combination of OP2/OP1/OP0 matching i)',
   ],
-  unlocks: ['63-immediate-values-leg'],
 };

@@ -12,6 +12,7 @@ export const level41ComponentFactory: Level = {
   id: '41-component-factory',
   name: 'Component Factory',
   section: 'CPU Architecture',
+  prerequisites: ['39-arithmetic-engine'],
   description:
     'Build a 4-bit parallel load register. When LOAD is high, store the 4-bit input (D3-D0) into the register. When LOAD is low, the register holds its current value. Outputs Q3-Q0 always show the stored value.',
   availableGates: [
@@ -83,5 +84,4 @@ export const level41ComponentFactory: Level = {
     'Each mux feeds into a D flip-flop',
     'A 2:1 mux can be built with: (D AND LOAD) OR (Q AND NOT LOAD)',
   ],
-  unlocks: ['42-instruction-decoder'],
 };

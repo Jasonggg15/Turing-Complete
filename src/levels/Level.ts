@@ -2,8 +2,7 @@ import { GateType } from '../engine/types';
 
 export type LevelSection =
   | 'Basic Logic'
-  | 'Arithmetic'
-  | 'Memory'
+  | 'Arithmetic and Memory'
   | 'CPU Architecture'
   | 'Programming'
   | 'CPU Architecture 2'
@@ -57,7 +56,8 @@ export interface Level {
   /** Sequential test: array of steps evaluated tick-by-tick. */
   testSequence?: TestSequenceStep[];
   hints?: string[];
-  unlocks?: string[];
+  /** Level IDs that must ALL be completed before this level unlocks. */
+  prerequisites?: string[];
   maxGates?: number;
   /** For programming levels: available assembly instructions. */
   availableInstructions?: string[];

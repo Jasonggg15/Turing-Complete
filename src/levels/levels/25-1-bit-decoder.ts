@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level251BitDecoder: Level = {
   id: '25-1-bit-decoder',
   name: '1 Bit Decoder',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['36-saving-bytes'],
   description:
     'Build a 1-to-2 decoder. Given one input, activate exactly one of two outputs.',
   availableGates: [
@@ -23,5 +24,4 @@ export const level251BitDecoder: Level = {
     { inputs: { IN: true }, outputs: { O0: false, O1: true } },
   ],
   hints: ['One output is the input itself, the other is its inverse'],
-  unlocks: ['26-3-bit-decoder'],
 };

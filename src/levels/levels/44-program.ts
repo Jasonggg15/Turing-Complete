@@ -12,6 +12,7 @@ export const level44Program: Level = {
   id: '44-program',
   name: 'Program',
   section: 'CPU Architecture',
+  prerequisites: ['45-conditions'],
   description:
     'Build a 2-bit program counter. Each tick, the PC increments by 1 (wrapping from 3 back to 0). When JUMP=1, load the jump target (J1, J0) into the PC instead of incrementing.',
   availableGates: [
@@ -54,5 +55,4 @@ export const level44Program: Level = {
     'Use a mux per bit: when JUMP=1, select J input; when JUMP=0, select incremented PC',
     'Feed the mux output into D flip-flops for state storage',
   ],
-  unlocks: ['45-conditions'],
 };

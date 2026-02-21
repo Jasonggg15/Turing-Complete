@@ -10,6 +10,7 @@ export const level75AiShowdown: Level = {
   id: '75-ai-showdown',
   name: 'AI Showdown',
   section: 'Assembly Challenges',
+  prerequisites: ['74-functions'],
   type: 'programming',
   description:
     'AI Showdown! Given two scores in R0 and R1, output the higher value. If they are equal, output either one. Implement the max function in assembly.',
@@ -33,5 +34,4 @@ export const level75AiShowdown: Level = {
     'If R0 >= R1, output R0; otherwise output R1',
     'Use JGE to branch based on comparison result',
   ],
-  unlocks: ['76-robot-racing'],
 };

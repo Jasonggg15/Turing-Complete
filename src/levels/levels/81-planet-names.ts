@@ -10,6 +10,7 @@ export const level81PlanetNames: Level = {
   id: '81-planet-names',
   name: 'Planet Names',
   section: 'Assembly Challenges',
+  prerequisites: ['70-stack'],
   type: 'programming',
   description:
     'Measure the planet name! Memory starting at address 0 contains a null-terminated string (sequence of non-zero bytes ending with 0). Count the number of characters (non-zero bytes) and output the length.',
@@ -58,5 +59,4 @@ export const level81PlanetNames: Level = {
     'Loop: LOAD_MEM R2, R0 — if R2 is 0, output R1 and halt',
     'Otherwise increment both R0 and R1, then loop',
   ],
-  unlocks: ['82-waterworld'],
 };

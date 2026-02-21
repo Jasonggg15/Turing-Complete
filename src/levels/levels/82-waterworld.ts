@@ -13,6 +13,7 @@ export const level82Waterworld: Level = {
   id: '82-waterworld',
   name: 'Waterworld',
   section: 'Assembly Challenges',
+  prerequisites: ['81-planet-names'],
   type: 'programming',
   description:
     'Welcome to Waterworld — the final challenge! Memory address 0 contains N (number of terrain columns). Addresses 1..N contain the height of each column. Calculate the total amount of trapped rainwater. For each column, the water level is the minimum of the tallest column to its left and the tallest to its right. Water at each position = max(0, water_level - height). Output the total.',

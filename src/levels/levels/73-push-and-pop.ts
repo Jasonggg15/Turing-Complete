@@ -9,6 +9,7 @@ export const level73PushAndPop: Level = {
   id: '73-push-and-pop',
   name: 'PUSH and POP',
   section: 'Functions',
+  prerequisites: ['70-stack', '72-divide'],
   type: 'programming',
   description:
     'Use the stack to reverse a sequence! Memory contains a length N at address 0, followed by N values at addresses 1..N. Push all values onto the stack, then pop them off and output each one. The stack reverses their order (LIFO).',
@@ -51,5 +52,4 @@ export const level73PushAndPop: Level = {
     'Second loop: POP N times and OUT each value — they come out reversed',
     'Use R0 as a counter, R1 as a memory pointer',
   ],
-  unlocks: ['74-functions'],
 };

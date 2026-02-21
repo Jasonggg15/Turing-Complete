@@ -9,6 +9,7 @@ export const level78DeliciousOrder: Level = {
   id: '78-delicious-order',
   name: 'Delicious Order',
   section: 'Assembly Challenges',
+  prerequisites: ['77-unseen-fruit'],
   type: 'programming',
   description:
     'Put things in delicious order! Memory address 0 contains N (the count). Addresses 1..N contain N values. Sort them in ascending order and output all N values from smallest to largest.',
@@ -57,5 +58,4 @@ export const level78DeliciousOrder: Level = {
     'Outer loop runs N-1 times, inner loop compares adjacent pairs',
     'Use LOAD_MEM and STORE to swap values in memory',
   ],
-  unlocks: ['79-dancing-machine'],
 };

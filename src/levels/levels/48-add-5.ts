@@ -10,6 +10,7 @@ export const level48Add5: Level = {
   id: '48-add-5',
   name: 'Add 5',
   section: 'Programming',
+  prerequisites: ['47-turing-complete'],
   type: 'programming',
   description:
     'Write a program that adds 5 to the input value. Register R0 is pre-loaded with the input. Use ADD and OUT instructions to produce the result.',
@@ -29,5 +30,4 @@ export const level48Add5: Level = {
     'Use ADD R0, 5 to add 5 to R0',
     'Use OUT R0 to output the result',
   ],
-  unlocks: ['49-calibrating-laser-cannons'],
 };

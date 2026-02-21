@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level38Counter: Level = {
   id: '38-counter',
   name: 'Counter',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['37-little-box'],
   description:
     'Build a 3-bit binary counter. Each tick, the counter increments by 1. Output the current count as three bits: B2 (MSB), B1, B0 (LSB). The counter wraps around after 7 (111).',
   availableGates: [
@@ -45,5 +46,5 @@ export const level38Counter: Level = {
     'Bit 1 toggles when bit 0 is 1 (XOR with B0)',
     'Bit 2 toggles when both B0 and B1 are 1 (XOR with B0 AND B1)',
   ],
-  unlocks: ['39-arithmetic-engine'],
+
 };

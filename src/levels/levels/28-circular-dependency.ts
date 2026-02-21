@@ -14,7 +14,8 @@ import type { Level } from '../Level';
 export const level28CircularDependency: Level = {
   id: '28-circular-dependency',
   name: 'Circular Dependency',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['11-bigger-and-gate'],
   description:
     'Introduction to feedback loops. Use a D flip-flop to store a signal. When STORE is on, save the value of IN. The output should always reflect the stored value.',
   availableGates: [
@@ -44,5 +45,5 @@ export const level28CircularDependency: Level = {
     'Use a D flip-flop to store values across clock cycles',
     'Gate the input with the STORE signal using an AND gate, and OR with the feedback to hold state',
   ],
-  unlocks: ['29-delayed-lines'],
+
 };

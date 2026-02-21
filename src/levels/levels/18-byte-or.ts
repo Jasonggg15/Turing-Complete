@@ -16,7 +16,8 @@ function byteOrEntry(a: number, b: number): TruthTableEntry {
 export const level18ByteOr: Level = {
   id: '18-byte-or',
   name: 'Byte OR',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['17-double-the-number'],
   description:
     'Perform a bitwise OR on two 8-bit numbers. Each output bit is the OR of the corresponding input bits.',
   availableGates: [
@@ -82,5 +83,4 @@ export const level18ByteOr: Level = {
     'Each output bit only depends on the two corresponding input bits',
     'You need 8 independent OR operations',
   ],
-  unlocks: ['19-byte-not'],
 };

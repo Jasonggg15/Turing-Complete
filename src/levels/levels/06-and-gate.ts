@@ -5,6 +5,7 @@ export const level06AndGate: Level = {
   id: '06-and-gate',
   name: 'AND Gate',
   section: 'Basic Logic',
+  prerequisites: ['03-not-gate'],
   description:
     'Build an AND gate. It outputs true only when both inputs are true.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.NOR, GateType.OR],
@@ -17,5 +18,4 @@ export const level06AndGate: Level = {
     { inputs: { A: true, B: true }, outputs: { OUT: true } },
   ],
   hints: ['NAND is the inverse of AND'],
-  unlocks: ['07-always-on'],
 };

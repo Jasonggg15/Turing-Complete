@@ -11,7 +11,8 @@ import type { Level } from '../Level';
 export const level36SavingBytes: Level = {
   id: '36-saving-bytes',
   name: 'Saving Bytes',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['34-the-bus', '35-saving-gracefully'],
   description:
     'Build two 1-bit registers addressed by ADDR. When SAVE is high, store DATA into the register selected by ADDR. Output always shows the value in the register selected by ADDR.',
   availableGates: [
@@ -51,5 +52,5 @@ export const level36SavingBytes: Level = {
     'Use ADDR to decode which register gets the SAVE signal',
     'Use a mux on the output to select which register to read',
   ],
-  unlocks: ['37-little-box'],
+
 };

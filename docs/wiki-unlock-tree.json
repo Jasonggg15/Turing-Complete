@@ -1,0 +1,466 @@
+{
+  "Crude Awakening": {
+    "section": "Basic Logic",
+    "prerequisites": [],
+    "unlocks": ["NAND Gate"]
+  },
+  "NAND Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["Crude Awakening"],
+    "unlocks": ["NOT Gate"]
+  },
+  "NOT Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["NAND Gate"],
+    "unlocks": ["AND Gate", "NOR Gate", "OR Gate"]
+  },
+  "AND Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["NOT Gate"],
+    "unlocks": ["Always On"]
+  },
+  "NOR Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["NOT Gate"],
+    "unlocks": ["Always On"]
+  },
+  "OR Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["NOT Gate"],
+    "unlocks": ["Always On"]
+  },
+  "Always On": {
+    "section": "Basic Logic",
+    "prerequisites": ["AND Gate", "NOR Gate", "OR Gate"],
+    "unlocks": ["Second Tick"]
+  },
+  "Second Tick": {
+    "section": "Basic Logic",
+    "prerequisites": ["Always On"],
+    "unlocks": ["XOR Gate"]
+  },
+  "XOR Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["Second Tick"],
+    "unlocks": ["Bigger OR Gate", "Bigger AND Gate"]
+  },
+  "Bigger OR Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["XOR Gate"],
+    "unlocks": ["Binary Racer", "Double Trouble", "XNOR Gate"]
+  },
+  "Bigger AND Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["XOR Gate"],
+    "unlocks": ["XNOR Gate", "Circular Dependency"]
+  },
+  "XNOR Gate": {
+    "section": "Basic Logic",
+    "prerequisites": ["Bigger OR Gate", "Bigger AND Gate"],
+    "unlocks": ["ODD Number of Signals"]
+  },
+  "Binary Racer": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Bigger OR Gate"],
+    "unlocks": ["Double the Number"],
+    "_note": "No structured prereq/unlock on wiki; inferred from walkthrough order and nav links"
+  },
+  "Double Trouble": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Bigger OR Gate"],
+    "unlocks": ["Counting Signals"],
+    "_note": "No structured prereq/unlock on wiki; inferred from nav links"
+  },
+  "ODD Number of Signals": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["XNOR Gate"],
+    "unlocks": ["Double Trouble", "Bit Switch"],
+    "_note": "Unlocks inferred from nav and Bit Switch prereqs"
+  },
+  "Circular Dependency": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Bigger AND Gate"],
+    "unlocks": ["Delayed Lines"],
+    "_note": "Prereq inferred from Bigger AND Gate unlock link (wiki shows 'Cicular Dependency')"
+  },
+  "Counting Signals": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Double Trouble"],
+    "unlocks": ["Half Adder"],
+    "_note": "No wiki content; inferred from walkthrough order"
+  },
+  "Half Adder": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Counting Signals"],
+    "unlocks": ["Full Adder"],
+    "_note": "Nav links: ← Byte NOT | Half Adder | Full Adder →; but structured data missing prereqs"
+  },
+  "Delayed Lines": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Circular Dependency"],
+    "unlocks": ["Odd Ticks"],
+    "_note": "Nav: ← Circular Dependency | Delayed Lines | Odd Ticks →"
+  },
+  "Double the Number": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Binary Racer"],
+    "unlocks": ["Byte OR", "Bit Switch", "Adding Bytes"],
+    "_note": "Byte OR prereq is Double the Number; Bit Switch prereq includes Double the Number"
+  },
+  "Full Adder": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Half Adder"],
+    "unlocks": ["Adding Bytes"]
+  },
+  "Odd Ticks": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Delayed Lines"],
+    "unlocks": ["Bit Inverter"],
+    "_note": "Nav: ← Delayed Lines | Odd Ticks | Bit Inverter →"
+  },
+  "Bit Switch": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Double the Number", "ODD Number of Signals"],
+    "unlocks": ["Adding Bytes", "Input Selector"]
+  },
+  "Bit Inverter": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Odd Ticks"],
+    "unlocks": ["Input Selector"],
+    "_note": "Input Selector prereqs include Bit Inverter"
+  },
+  "Byte OR": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Double the Number"],
+    "unlocks": ["Negative Numbers"]
+  },
+  "Byte NOT": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Double the Number"],
+    "unlocks": ["Half Adder"],
+    "_note": "Nav: ← Byte NOT | Half Adder; minimal wiki content"
+  },
+  "Adding Bytes": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Double the Number", "Full Adder", "Bit Switch"],
+    "unlocks": ["Negative Numbers", "Input Selector"]
+  },
+  "Negative Numbers": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Byte OR", "Adding Bytes"],
+    "unlocks": ["Signed Negator"],
+    "_note": "Binary racer variant for negative numbers"
+  },
+  "Input Selector": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Adding Bytes", "Bit Switch", "Bit Inverter"],
+    "unlocks": ["The bus", "Saving Gracefully"]
+  },
+  "Signed Negator": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Negative Numbers"],
+    "unlocks": ["Logic Engine"],
+    "_note": "No wiki page (redlink); Logic Engine lists Signed Negator as prereq"
+  },
+  "The bus": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Input Selector"],
+    "unlocks": ["Saving Bytes"]
+  },
+  "Saving Gracefully": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Input Selector"],
+    "unlocks": ["Saving Bytes"],
+    "_note": "Nav: ← The bus | Saving Gracefully | Saving Bytes →"
+  },
+  "Saving Bytes": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["The bus", "Saving Gracefully"],
+    "unlocks": ["1 Bit Decoder"],
+    "_note": "1 Bit Decoder lists Saving Bytes as prereq"
+  },
+  "1 Bit Decoder": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Saving Bytes"],
+    "unlocks": ["3 Bit Decoder", "Little Box"]
+  },
+  "3 Bit Decoder": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["1 Bit Decoder"],
+    "unlocks": ["Logic Engine", "Registers"]
+  },
+  "Logic Engine": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Signed Negator", "3 Bit Decoder"],
+    "unlocks": ["Arithmetic Engine"]
+  },
+  "Little Box": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["1 Bit Decoder"],
+    "unlocks": ["Counter"],
+    "_note": "No wiki page (redlink); inferred from walkthrough order"
+  },
+  "Counter": {
+    "section": "Arithmetic and Memory",
+    "prerequisites": ["Little Box"],
+    "unlocks": ["Arithmetic Engine"],
+    "_note": "No structured prereq on wiki; inferred from walkthrough order"
+  },
+  "Arithmetic Engine": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Logic Engine", "Counter"],
+    "unlocks": ["Component Factory"],
+    "_note": "No wiki page; Component Factory lists Arithmetic Engine as prereq"
+  },
+  "Registers": {
+    "section": "CPU Architecture",
+    "prerequisites": ["3 Bit Decoder"],
+    "unlocks": ["Calculations"],
+    "_note": "No wiki page; 3 Bit Decoder unlocks Registers"
+  },
+  "Component Factory": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Arithmetic Engine"],
+    "unlocks": ["Instruction Decoder", "Conditions"]
+  },
+  "Instruction Decoder": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Component Factory"],
+    "unlocks": ["Calculations"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Calculations": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Instruction Decoder", "Registers"],
+    "unlocks": ["Conditions"],
+    "_note": "No wiki page; inferred from sequence"
+  },
+  "Conditions": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Component Factory", "Calculations"],
+    "unlocks": ["Program"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Program": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Conditions"],
+    "unlocks": ["Immediate Values"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Immediate Values": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Program"],
+    "unlocks": ["Turing Complete"],
+    "_note": "No wiki page; Walkthrough shows as 'Immediate Values (Overture)'"
+  },
+  "Turing Complete": {
+    "section": "CPU Architecture",
+    "prerequisites": ["Immediate Values"],
+    "unlocks": ["Add 5"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Add 5": {
+    "section": "Programming",
+    "prerequisites": ["Turing Complete"],
+    "unlocks": ["Calibrating Laser Cannons"],
+    "_note": "No wiki page; inferred from section order"
+  },
+  "Calibrating Laser Cannons": {
+    "section": "Programming",
+    "prerequisites": ["Add 5"],
+    "unlocks": ["Spacial Invasion"],
+    "_note": "No wiki page"
+  },
+  "Spacial Invasion": {
+    "section": "Programming",
+    "prerequisites": ["Calibrating Laser Cannons"],
+    "unlocks": ["Storage Cracker"],
+    "_note": "No wiki page"
+  },
+  "Storage Cracker": {
+    "section": "Programming",
+    "prerequisites": ["Spacial Invasion"],
+    "unlocks": ["Masking Time"],
+    "_note": "No wiki page"
+  },
+  "Masking Time": {
+    "section": "Programming",
+    "prerequisites": ["Storage Cracker"],
+    "unlocks": ["The Maze"],
+    "_note": "No wiki page"
+  },
+  "The Maze": {
+    "section": "Programming",
+    "prerequisites": ["Masking Time"],
+    "unlocks": ["XOR"],
+    "_note": "No wiki page; last Programming level, unlocks CPU Architecture 2"
+  },
+  "XOR": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["The Maze"],
+    "unlocks": ["Byte Constant", "Byte XOR"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Byte Constant": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["XOR"],
+    "unlocks": ["Equality"],
+    "_note": "No wiki page; Equality lists Byte Constant as prereq"
+  },
+  "Byte XOR": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["XOR"],
+    "unlocks": ["Equality"],
+    "_note": "No wiki page; inferred"
+  },
+  "Equality": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Byte Constant"],
+    "unlocks": ["Unsigned Less", "Signed Less"]
+  },
+  "Unsigned Less": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Equality"],
+    "unlocks": ["Wide Instructions"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Signed Less": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Equality"],
+    "unlocks": ["Wide Instructions"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Wide Instructions": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Unsigned Less", "Signed Less"],
+    "unlocks": ["Wire Spaghetti"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Wire Spaghetti": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Wide Instructions"],
+    "unlocks": ["Opcodes"],
+    "_note": "Wiki page exists but no structured prereq/unlock data"
+  },
+  "Opcodes": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Wire Spaghetti"],
+    "unlocks": ["Immediate Values (Leg)"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Immediate Values (Leg)": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Opcodes"],
+    "unlocks": ["Conditionals"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Conditionals": {
+    "section": "CPU Architecture 2",
+    "prerequisites": ["Immediate Values (Leg)"],
+    "unlocks": ["Hex Racer", "Shift", "RAM", "Delay"],
+    "_note": "Hex Racer and Delay both list Conditionals as prereq"
+  },
+  "Hex Racer": {
+    "section": "Functions",
+    "prerequisites": ["Conditionals"],
+    "unlocks": []
+  },
+  "Shift": {
+    "section": "Functions",
+    "prerequisites": ["Conditionals"],
+    "unlocks": ["The Product of Nibbles"],
+    "_note": "No wiki page (redlink)"
+  },
+  "RAM": {
+    "section": "Functions",
+    "prerequisites": ["Conditionals"],
+    "unlocks": ["Stack"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Delay": {
+    "section": "Functions",
+    "prerequisites": ["Conditionals"],
+    "unlocks": []
+  },
+  "The Product of Nibbles": {
+    "section": "Functions",
+    "prerequisites": ["Shift"],
+    "unlocks": ["Divide"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Stack": {
+    "section": "Functions",
+    "prerequisites": ["RAM"],
+    "unlocks": ["The Lab", "PUSH and POP", "Planet Names"],
+    "_note": "Planet Names lists Stack as prereq"
+  },
+  "The Lab": {
+    "section": "Functions",
+    "prerequisites": ["Stack"],
+    "unlocks": []
+  },
+  "Divide": {
+    "section": "Functions",
+    "prerequisites": ["The Product of Nibbles"],
+    "unlocks": ["PUSH and POP"],
+    "_note": "No wiki page (redlink)"
+  },
+  "PUSH and POP": {
+    "section": "Functions",
+    "prerequisites": ["Stack", "Divide"],
+    "unlocks": ["Functions"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Functions": {
+    "section": "Functions",
+    "prerequisites": ["PUSH and POP"],
+    "unlocks": ["AI Showdown", "Robot Racing"],
+    "_note": "No wiki page; Robot Racing lists Functions as prereq"
+  },
+  "AI Showdown": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Functions"],
+    "unlocks": ["Unseen Fruit"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Robot Racing": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Functions"],
+    "unlocks": ["Tower of Alloy"]
+  },
+  "Unseen Fruit": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["AI Showdown"],
+    "unlocks": ["Delicious Order"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Delicious Order": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Unseen Fruit"],
+    "unlocks": ["Dancing Machine"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Dancing Machine": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Delicious Order"],
+    "unlocks": ["Tower of Alloy"],
+    "_note": "No wiki page (redlink)"
+  },
+  "Tower of Alloy": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Robot Racing", "Dancing Machine"],
+    "unlocks": ["Planet Names"],
+    "_note": "Minimal wiki content"
+  },
+  "Planet Names": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Stack"],
+    "unlocks": ["Waterworld"]
+  },
+  "Waterworld": {
+    "section": "Assembly Challenges",
+    "prerequisites": ["Planet Names"],
+    "unlocks": [],
+    "_note": "No wiki page (redlink); final level"
+  }
+}

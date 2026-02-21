@@ -10,6 +10,7 @@ export const level79DancingMachine: Level = {
   id: '79-dancing-machine',
   name: 'Dancing Machine',
   section: 'Assembly Challenges',
+  prerequisites: ['78-delicious-order'],
   type: 'programming',
   description:
     'Make the machine dance! R0 contains the number of beats N and R1 contains the dance move value. Output an alternating pattern: R1, 0, R1, 0, ... for N total outputs.',
@@ -33,5 +34,4 @@ export const level79DancingMachine: Level = {
     'Loop N times: if iteration is even, output R1; if odd, output 0',
     'Use AND with 1 to test if the counter is odd or even',
   ],
-  unlocks: ['80-tower-of-alloy'],
 };

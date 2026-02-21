@@ -11,6 +11,7 @@ export const level53TheMaze: Level = {
   id: '53-the-maze',
   name: 'The Maze',
   section: 'Programming',
+  prerequisites: ['50-masking-time'],
   type: 'programming',
   description:
     'Navigate the maze! Memory contains a sequence of commands starting at address 0: 1=step forward, 2=turn left, 3=turn right, 0=stop. Read commands one by one, count the total number of forward steps (command=1), and output the count when you hit a stop command (0). Requires loops, memory access, and conditionals.',
@@ -61,5 +62,4 @@ export const level53TheMaze: Level = {
     'If R2 is 1, increment R1. Then increment R0 and loop back.',
     'Use CMP and JZ to check for stop (0) and forward (1) commands',
   ],
-  unlocks: ['54-xor'],
 };

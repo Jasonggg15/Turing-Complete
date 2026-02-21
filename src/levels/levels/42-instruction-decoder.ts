@@ -12,6 +12,7 @@ export const level42InstructionDecoder: Level = {
   id: '42-instruction-decoder',
   name: 'Instruction Decoder',
   section: 'CPU Architecture',
+  prerequisites: ['41-component-factory'],
   description:
     'Decode a 3-bit opcode into one-hot control signals. Map: 000→ADD, 001→SUB, 010→LOAD, 011→STORE, 100→JUMP. For all other opcodes (101, 110, 111), all outputs should be low.',
   availableGates: [
@@ -78,5 +79,4 @@ export const level42InstructionDecoder: Level = {
     'ADD = NOT(OP2) AND NOT(OP1) AND NOT(OP0)',
     'JUMP = OP2 AND NOT(OP1) AND NOT(OP0)',
   ],
-  unlocks: ['43-calculations'],
 };

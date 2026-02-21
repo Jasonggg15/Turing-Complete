@@ -4,7 +4,8 @@ import type { Level } from '../Level';
 export const level21FullAdder: Level = {
   id: '21-full-adder',
   name: 'Full Adder',
-  section: 'Arithmetic',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['20-half-adder'],
   description:
     'Build a full adder that adds two bits plus a carry-in. It produces a sum and carry-out.',
   availableGates: [
@@ -56,5 +57,4 @@ export const level21FullAdder: Level = {
     'A full adder is two half adders chained together',
     'The carry-out is 1 when at least 2 of the 3 inputs are 1',
   ],
-  unlocks: ['22-adding-bytes'],
 };

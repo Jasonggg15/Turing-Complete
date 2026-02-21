@@ -9,6 +9,7 @@ export const level72Divide: Level = {
   id: '72-divide',
   name: 'Divide',
   section: 'Functions',
+  prerequisites: ['69-the-product-of-nibbles'],
   type: 'programming',
   description:
     'Implement integer division! R0 contains the dividend and R1 the divisor. Output the quotient (R0 / R1) using integer division (round toward zero). Use repeated subtraction to count how many times the divisor fits.',
@@ -31,5 +32,4 @@ export const level72Divide: Level = {
     'Loop: if R0 >= R1, subtract R1 from R0 and increment quotient counter',
     'Stop when R0 < R1 — the counter holds the quotient',
   ],
-  unlocks: ['73-push-and-pop'],
 };

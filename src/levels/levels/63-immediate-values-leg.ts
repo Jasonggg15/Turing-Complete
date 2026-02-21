@@ -19,6 +19,7 @@ export const level63ImmediateValuesLeg: Level = {
   id: '63-immediate-values-leg',
   name: 'Immediate Values (Leg)',
   section: 'CPU Architecture 2',
+  prerequisites: ['62-opcodes'],
   description:
     'Zero-extend a 4-bit immediate value to 8 bits. Copy I3-I0 to E3-E0 and set E7-E4 to 0. Unlike sign extension, the upper bits are always zero regardless of the sign bit.',
   availableGates: [
@@ -46,5 +47,4 @@ export const level63ImmediateValuesLeg: Level = {
     'Wire I0→E0, I1→E1, I2→E2, I3→E3 directly',
     'E4, E5, E6, E7 are always 0 — leave them unconnected or wire to ground',
   ],
-  unlocks: ['64-conditionals'],
 };

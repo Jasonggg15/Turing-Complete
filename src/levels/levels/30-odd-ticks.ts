@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level30OddTicks: Level = {
   id: '30-odd-ticks',
   name: 'Odd Ticks',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['29-delayed-lines'],
   description:
     'Build a toggle circuit that alternates its output every tick. The output should be OFF on even ticks and ON on odd ticks (starting from tick 0).',
   availableGates: [
@@ -42,5 +43,5 @@ export const level30OddTicks: Level = {
     'Feed the inverted output (QN) of the flip-flop back to its D input',
     'The NOT output of the D flip-flop toggles the state each cycle',
   ],
-  unlocks: ['31-bit-inverter'],
+
 };

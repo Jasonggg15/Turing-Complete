@@ -11,7 +11,8 @@ import type { Level } from '../Level';
 export const level34TheBus: Level = {
   id: '34-the-bus',
   name: 'The Bus',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['33-input-selector'],
   description:
     'Build a 4-to-1 multiplexer. Four data inputs (D0-D3) and two select bits (S1, S0). Output the selected input: 00→D0, 01→D1, 10→D2, 11→D3.',
   availableGates: [
@@ -78,5 +79,5 @@ export const level34TheBus: Level = {
     'Decode the select bits to enable one of 4 AND gates',
     'AND each data input with its select condition, then OR all results',
   ],
-  unlocks: ['35-saving-gracefully'],
+
 };

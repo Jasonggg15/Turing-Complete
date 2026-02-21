@@ -10,7 +10,8 @@ import type { Level } from '../Level';
 export const level32BitSwitch: Level = {
   id: '32-bit-switch',
   name: 'Bit Switch',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['17-double-the-number', '13-odd-number-of-signals'],
   description:
     'Build a circuit that stores a single bit. SET turns it on, RESET turns it off. If neither is active, hold the value. SET has priority over RESET.',
   availableGates: [
@@ -46,5 +47,5 @@ export const level32BitSwitch: Level = {
     'D = (SET) OR (Q AND NOT RESET)',
     'Use OR to set, AND with NOT RESET to clear, feedback Q to hold',
   ],
-  unlocks: ['33-input-selector'],
+
 };

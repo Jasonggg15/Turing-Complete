@@ -9,6 +9,7 @@ export const level71TheLab: Level = {
   id: '71-the-lab',
   name: 'The Lab',
   section: 'Functions',
+  prerequisites: ['70-stack'],
   type: 'programming',
   description:
     "Welcome to The Lab! Compute the absolute value of a signed 8-bit number. R0 contains a value in two's complement (-128 to 127). Output |R0|. If R0 is negative, negate it; otherwise output it unchanged.",
@@ -30,5 +31,4 @@ export const level71TheLab: Level = {
     'To negate: XOR with 0xFF, then ADD 1 (two\'s complement negation)',
     'Use AND R0, 0x80 and JZ to test the sign bit',
   ],
-  unlocks: ['72-divide'],
 };

@@ -11,7 +11,8 @@ import type { Level } from '../Level';
 export const level33InputSelector: Level = {
   id: '33-input-selector',
   name: 'Input Selector',
-  section: 'Memory',
+  section: 'Arithmetic and Memory',
+  prerequisites: ['22-adding-bytes', '32-bit-switch', '31-bit-inverter'],
   description:
     'Build a 2-to-1 multiplexer. When SEL is off, output A. When SEL is on, output B.',
   availableGates: [
@@ -38,5 +39,5 @@ export const level33InputSelector: Level = {
     'OUT = (A AND NOT SEL) OR (B AND SEL)',
     'AND each input with the appropriate select condition, then OR the results',
   ],
-  unlocks: ['34-the-bus'],
+
 };
