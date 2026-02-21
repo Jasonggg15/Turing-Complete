@@ -61,4 +61,5 @@ export const level53TheMaze: Level = {
     'If R2 is 1, increment R1. Then increment R0 and loop back.',
     'Use CMP and JZ to check for stop (0) and forward (1) commands',
   ],
+  unlocks: ['54-xor'],
 };

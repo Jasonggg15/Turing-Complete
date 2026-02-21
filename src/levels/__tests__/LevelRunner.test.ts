@@ -1379,7 +1379,7 @@ describe('LevelRunner', () => {
     });
 
     it('contains exactly 27 levels', () => {
-      expect(levels).toHaveLength(53);
+      expect(levels).toHaveLength(82);
     });
   });
 });

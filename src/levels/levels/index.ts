@@ -56,6 +56,38 @@ import { level50MaskingTime } from './50-masking-time';
 import { level51StorageCracker } from './51-storage-cracker';
 import { level52SpacialInvasion } from './52-spacial-invasion';
 import { level53TheMaze } from './53-the-maze';
+// CPU Architecture 2
+import { level54Xor } from './54-xor';
+import { level55ByteConstant } from './55-byte-constant';
+import { level56ByteXor } from './56-byte-xor';
+import { level57Equality } from './57-equality';
+import { level58UnsignedLess } from './58-unsigned-less';
+import { level59SignedLess } from './59-signed-less';
+import { level60WideInstructions } from './60-wide-instructions';
+import { level61WireSpaghetti } from './61-wire-spaghetti';
+import { level62Opcodes } from './62-opcodes';
+import { level63ImmediateValuesLeg } from './63-immediate-values-leg';
+import { level64Conditionals } from './64-conditionals';
+// Functions
+import { level65HexRacer } from './65-hex-racer';
+import { level66Shift } from './66-shift';
+import { level67Ram } from './67-ram';
+import { level68Delay } from './68-delay';
+import { level69TheProductOfNibbles } from './69-the-product-of-nibbles';
+import { level70Stack } from './70-stack';
+import { level71TheLab } from './71-the-lab';
+import { level72Divide } from './72-divide';
+import { level73PushAndPop } from './73-push-and-pop';
+import { level74Functions } from './74-functions';
+// Assembly Challenges
+import { level75AiShowdown } from './75-ai-showdown';
+import { level76RobotRacing } from './76-robot-racing';
+import { level77UnseenFruit } from './77-unseen-fruit';
+import { level78DeliciousOrder } from './78-delicious-order';
+import { level79DancingMachine } from './79-dancing-machine';
+import { level80TowerOfAlloy } from './80-tower-of-alloy';
+import { level81PlanetNames } from './81-planet-names';
+import { level82Waterworld } from './82-waterworld';
 
 export const levels: Level[] = [
   // Basic Logic
@@ -116,4 +148,36 @@ export const levels: Level[] = [
   level51StorageCracker,
   level52SpacialInvasion,
   level53TheMaze,
+  // CPU Architecture 2
+  level54Xor,
+  level55ByteConstant,
+  level56ByteXor,
+  level57Equality,
+  level58UnsignedLess,
+  level59SignedLess,
+  level60WideInstructions,
+  level61WireSpaghetti,
+  level62Opcodes,
+  level63ImmediateValuesLeg,
+  level64Conditionals,
+  // Functions
+  level65HexRacer,
+  level66Shift,
+  level67Ram,
+  level68Delay,
+  level69TheProductOfNibbles,
+  level70Stack,
+  level71TheLab,
+  level72Divide,
+  level73PushAndPop,
+  level74Functions,
+  // Assembly Challenges
+  level75AiShowdown,
+  level76RobotRacing,
+  level77UnseenFruit,
+  level78DeliciousOrder,
+  level79DancingMachine,
+  level80TowerOfAlloy,
+  level81PlanetNames,
+  level82Waterworld,
 ];
