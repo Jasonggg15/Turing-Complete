@@ -11,6 +11,8 @@ import {
   PIN_RADIUS,
 } from './GateRenderer';
 import type { Level } from '../levels/Level';
+import { soundManager } from './SoundManager';
+import type { SerializedCircuit } from '../engine/types';
 
 type InteractionState = 'idle' | 'placing' | 'dragging' | 'wiring';
 
@@ -18,6 +20,8 @@ interface Callbacks {
   onCircuitChange: () => void;
   onSelectGate: (id: string | null) => void;
   requestRender: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
 }
 
 export class Interaction {
@@ -32,6 +36,8 @@ export class Interaction {
   private dragOffset = { x: 0, y: 0 };
   private placingGhost: Position | null = null;
   private spaceHeld = false;
+  private undoStack: SerializedCircuit[] = [];
+  private redoStack: SerializedCircuit[] = [];
 
   private readonly handleMouseDown: (e: MouseEvent) => void;
   private readonly handleMouseMove: (e: MouseEvent) => void;
@@ -99,6 +105,34 @@ export class Interaction {
 
   getPlacingGhost(): Position | null {
     return this.placingGhost;
+  }
+
+  private pushUndo(): void {
+    this.undoStack.push(this.circuit.serialize());
+    if (this.undoStack.length > 50) this.undoStack.shift();
+    this.redoStack.length = 0;
+  }
+
+  undo(): void {
+    const snapshot = this.undoStack.pop();
+    if (!snapshot) return;
+    this.redoStack.push(this.circuit.serialize());
+    this.restoreCircuit(snapshot);
+  }
+
+  redo(): void {
+    const snapshot = this.redoStack.pop();
+    if (!snapshot) return;
+    this.undoStack.push(this.circuit.serialize());
+    this.restoreCircuit(snapshot);
+  }
+
+  private restoreCircuit(data: SerializedCircuit): void {
+    this.circuit.loadFrom(data);
+    this.selectedGateId = null;
+    this.callbacks.onSelectGate(null);
+    this.callbacks.onCircuitChange();
+    this.callbacks.requestRender();
   }
 
   private screenToWorld(sx: number, sy: number): Position {
@@ -216,7 +250,9 @@ export class Interaction {
         x: snapToGrid(world.x),
         y: snapToGrid(world.y),
       };
+      this.pushUndo();
       this.circuit.addGate(this.selectedTool, snapped);
+      soundManager.gatePlace();
       this.callbacks.onCircuitChange();
       this.callbacks.requestRender();
       return;
@@ -332,10 +368,13 @@ export class Interaction {
         pinHit.gate.id !== this.wiringFrom.gate.id
       ) {
         try {
+          this.pushUndo();
           this.circuit.addWire(this.wiringFrom.pin, pinHit.pin);
+          soundManager.wireConnect();
           this.callbacks.onCircuitChange();
         } catch {
-          // already connected or invalid
+          // already connected or invalid – revert the undo snapshot
+          this.undoStack.pop();
         }
       }
       this.wiringFrom = null;
@@ -355,6 +394,7 @@ export class Interaction {
 
     const wireHit = this.findWireAt(world);
     if (wireHit) {
+      this.pushUndo();
       this.circuit.removeWire(wireHit.id);
       this.callbacks.onCircuitChange();
       this.callbacks.requestRender();
@@ -367,6 +407,7 @@ export class Interaction {
       gateHit.type !== GateType.INPUT &&
       gateHit.type !== GateType.OUTPUT
     ) {
+      this.pushUndo();
       if (this.selectedGateId === gateHit.id) {
         this.selectedGateId = null;
         this.callbacks.onSelectGate(null);
@@ -416,12 +457,23 @@ export class Interaction {
         gate.type !== GateType.INPUT &&
         gate.type !== GateType.OUTPUT
       ) {
+        this.pushUndo();
         this.circuit.removeGate(this.selectedGateId);
         this.selectedGateId = null;
         this.callbacks.onSelectGate(null);
         this.callbacks.onCircuitChange();
         this.callbacks.requestRender();
       }
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyZ') {
+      e.preventDefault();
+      if (e.shiftKey) {
+        this.redo();
+      } else {
+        this.undo();
+      }
+      return;
     }
 
     if (e.code === 'Escape') {

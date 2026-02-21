@@ -116,6 +116,27 @@ export class Circuit {
     return { gates, wires };
   }
 
+  loadFrom(data: SerializedCircuit): void {
+    this.gates.clear();
+    this.wires.clear();
+    this.positions.clear();
+
+    for (const sg of data.gates) {
+      const gate = createGate({ type: sg.type, id: sg.id, label: sg.label });
+      this.gates.set(gate.id, gate);
+      this.positions.set(gate.id, { ...sg.position });
+    }
+
+    for (const sw of data.wires) {
+      const fromPin = this.findPinById(sw.from);
+      const toPin = this.findPinById(sw.to);
+      if (fromPin && toPin) {
+        const wire = new Wire(fromPin, toPin, sw.id);
+        this.wires.set(wire.id, wire);
+      }
+    }
+  }
+
   static deserialize(data: SerializedCircuit): Circuit {
     const circuit = new Circuit();
 

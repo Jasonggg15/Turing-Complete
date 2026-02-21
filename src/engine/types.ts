@@ -11,6 +11,8 @@ export enum GateType {
   INPUT = 'INPUT',
   OUTPUT = 'OUTPUT',
   D_FLIPFLOP = 'D_FLIPFLOP',
+  HALF_ADDER = 'HALF_ADDER',
+  FULL_ADDER = 'FULL_ADDER',
 }
 
 export interface Pin {

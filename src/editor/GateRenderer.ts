@@ -23,6 +23,12 @@ function getGateDimensions(gate: Gate): { width: number; height: number } {
   if (gate.type === GateType.INPUT || gate.type === GateType.OUTPUT) {
     return { width: IO_GATE_WIDTH, height: IO_GATE_HEIGHT };
   }
+  if (gate.type === GateType.HALF_ADDER) {
+    return { width: 140, height: 70 };
+  }
+  if (gate.type === GateType.FULL_ADDER) {
+    return { width: 140, height: 80 };
+  }
   return { width: GATE_WIDTH, height: GATE_HEIGHT };
 }
 
@@ -61,12 +67,16 @@ export function drawGate(
   const { width, height } = getGateDimensions(gate);
 
   // Gate body
+  const isCompoundGate =
+    gate.type === GateType.HALF_ADDER || gate.type === GateType.FULL_ADDER;
   ctx.fillStyle =
     gate.type === GateType.INPUT
       ? COLORS.inputGateFill
       : gate.type === GateType.OUTPUT
         ? COLORS.outputGateFill
-        : COLORS.gateFill;
+        : isCompoundGate
+          ? '#2d3a44'
+          : COLORS.gateFill;
   ctx.strokeStyle = selected ? COLORS.selectedBorder : COLORS.gateBorder;
   ctx.lineWidth = selected ? 2.5 : 1.5;
 
@@ -99,7 +109,11 @@ export function drawGate(
   const displayLabel =
     gate.type === GateType.INPUT || gate.type === GateType.OUTPUT
       ? gate.label
-      : gate.type;
+      : gate.type === GateType.HALF_ADDER
+        ? 'HALF ADD'
+        : gate.type === GateType.FULL_ADDER
+          ? 'FULL ADD'
+          : gate.type;
   ctx.fillText(displayLabel, pos.x + width / 2, pos.y + height / 2);
 
   // Pins
@@ -117,5 +131,38 @@ export function drawGate(
     ctx.strokeStyle = COLORS.gateBorder;
     ctx.lineWidth = 1;
     ctx.stroke();
+  }
+
+  // Pin labels for compound gates
+  if (isCompoundGate) {
+    ctx.font = '9px monospace';
+    ctx.fillStyle = '#94a3b8';
+
+    const inputLabels =
+      gate.type === GateType.HALF_ADDER
+        ? ['a', 'b']
+        : ['a', 'b', 'cin'];
+    const outputLabels =
+      gate.type === GateType.HALF_ADDER
+        ? ['sum', 'carry']
+        : ['sum', 'cout'];
+
+    for (let i = 0; i < gate.inputs.length; i++) {
+      const pin = gate.inputs[i];
+      if (!pin) continue;
+      const pinPos = getPinPosition(gate, pin, pos);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(inputLabels[i] ?? '', pinPos.x + PIN_RADIUS + 3, pinPos.y);
+    }
+
+    for (let i = 0; i < gate.outputs.length; i++) {
+      const pin = gate.outputs[i];
+      if (!pin) continue;
+      const pinPos = getPinPosition(gate, pin, pos);
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(outputLabels[i] ?? '', pinPos.x - PIN_RADIUS - 3, pinPos.y);
+    }
   }
 }

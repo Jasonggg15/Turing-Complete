@@ -6,6 +6,7 @@ export const level20HalfAdder: Level = {
   name: 'Half Adder',
   section: 'Arithmetic and Memory',
   prerequisites: ['16-counting-signals'],
+  unlocksComponent: { name: 'Half Adder', gateType: GateType.HALF_ADDER },
   description:
     'Build a half adder that adds two single bits. It produces a sum bit and a carry bit.',
   availableGates: [

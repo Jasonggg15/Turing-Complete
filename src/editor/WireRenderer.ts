@@ -3,6 +3,13 @@ import type { Wire } from '../engine/Wire';
 import type { Position } from '../engine/types';
 import { getPinPosition } from './GateRenderer';
 
+/** Animated dash offset for signal flow; incremented externally each frame. */
+let flowOffset = 0;
+
+export function advanceFlowOffset(): void {
+  flowOffset = (flowOffset + 0.6) % 20;
+}
+
 export function drawWire(
   ctx: CanvasRenderingContext2D,
   circuit: Circuit,
@@ -29,6 +36,8 @@ export function drawWire(
   const value = simulationResult
     ? simulationResult.get(wire.fromPinId)
     : fromPin.value;
+
+  // Base wire
   ctx.strokeStyle = value ? '#22c55e' : '#6b7280';
   ctx.lineWidth = 2.5;
   ctx.setLineDash([]);
@@ -37,6 +46,29 @@ export function drawWire(
   ctx.moveTo(from.x, from.y);
   ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
   ctx.stroke();
+
+  // Glow effect for active wires
+  if (value) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(34, 197, 94, 0.25)';
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
+    ctx.stroke();
+
+    // Animated flow dashes on active wires
+    ctx.strokeStyle = 'rgba(34, 197, 94, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 14]);
+    ctx.lineDashOffset = -flowOffset;
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
 }
 
 export function drawWirePreview(

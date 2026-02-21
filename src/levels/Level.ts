@@ -63,4 +63,6 @@ export interface Level {
   availableInstructions?: string[];
   /** For programming levels: test cases with input/output values. */
   programTestCases?: ProgramTestCase[];
+  /** Completing this level unlocks a reusable compound component. */
+  unlocksComponent?: { name: string; gateType: GateType };
 }

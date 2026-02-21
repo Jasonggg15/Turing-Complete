@@ -2,6 +2,7 @@ import { GateType } from '../engine/types';
 
 interface ToolbarProps {
   availableGates: GateType[];
+  unlockedComponents?: GateType[];
   selectedTool: GateType | null;
   onSelectTool: (tool: GateType | null) => void;
   onVerify: () => void;
@@ -33,8 +34,21 @@ const actionStyle: React.CSSProperties = {
   background: '#2d2d44',
 };
 
+const componentButtonStyle: React.CSSProperties = {
+  ...buttonBase,
+  borderColor: '#2d6a4f',
+  background: '#1a2e28',
+};
+
+const componentSelectedStyle: React.CSSProperties = {
+  ...componentButtonStyle,
+  background: '#2d6a4f',
+  borderColor: '#2d6a4f',
+};
+
 export default function Toolbar({
   availableGates,
+  unlockedComponents,
   selectedTool,
   onSelectTool,
   onVerify,
@@ -81,6 +95,31 @@ export default function Toolbar({
           {gate}
         </button>
       ))}
+
+      {unlockedComponents && unlockedComponents.length > 0 && (
+        <>
+          <div
+            style={{
+              width: '1px',
+              height: '28px',
+              background: '#4a4a6a',
+              margin: '0 4px',
+            }}
+          />
+          <span style={{ color: '#2d6a4f', fontSize: '11px', marginRight: '4px' }}>
+            Components:
+          </span>
+          {unlockedComponents.map((gate) => (
+            <button
+              key={gate}
+              style={selectedTool === gate ? componentSelectedStyle : componentButtonStyle}
+              onClick={() => onSelectTool(selectedTool === gate ? null : gate)}
+            >
+              {gate === GateType.HALF_ADDER ? 'HALF ADD' : gate === GateType.FULL_ADDER ? 'FULL ADD' : gate}
+            </button>
+          ))}
+        </>
+      )}
 
       <div
         style={{

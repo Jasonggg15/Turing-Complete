@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { Circuit } from '../engine/Circuit';
 import { GateType } from '../engine/types';
@@ -11,10 +11,12 @@ import {
   loadCircuit,
   completeLevel,
   isLevelUnlocked,
+  isLevelCompleted,
   clearOutOfOrderProgress,
 } from '../save/SaveManager';
 import Canvas from '../editor/Canvas';
 import Toolbar from '../editor/Toolbar';
+import { soundManager } from '../editor/SoundManager';
 
 function createInitialCircuit(
   levelId: string,
@@ -77,6 +79,17 @@ export default function Play() {
     );
   }
 
+  // Compute unlocked compound components from completed levels
+  const unlockedComponents = useMemo(() => {
+    const components: GateType[] = [];
+    for (const l of levels) {
+      if (l.unlocksComponent && isLevelCompleted(l.id)) {
+        components.push(l.unlocksComponent.gateType);
+      }
+    }
+    return components;
+  }, []);
+
   if (!level) return <Navigate to="/levels" replace />;
   if (locked) return <Navigate to="/levels" replace />;
 
@@ -120,7 +133,10 @@ export default function Play() {
     setVerifyResult(result);
     if (result.passed) {
       completeLevel(level.id);
+      soundManager.levelComplete();
       setShowSuccess(true);
+    } else {
+      soundManager.verifyFail();
     }
   }, [level]);
 
@@ -204,6 +220,7 @@ export default function Play() {
     >
       <Toolbar
         availableGates={level.availableGates}
+        unlockedComponents={unlockedComponents}
         selectedTool={selectedTool}
         onSelectTool={setSelectedTool}
         onVerify={handleVerify}
@@ -357,8 +374,14 @@ export default function Play() {
             <tbody>
               {level.truthTable.map((entry, i) => {
                 const result = verifyResult?.results[i];
+                const rowFail = result && !result.pass;
                 return (
-                  <tr key={i}>
+                  <tr
+                    key={i}
+                    style={{
+                      background: rowFail ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
+                    }}
+                  >
                     {level.inputs.map((p) => (
                       <td
                         key={p.name}
@@ -386,9 +409,9 @@ export default function Play() {
                         }}
                       >
                         {entry.outputs[p.name] ? '1' : '0'}
-                        {result && !result.pass && (
-                          <span style={{ color: '#ef4444', marginLeft: '4px' }}>
-                            ({result.outputs[p.name] ? '1' : '0'})
+                        {rowFail && (
+                          <span style={{ color: '#f87171', marginLeft: '4px', fontSize: '0.8rem' }}>
+                            got {result.outputs[p.name] ? '1' : '0'}
                           </span>
                         )}
                       </td>

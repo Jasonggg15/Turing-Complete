@@ -200,6 +200,34 @@ export class DFlipFlopGate extends Gate implements Stateful {
   }
 }
 
+export class HalfAdderGate extends Gate {
+  constructor(id?: string) {
+    super(GateType.HALF_ADDER, ['a', 'b'], ['sum', 'carry'], id);
+  }
+
+  evaluate(): void {
+    const a = this.readInput('a');
+    const b = this.readInput('b');
+    this.writeOutput('sum', a !== b);
+    this.writeOutput('carry', a && b);
+  }
+}
+
+export class FullAdderGate extends Gate {
+  constructor(id?: string) {
+    super(GateType.FULL_ADDER, ['a', 'b', 'cin'], ['sum', 'cout'], id);
+  }
+
+  evaluate(): void {
+    const a = this.readInput('a');
+    const b = this.readInput('b');
+    const cin = this.readInput('cin');
+    const axorb = a !== b;
+    this.writeOutput('sum', axorb !== cin);
+    this.writeOutput('cout', (a && b) || (axorb && cin));
+  }
+}
+
 export function createGate(config: GateConfig): Gate {
   switch (config.type) {
     case GateType.NAND:
@@ -222,5 +250,9 @@ export function createGate(config: GateConfig): Gate {
       return new OutputGate(config.label ?? '', config.id);
     case GateType.D_FLIPFLOP:
       return new DFlipFlopGate(config.id);
+    case GateType.HALF_ADDER:
+      return new HalfAdderGate(config.id);
+    case GateType.FULL_ADDER:
+      return new FullAdderGate(config.id);
   }
 }

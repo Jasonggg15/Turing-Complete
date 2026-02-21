@@ -25,19 +25,17 @@ export function drawGrid(
   const endY =
     Math.ceil((height - offsetY) / zoom / GRID_SIZE) * GRID_SIZE;
 
-  ctx.strokeStyle = '#16213e';
-  ctx.lineWidth = 1 / zoom;
+  // Draw subtle dot grid
+  const dotRadius = 1 / zoom;
+  ctx.fillStyle = '#1e2a4a';
 
-  ctx.beginPath();
   for (let x = startX; x <= endX; x += GRID_SIZE) {
-    const sx = x * zoom + offsetX;
-    ctx.moveTo(sx, 0);
-    ctx.lineTo(sx, height);
+    for (let y = startY; y <= endY; y += GRID_SIZE) {
+      const sx = x * zoom + offsetX;
+      const sy = y * zoom + offsetY;
+      ctx.beginPath();
+      ctx.arc(sx, sy, dotRadius, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
-  for (let y = startY; y <= endY; y += GRID_SIZE) {
-    const sy = y * zoom + offsetY;
-    ctx.moveTo(0, sy);
-    ctx.lineTo(width, sy);
-  }
-  ctx.stroke();
 }
