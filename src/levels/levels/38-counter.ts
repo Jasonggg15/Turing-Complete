@@ -45,5 +45,5 @@ export const level38Counter: Level = {
     'Bit 1 toggles when bit 0 is 1 (XOR with B0)',
     'Bit 2 toggles when both B0 and B1 are 1 (XOR with B0 AND B1)',
   ],
-  unlocks: [],
+  unlocks: ['39-arithmetic-engine'],
 };

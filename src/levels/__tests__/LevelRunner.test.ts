@@ -1340,7 +1340,8 @@ describe('LevelRunner', () => {
       for (const level of levels) {
         const hasTruthTable = level.truthTable && level.truthTable.length > 0;
         const hasTestSequence = (level as any).testSequence && (level as any).testSequence.length > 0;
-        expect(hasTruthTable || hasTestSequence).toBe(true);
+        const hasProgramTestCases = level.programTestCases && level.programTestCases.length > 0;
+        expect(hasTruthTable || hasTestSequence || hasProgramTestCases).toBe(true);
         if (hasTruthTable) {
           for (const entry of level.truthTable) {
             for (const input of level.inputs) {
@@ -1359,8 +1360,10 @@ describe('LevelRunner', () => {
         expect(level.id).toBeTruthy();
         expect(level.name).toBeTruthy();
         expect(level.description).toBeTruthy();
-        expect(level.inputs.length).toBeGreaterThan(0);
-        expect(level.outputs.length).toBeGreaterThan(0);
+        if (level.type !== 'programming') {
+          expect(level.inputs.length).toBeGreaterThan(0);
+          expect(level.outputs.length).toBeGreaterThan(0);
+        }
       }
     });
 
@@ -1376,7 +1379,7 @@ describe('LevelRunner', () => {
     });
 
     it('contains exactly 27 levels', () => {
-      expect(levels).toHaveLength(38);
+      expect(levels).toHaveLength(53);
     });
   });
 });

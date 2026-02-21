@@ -39,6 +39,23 @@ import { level35SavingGracefully } from './35-saving-gracefully';
 import { level36SavingBytes } from './36-saving-bytes';
 import { level37LittleBox } from './37-little-box';
 import { level38Counter } from './38-counter';
+// CPU Architecture
+import { level39ArithmeticEngine } from './39-arithmetic-engine';
+import { level40Registers } from './40-registers';
+import { level41ComponentFactory } from './41-component-factory';
+import { level42InstructionDecoder } from './42-instruction-decoder';
+import { level43Calculations } from './43-calculations';
+import { level44Program } from './44-program';
+import { level45Conditions } from './45-conditions';
+import { level46ImmediateValues } from './46-immediate-values';
+import { level47TuringComplete } from './47-turing-complete';
+// Programming
+import { level48Add5 } from './48-add-5';
+import { level49CalibratingLaserCannons } from './49-calibrating-laser-cannons';
+import { level50MaskingTime } from './50-masking-time';
+import { level51StorageCracker } from './51-storage-cracker';
+import { level52SpacialInvasion } from './52-spacial-invasion';
+import { level53TheMaze } from './53-the-maze';
 
 export const levels: Level[] = [
   // Basic Logic
@@ -82,4 +99,21 @@ export const levels: Level[] = [
   level36SavingBytes,
   level37LittleBox,
   level38Counter,
+  // CPU Architecture
+  level39ArithmeticEngine,
+  level40Registers,
+  level41ComponentFactory,
+  level42InstructionDecoder,
+  level43Calculations,
+  level44Program,
+  level45Conditions,
+  level46ImmediateValues,
+  level47TuringComplete,
+  // Programming
+  level48Add5,
+  level49CalibratingLaserCannons,
+  level50MaskingTime,
+  level51StorageCracker,
+  level52SpacialInvasion,
+  level53TheMaze,
 ];

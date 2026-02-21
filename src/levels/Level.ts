@@ -10,7 +10,7 @@ export type LevelSection =
   | 'Functions'
   | 'Assembly Challenges';
 
-export type LevelType = 'circuit' | 'minigame';
+export type LevelType = 'circuit' | 'programming';
 
 export interface PinDefinition {
   name: string;
@@ -24,6 +24,13 @@ export interface TruthTableEntry {
 export interface TestSequenceStep {
   inputs: Record<string, boolean>;
   outputs: Record<string, boolean>;
+}
+
+export interface ProgramTestCase {
+  name: string;
+  input: number[];
+  expectedOutput: number[];
+  initialMemory?: Record<number, number>;
 }
 
 export interface LevelResult {
@@ -52,4 +59,8 @@ export interface Level {
   hints?: string[];
   unlocks?: string[];
   maxGates?: number;
+  /** For programming levels: available assembly instructions. */
+  availableInstructions?: string[];
+  /** For programming levels: test cases with input/output values. */
+  programTestCases?: ProgramTestCase[];
 }
