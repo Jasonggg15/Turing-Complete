@@ -156,7 +156,7 @@ export default function Home() {
             zIndex: 2,
           }}
         >
-          Made by Jason, 石像 🗿 & Claude Code
+          Made by Jason, Moai & Claude Code · Powered by Claude Opus 4.6
         </div>
 
         {/* Footer — bottom-right version */}

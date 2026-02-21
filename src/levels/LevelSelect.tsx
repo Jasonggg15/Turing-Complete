@@ -234,26 +234,37 @@ export default function LevelSelect() {
           {/* Section banners */}
           {banners.map((b, i) => (
             <g key={`banner-${i}`}>
+              <line
+                x1={SVG_WIDTH / 2 - 160}
+                y1={b.y + 10}
+                x2={SVG_WIDTH / 2 + 160}
+                y2={b.y + 10}
+                stroke="#D4A843"
+                strokeWidth={1}
+                opacity={0.35}
+              />
               <text
                 x={SVG_WIDTH / 2}
                 y={b.y}
                 textAnchor="middle"
                 fill="#D4A843"
-                fontSize={12}
+                fontSize={16}
+                fontWeight="bold"
                 fontFamily="inherit"
-                letterSpacing="4px"
-                opacity={0.85}
+                letterSpacing="6px"
+                opacity={1}
+                filter="url(#glow-gold)"
               >
                 {b.label}
               </text>
               <line
-                x1={SVG_WIDTH / 2 - 120}
-                y1={b.y + 8}
-                x2={SVG_WIDTH / 2 + 120}
-                y2={b.y + 8}
+                x1={SVG_WIDTH / 2 - 160}
+                y1={b.y - 12}
+                x2={SVG_WIDTH / 2 + 160}
+                y2={b.y - 12}
                 stroke="#D4A843"
                 strokeWidth={1}
-                opacity={0.25}
+                opacity={0.35}
               />
             </g>
           ))}
