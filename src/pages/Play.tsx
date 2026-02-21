@@ -189,6 +189,7 @@ export default function Play() {
         onSelectTool={setSelectedTool}
         onVerify={handleVerify}
         onClear={handleClear}
+        onBack={() => navigate('/levels')}
       />
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>

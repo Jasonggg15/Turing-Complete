@@ -6,6 +6,7 @@ interface ToolbarProps {
   onSelectTool: (tool: GateType | null) => void;
   onVerify: () => void;
   onClear: () => void;
+  onBack?: () => void;
 }
 
 const buttonBase: React.CSSProperties = {
@@ -38,6 +39,7 @@ export default function Toolbar({
   onSelectTool,
   onVerify,
   onClear,
+  onBack,
 }: ToolbarProps) {
   return (
     <div
@@ -51,6 +53,25 @@ export default function Toolbar({
         flexWrap: 'wrap',
       }}
     >
+      {onBack && (
+        <>
+          <button
+            style={{ ...actionStyle, borderColor: '#94a3b8', color: '#94a3b8' }}
+            onClick={onBack}
+          >
+            ← Back
+          </button>
+          <div
+            style={{
+              width: '1px',
+              height: '28px',
+              background: '#4a4a6a',
+              margin: '0 4px',
+            }}
+          />
+        </>
+      )}
+
       {availableGates.map((gate) => (
         <button
           key={gate}
