@@ -1,4 +1,5 @@
 import { GateType } from '../engine/types';
+import { WIRE_COLORS, WIRE_COLOR_NAMES } from './WireRenderer';
 
 interface ToolbarProps {
   availableGates: GateType[];
@@ -8,6 +9,8 @@ interface ToolbarProps {
   onVerify: () => void;
   onClear: () => void;
   onBack?: () => void;
+  wireColor?: string;
+  onWireColorChange?: (color: string) => void;
 }
 
 const buttonBase: React.CSSProperties = {
@@ -56,6 +59,8 @@ export default function Toolbar({
   onVerify,
   onClear,
   onBack,
+  wireColor = 'green',
+  onWireColorChange,
 }: ToolbarProps) {
   return (
     <div
@@ -120,6 +125,46 @@ export default function Toolbar({
               {gate === GateType.HALF_ADDER ? 'HALF ADD' : gate === GateType.FULL_ADDER ? 'FULL ADD' : gate}
             </button>
           ))}
+        </>
+      )}
+
+      {onWireColorChange && (
+        <>
+          <div
+            style={{
+              width: '1px',
+              height: '28px',
+              background: '#4a4a6a',
+              margin: '0 4px',
+            }}
+          />
+          <button
+            style={{
+              ...buttonBase,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 10px',
+            }}
+            onClick={() => {
+              const idx = WIRE_COLOR_NAMES.indexOf(wireColor);
+              const next = WIRE_COLOR_NAMES[(idx + 1) % WIRE_COLOR_NAMES.length]!;
+              onWireColorChange(next);
+            }}
+            title={`Wire color: ${wireColor} (click to cycle)`}
+          >
+            <span
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: '50%',
+                background: (WIRE_COLORS[wireColor] ?? WIRE_COLORS['green']!).hex,
+                display: 'inline-block',
+                border: '1px solid #6a6a8a',
+              }}
+            />
+            <span style={{ fontSize: '11px' }}>Wire</span>
+          </button>
         </>
       )}
 

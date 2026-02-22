@@ -22,6 +22,7 @@ interface Callbacks {
   requestRender: () => void;
   onUndo?: () => void;
   onRedo?: () => void;
+  onShowColorPicker?: (wireId: string, screenX: number, screenY: number) => void;
 }
 
 export class Interaction {
@@ -36,6 +37,7 @@ export class Interaction {
   private dragOffset = { x: 0, y: 0 };
   private placingGhost: Position | null = null;
   private spaceHeld = false;
+  private wireColor: string = 'green';
   private undoStack: SerializedCircuit[] = [];
   private redoStack: SerializedCircuit[] = [];
 
@@ -109,6 +111,14 @@ export class Interaction {
 
   getPlacingGhost(): Position | null {
     return this.placingGhost;
+  }
+
+  setWireColor(color: string): void {
+    this.wireColor = color;
+  }
+
+  getWireColor(): string {
+    return this.wireColor;
   }
 
   private pushUndo(): void {
@@ -373,7 +383,7 @@ export class Interaction {
       ) {
         try {
           this.pushUndo();
-          this.circuit.addWire(this.wiringFrom.pin, pinHit.pin);
+          this.circuit.addWire(this.wiringFrom.pin, pinHit.pin, this.wireColor);
           soundManager.wireConnect();
           this.callbacks.onCircuitChange();
         } catch {
@@ -398,10 +408,9 @@ export class Interaction {
 
     const wireHit = this.findWireAt(world);
     if (wireHit) {
-      this.pushUndo();
-      this.circuit.removeWire(wireHit.id);
-      this.callbacks.onCircuitChange();
-      this.callbacks.requestRender();
+      if (this.callbacks.onShowColorPicker) {
+        this.callbacks.onShowColorPicker(wireHit.id, e.clientX, e.clientY);
+      }
       return;
     }
 

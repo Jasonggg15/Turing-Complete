@@ -88,6 +88,7 @@ export default function Play() {
     boolean
   > | null>(null);
   const [renderVersion, setRenderVersion] = useState(0);
+  const [wireColor, setWireColor] = useState('green');
 
   // Compute unlocked compound components from completed levels
   const unlockedComponents = useMemo(() => {
@@ -192,6 +193,8 @@ export default function Play() {
         onVerify={handleVerify}
         onClear={handleClear}
         onBack={() => navigate('/levels')}
+        wireColor={wireColor}
+        onWireColorChange={setWireColor}
       />
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
@@ -211,6 +214,8 @@ export default function Play() {
             renderVersion={renderVersion}
             level={level}
             simulationResult={simulationResult}
+            wireColor={wireColor}
+            onWireColorChange={setWireColor}
           />
 
           {showSuccess && (

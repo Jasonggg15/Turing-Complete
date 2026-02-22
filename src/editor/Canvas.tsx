@@ -8,6 +8,7 @@ import { drawGrid } from './Grid';
 import { drawGate, getGateBounds } from './GateRenderer';
 import { drawWire, drawWirePreview, advanceFlowOffset } from './WireRenderer';
 import { Interaction } from './Interaction';
+import WireColorPicker from './WireColorPicker';
 import type { Gate } from '../engine/Gate';
 
 interface CanvasProps {
@@ -19,6 +20,8 @@ interface CanvasProps {
   renderVersion: number;
   level?: Level;
   simulationResult?: Map<string, boolean> | null;
+  wireColor?: string;
+  onWireColorChange?: (color: string) => void;
 }
 
 export default function Canvas({
@@ -30,6 +33,8 @@ export default function Canvas({
   renderVersion,
   level,
   simulationResult: simulationResultProp,
+  wireColor = 'green',
+  onWireColorChange,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cameraRef = useRef<Camera>({ offsetX: 100, offsetY: 100, zoom: 1 });
@@ -41,6 +46,7 @@ export default function Canvas({
   const [hoveredGate, setHoveredGate] = useState<Gate | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const [zoom, setZoom] = useState(1);
+  const [colorPicker, setColorPicker] = useState<{ wireId: string; x: number; y: number } | null>(null);
 
   const render = useCallback(() => {
     const canvas = canvasRef.current;
@@ -119,6 +125,14 @@ export default function Canvas({
         onCircuitChange,
         onSelectGate,
         requestRender,
+        onShowColorPicker: (wireId, screenX, screenY) => {
+          const rect = canvas.getBoundingClientRect();
+          setColorPicker({
+            wireId,
+            x: screenX - rect.left,
+            y: screenY - rect.top,
+          });
+        },
       },
       level,
       undoStackRef.current,
@@ -136,6 +150,10 @@ export default function Canvas({
     interactionRef.current?.setSelectedTool(selectedTool);
     requestRender();
   }, [selectedTool, requestRender]);
+
+  useEffect(() => {
+    interactionRef.current?.setWireColor(wireColor);
+  }, [wireColor]);
 
   useEffect(() => {
     interactionRef.current?.setSelectedGateId(selectedGateId);
@@ -207,6 +225,29 @@ export default function Canvas({
     },
     [circuit],
   );
+
+  const handleColorSelect = useCallback((wireId: string, color: string) => {
+    const wire = circuit.getWires().find(w => w.id === wireId);
+    if (wire) {
+      wire.color = color;
+      interactionRef.current?.setWireColor(color);
+      onWireColorChange?.(color);
+      onCircuitChange();
+      requestRender();
+    }
+    setColorPicker(null);
+  }, [circuit, onCircuitChange, onWireColorChange, requestRender]);
+
+  const handleDeleteWire = useCallback((wireId: string) => {
+    circuit.removeWire(wireId);
+    onCircuitChange();
+    requestRender();
+    setColorPicker(null);
+  }, [circuit, onCircuitChange, requestRender]);
+
+  const handleCloseColorPicker = useCallback(() => {
+    setColorPicker(null);
+  }, []);
 
   const truthTableForGate = useCallback((gate: Gate): string[][] | null => {
     const type = gate.type;
@@ -296,6 +337,23 @@ export default function Canvas({
               </tbody>
             </table>
           </div>
+        );
+      })()}
+
+      {/* Wire color picker */}
+      {colorPicker && (() => {
+        const wire = circuit.getWires().find(w => w.id === colorPicker.wireId);
+        if (!wire) return null;
+        return (
+          <WireColorPicker
+            wireId={colorPicker.wireId}
+            currentColor={wire.color}
+            x={colorPicker.x}
+            y={colorPicker.y}
+            onSelectColor={handleColorSelect}
+            onDeleteWire={handleDeleteWire}
+            onClose={handleCloseColorPicker}
+          />
         );
       })()}
     </div>

@@ -6,8 +6,9 @@ export class Wire {
   readonly toPinId: string;
   readonly fromGateId: string;
   readonly toGateId: string;
+  color: string;
 
-  constructor(from: Pin, to: Pin, id?: string) {
+  constructor(from: Pin, to: Pin, id?: string, color?: string) {
     if (from.direction !== 'output') {
       throw new Error(
         `Wire source must be an output pin, got ${from.direction} pin "${from.id}"`,
@@ -24,5 +25,6 @@ export class Wire {
     this.toPinId = to.id;
     this.fromGateId = from.gateId;
     this.toGateId = to.gateId;
+    this.color = color ?? 'green';
   }
 }

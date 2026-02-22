@@ -45,6 +45,7 @@ export interface SerializedWire {
   id: string;
   from: string;
   to: string;
+  color?: string;
 }
 
 export interface SerializedCircuit {
