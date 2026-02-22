@@ -8,13 +8,7 @@ export const level09XorGate: Level = {
   prerequisites: ['08-second-tick'],
   description:
     'Create the XOR gate - like OR except outputs false if both inputs are true.',
-  availableGates: [
-    GateType.NAND,
-    GateType.NOT,
-    GateType.AND,
-    GateType.OR,
-    GateType.NOR,
-  ],
+  availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],
   outputs: [{ name: 'Output' }],
   truthTable: [

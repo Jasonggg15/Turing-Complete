@@ -7,14 +7,7 @@ export const level10BiggerOrGate: Level = {
   section: 'Basic Logic',
   prerequisites: ['09-xor-gate'],
   description: 'Create a three-input version of the OR gate.',
-  availableGates: [
-    GateType.NAND,
-    GateType.NOT,
-    GateType.AND,
-    GateType.OR,
-    GateType.NOR,
-    GateType.XOR,
-  ],
+  availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR, GateType.XOR],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }, { name: 'Input 3' }],
   outputs: [{ name: 'Output' }],
   truthTable: [

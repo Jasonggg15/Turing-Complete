@@ -9,13 +9,13 @@ export const level02NandGate: Level = {
   description:
     'Figure out the behavior of the NAND gate by setting the output correctly for each input combination.',
   availableGates: [GateType.NAND],
-  inputs: [{ name: 'Input One' }, { name: 'Input Two' }],
+  inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],
   outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { 'Input One': false, 'Input Two': false }, outputs: { Output: true } },
-    { inputs: { 'Input One': false, 'Input Two': true }, outputs: { Output: true } },
-    { inputs: { 'Input One': true, 'Input Two': false }, outputs: { Output: true } },
-    { inputs: { 'Input One': true, 'Input Two': true }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': false, 'Input 2': true }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': true }, outputs: { Output: false } },
   ],
   hints: ['Place a NAND gate and connect both inputs through it'],
 };

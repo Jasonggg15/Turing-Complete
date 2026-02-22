@@ -7,7 +7,7 @@ export const level27LogicEngine: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['24-signed-negator', '26-3-bit-decoder'],
   description:
-    'Create a logic engine that can perform the selected operation on two data inputs using a 2-bit operation code: 00=OR, 01=NOR, 10=AND, 11=NAND.',
+    'Create a logic engine that can perform the selected operation on two data inputs using a 2-bit operation code: 00=OR, 01=NAND, 10=NOR, 11=AND.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
@@ -42,27 +42,27 @@ export const level27LogicEngine: Level = {
       inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': false, 'Op 0': false },
       outputs: { Output: true },
     },
-    // Op=01 (NOR): Output = NOT(Input 1 OR Input 2)
+    // Op=01 (NAND): Output = NOT(Input 1 AND Input 2)
     {
       inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': false, 'Op 0': true },
       outputs: { Output: true },
     },
     {
       inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': false, 'Op 0': true },
-      outputs: { Output: false },
+      outputs: { Output: true },
     },
     {
       inputs: { 'Input 1': true, 'Input 2': false, 'Op 1': false, 'Op 0': true },
-      outputs: { Output: false },
+      outputs: { Output: true },
     },
     {
       inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': false, 'Op 0': true },
       outputs: { Output: false },
     },
-    // Op=10 (AND): Output = Input 1 AND Input 2
+    // Op=10 (NOR): Output = NOT(Input 1 OR Input 2)
     {
       inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': true, 'Op 0': false },
-      outputs: { Output: false },
+      outputs: { Output: true },
     },
     {
       inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': true, 'Op 0': false },
@@ -74,24 +74,24 @@ export const level27LogicEngine: Level = {
     },
     {
       inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': true, 'Op 0': false },
-      outputs: { Output: true },
+      outputs: { Output: false },
     },
-    // Op=11 (NAND): Output = NOT(Input 1 AND Input 2)
+    // Op=11 (AND): Output = Input 1 AND Input 2
     {
       inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': true, 'Op 0': true },
-      outputs: { Output: true },
+      outputs: { Output: false },
     },
     {
       inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': true, 'Op 0': true },
-      outputs: { Output: true },
+      outputs: { Output: false },
     },
     {
       inputs: { 'Input 1': true, 'Input 2': false, 'Op 1': true, 'Op 0': true },
-      outputs: { Output: true },
+      outputs: { Output: false },
     },
     {
       inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': true, 'Op 0': true },
-      outputs: { Output: false },
+      outputs: { Output: true },
     },
   ],
   hints: [

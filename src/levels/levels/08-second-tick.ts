@@ -7,21 +7,15 @@ export const level08SecondTick: Level = {
   section: 'Basic Logic',
   prerequisites: ['07-always-on'],
   description:
-    'Create a non-standard gate where the output is only true when the first input is false and the second input is true.',
-  availableGates: [
-    GateType.NAND,
-    GateType.NOT,
-    GateType.AND,
-    GateType.OR,
-    GateType.NOR,
-  ],
+    'Create a non-standard gate where the output is only true when the first input is true and the second input is false.',
+  availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],
   outputs: [{ name: 'Output' }],
   truthTable: [
     { inputs: { 'Input 1': false, 'Input 2': false }, outputs: { Output: false } },
-    { inputs: { 'Input 1': false, 'Input 2': true }, outputs: { Output: true } },
-    { inputs: { 'Input 1': true, 'Input 2': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': true }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': false }, outputs: { Output: true } },
     { inputs: { 'Input 1': true, 'Input 2': true }, outputs: { Output: false } },
   ],
-  hints: ['Invert the first input, then AND with the second'],
+  hints: ['Invert the second input, then AND with the first'],
 };
