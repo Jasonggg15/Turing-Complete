@@ -283,19 +283,6 @@ export default function LevelSelect() {
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            <filter
-              id="glow-green"
-              x="-50%"
-              y="-50%"
-              width="200%"
-              height="200%"
-            >
-              <feGaussianBlur stdDeviation="2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
 
           {/* Section banners */}
@@ -344,13 +331,21 @@ export default function LevelSelect() {
             const d = `M ${e.x1} ${e.y1} C ${e.x1} ${e.y1 + dy}, ${e.x2} ${e.y2 - dy}, ${e.x2} ${e.y2}`;
             return (
               <g key={e.id}>
+                {e.completed && (
+                  <path
+                    d={d}
+                    stroke="#22c55e"
+                    strokeWidth={6}
+                    fill="none"
+                    opacity={0.15}
+                  />
+                )}
                 <path
                   id={pathId}
                   d={d}
                   stroke={color}
-                  strokeWidth={2}
+                  strokeWidth={e.completed ? 2.5 : 2}
                   fill="none"
-                  filter={e.completed ? 'url(#glow-green)' : undefined}
                 />
                 <circle
                   r={3}

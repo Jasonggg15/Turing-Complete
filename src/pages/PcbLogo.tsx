@@ -184,19 +184,19 @@ export default function PcbLogo() {
         <path d="M454 150 L490 150 L490 175" strokeWidth="1.2" opacity="0.4" />
         <path d="M454 175 L465 175 L465 188" strokeWidth="1.5" opacity="0.45" />
 
-        {/* === Bus traces: Chip bottom → CPU (narrative, parallel) === */}
+        {/* === Bus traces: Chip bottom → CPU bottom pins (routed under CPU) === */}
         <path
-          d="M345 222 L345 238 L485 238 L485 195"
+          d="M345 222 L345 260 L485 260 L485 257"
           strokeWidth="1.8"
           opacity="0.5"
         />
         <path
-          d="M370 222 L370 242 L505 242 L505 195"
+          d="M370 222 L370 263 L510 263 L510 257"
           strokeWidth="1.5"
           opacity="0.45"
         />
         <path
-          d="M395 222 L395 246 L525 246 L525 195"
+          d="M395 222 L395 266 L540 266 L540 257"
           strokeWidth="1.5"
           opacity="0.45"
         />
@@ -462,7 +462,7 @@ export default function PcbLogo() {
         {/* Signal 2 — Chip bottom → CPU bus trace 1 (main narrative) */}
         <path
           className="pcb-signal pcb-signal-2"
-          d="M345 222 L345 238 L485 238 L485 195"
+          d="M345 222 L345 260 L485 260 L485 257"
           stroke="#22c55e"
           strokeWidth="2"
           fill="none"
@@ -472,7 +472,7 @@ export default function PcbLogo() {
         {/* Signal 3 — Chip bottom → CPU bus trace 2 */}
         <path
           className="pcb-signal pcb-signal-3"
-          d="M370 222 L370 242 L505 242 L505 195"
+          d="M370 222 L370 263 L510 263 L510 257"
           stroke="#22c55e"
           strokeWidth="1.5"
           fill="none"
@@ -504,7 +504,7 @@ export default function PcbLogo() {
         {/* Signal 6 — Chip bottom → CPU bus trace 3 */}
         <path
           className="pcb-signal pcb-signal-6"
-          d="M395 222 L395 246 L525 246 L525 195"
+          d="M395 222 L395 266 L540 266 L540 257"
           stroke="#22c55e"
           strokeWidth="1.5"
           fill="none"
