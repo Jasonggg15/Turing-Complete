@@ -95,7 +95,8 @@ export default function Play() {
     setSelectedTool(tool);
   }, []);
 
-  // Compute unlocked compound components from completed levels
+  // Compute unlocked compound components from completed levels.
+  // Depends on verifyResult to recompute after level completion (which calls completeLevel).
   const unlockedComponents = useMemo(() => {
     const components: GateType[] = [];
     for (const l of levels) {

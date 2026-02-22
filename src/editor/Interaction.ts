@@ -1,5 +1,5 @@
 import { Circuit } from '../engine/Circuit';
-import { GateType } from '../engine/types';
+import { GateType, parsePinId } from '../engine/types';
 import type { Pin, Position } from '../engine/types';
 import type { Gate } from '../engine/Gate';
 import type { Wire } from '../engine/Wire';
@@ -184,6 +184,10 @@ export class Interaction {
 
   getRadialMenu(): RadialMenuState | null {
     return this.radialMenu;
+  }
+
+  getHoveredGate(): Gate | null {
+    return this.findGateAt(this.mouseWorld);
   }
 
   setWireColor(color: string): void {
@@ -504,9 +508,10 @@ export class Interaction {
     );
     const gateIdSet = new Set(gates.map((g) => g.id));
     const wires = fullData.wires.filter((w) => {
-      const fromGateId = w.from.substring(0, w.from.indexOf(':'));
-      const toGateId = w.to.substring(0, w.to.indexOf(':'));
-      return gateIdSet.has(fromGateId) && gateIdSet.has(toGateId);
+      const fromParsed = parsePinId(w.fromPinId);
+      const toParsed = parsePinId(w.toPinId);
+      if (!fromParsed || !toParsed) return false;
+      return gateIdSet.has(fromParsed.gateId) && gateIdSet.has(toParsed.gateId);
     });
     if (gates.length === 0) return;
     this.clipboard = { gates, wires };
@@ -539,18 +544,17 @@ export class Interaction {
     }
 
     for (const sw of this.clipboard.wires) {
-      const fromGateId = sw.from.substring(0, sw.from.indexOf(':'));
-      const fromPinName = sw.from.substring(sw.from.indexOf(':') + 1);
-      const toGateId = sw.to.substring(0, sw.to.indexOf(':'));
-      const toPinName = sw.to.substring(sw.to.indexOf(':') + 1);
-      const newFromId = idMap.get(fromGateId);
-      const newToId = idMap.get(toGateId);
+      const fromParsed = parsePinId(sw.fromPinId);
+      const toParsed = parsePinId(sw.toPinId);
+      if (!fromParsed || !toParsed) continue;
+      const newFromId = idMap.get(fromParsed.gateId);
+      const newToId = idMap.get(toParsed.gateId);
       if (!newFromId || !newToId) continue;
       const newFromGate = this.circuit.getGate(newFromId);
       const newToGate = this.circuit.getGate(newToId);
       if (!newFromGate || !newToGate) continue;
-      const fromPin = newFromGate.outputs.find((p) => p.name === fromPinName);
-      const toPin = newToGate.inputs.find((p) => p.name === toPinName);
+      const fromPin = newFromGate.outputs.find((p) => p.name === fromParsed.pinName);
+      const toPin = newToGate.inputs.find((p) => p.name === toParsed.pinName);
       if (!fromPin || !toPin) continue;
       const adjustedWaypoints = sw.waypoints?.map(wp => ({
         x: wp.x + offsetX,
@@ -801,15 +805,14 @@ export class Interaction {
     }
 
     if (this.state === 'dragging-waypoint' && this.dragWireId !== null) {
-      const wire = this.circuit.getWires().find(w => w.id === this.dragWireId);
-      if (wire && this.dragWaypointIndex >= 0 && this.dragWaypointIndex < wire.waypoints.length) {
-        wire.waypoints[this.dragWaypointIndex] = {
+      try {
+        this.circuit.setWireWaypoint(this.dragWireId, this.dragWaypointIndex, {
           x: snapToGrid(world.x),
           y: snapToGrid(world.y),
-        };
+        });
         this.callbacks.onCircuitChange();
         this.callbacks.requestRender();
-      }
+      } catch { /* wire or index gone */ }
       return;
     }
 

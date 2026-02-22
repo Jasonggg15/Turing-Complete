@@ -5,12 +5,26 @@ import type { SerializedCircuit } from '../engine/types';
 import type { Level } from '../levels/Level';
 import type { Camera } from './Grid';
 import { drawGrid } from './Grid';
-import { drawGate, getGateBounds, getPinPosition } from './GateRenderer';
-import { drawWire, drawWirePreview, drawWireWaypoints, advanceFlowOffset } from './WireRenderer';
+import { drawGate, getPinPosition } from './GateRenderer';
+import { drawWire, drawWirePreview, drawWireWaypoints, advanceFlowOffset, getFlowOffset } from './WireRenderer';
 import { Interaction } from './Interaction';
 import type { RadialMenuState } from './Interaction';
 import WireColorPicker from './WireColorPicker';
 import type { Gate } from '../engine/Gate';
+
+const TRUTH_TABLES: Record<string, string[][]> = {
+  [GateType.NAND]: [['A','B','Out'],['0','0','1'],['0','1','1'],['1','0','1'],['1','1','0']],
+  [GateType.AND]: [['A','B','Out'],['0','0','0'],['0','1','0'],['1','0','0'],['1','1','1']],
+  [GateType.OR]: [['A','B','Out'],['0','0','0'],['0','1','1'],['1','0','1'],['1','1','1']],
+  [GateType.NOR]: [['A','B','Out'],['0','0','1'],['0','1','0'],['1','0','0'],['1','1','0']],
+  [GateType.XOR]: [['A','B','Out'],['0','0','0'],['0','1','1'],['1','0','1'],['1','1','0']],
+  [GateType.XNOR]: [['A','B','Out'],['0','0','1'],['0','1','0'],['1','0','0'],['1','1','1']],
+  [GateType.NOT]: [['In','Out'],['0','1'],['1','0']],
+};
+
+function truthTableForGate(gate: Gate): string[][] | null {
+  return TRUTH_TABLES[gate.type] ?? null;
+}
 
 interface CanvasProps {
   circuit: Circuit;
@@ -88,8 +102,9 @@ export default function Canvas({
     const selectedGateIds = interaction?.getSelectedGateIds() ?? new Set<string>();
     const selectedWireIds = interaction?.getSelectedWireIds() ?? new Set<string>();
 
+    const currentFlowOffset = getFlowOffset();
     for (const wire of circuit.getWires()) {
-      drawWire(ctx, circuit, wire, simulationResult, selectedWireIds.has(wire.id));
+      drawWire(ctx, circuit, wire, simulationResult, selectedWireIds.has(wire.id), currentFlowOffset);
       if (selectedWireIds.has(wire.id) && wire.waypoints.length > 0) {
         const fromGate = circuit.getGate(wire.fromGateId);
         const toGate = circuit.getGate(wire.toGateId);
@@ -256,29 +271,9 @@ export default function Canvas({
       const canvas = canvasRef.current;
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
-      const camera = cameraRef.current;
-      const worldX = (e.clientX - rect.left - camera.offsetX) / camera.zoom;
-      const worldY = (e.clientY - rect.top - camera.offsetY) / camera.zoom;
-
-      let found: Gate | null = null;
-      const gates = circuit.getGates();
-      for (let i = gates.length - 1; i >= 0; i--) {
-        const gate = gates[i]!;
-        if (gate.type === GateType.INPUT || gate.type === GateType.OUTPUT) continue;
-        const pos = circuit.getGatePosition(gate.id);
-        if (!pos) continue;
-        const bounds = getGateBounds(gate, pos);
-        if (
-          worldX >= bounds.x &&
-          worldX <= bounds.x + bounds.width &&
-          worldY >= bounds.y &&
-          worldY <= bounds.y + bounds.height
-        ) {
-          found = gate;
-          break;
-        }
-      }
-      if (found) {
+      const interaction = interactionRef.current;
+      const found = interaction?.getHoveredGate() ?? null;
+      if (found && found.type !== GateType.INPUT && found.type !== GateType.OUTPUT) {
         setHoveredGate(found);
         setTooltipPos({ x: e.clientX - rect.left + 12, y: e.clientY - rect.top + 12 });
       } else {
@@ -286,18 +281,17 @@ export default function Canvas({
         setTooltipPos(null);
       }
     },
-    [circuit],
+    [],
   );
 
   const handleColorSelect = useCallback((wireId: string, color: string) => {
-    const wire = circuit.getWires().find(w => w.id === wireId);
-    if (wire) {
-      wire.color = color;
+    try {
+      circuit.setWireColor(wireId, color);
       interactionRef.current?.setWireColor(color);
       onWireColorChange?.(color);
       onCircuitChange();
       requestRender();
-    }
+    } catch { /* wire gone */ }
     setColorPicker(null);
   }, [circuit, onCircuitChange, onWireColorChange, requestRender]);
 
@@ -311,20 +305,6 @@ export default function Canvas({
 
   const handleCloseColorPicker = useCallback(() => {
     setColorPicker(null);
-  }, []);
-
-  const truthTableForGate = useCallback((gate: Gate): string[][] | null => {
-    const type = gate.type;
-    const tables: Record<string, string[][]> = {
-      [GateType.NAND]: [['A','B','Out'],['0','0','1'],['0','1','1'],['1','0','1'],['1','1','0']],
-      [GateType.AND]: [['A','B','Out'],['0','0','0'],['0','1','0'],['1','0','0'],['1','1','1']],
-      [GateType.OR]: [['A','B','Out'],['0','0','0'],['0','1','1'],['1','0','1'],['1','1','1']],
-      [GateType.NOR]: [['A','B','Out'],['0','0','1'],['0','1','0'],['1','0','0'],['1','1','0']],
-      [GateType.XOR]: [['A','B','Out'],['0','0','0'],['0','1','1'],['1','0','1'],['1','1','0']],
-      [GateType.XNOR]: [['A','B','Out'],['0','0','1'],['0','1','0'],['1','0','0'],['1','1','1']],
-      [GateType.NOT]: [['In','Out'],['0','1'],['1','0']],
-    };
-    return tables[type] ?? null;
   }, []);
 
   return (

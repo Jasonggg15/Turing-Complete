@@ -266,8 +266,8 @@ describe('Circuit — serialize / deserialize', () => {
 
     expect(data.wires).toHaveLength(1);
     const wire = data.wires[0]!;
-    expect(wire.from).toContain(':out');
-    expect(wire.to).toContain(':in');
+    expect(wire.fromPinId).toContain(':out');
+    expect(wire.toPinId).toContain(':in');
   });
 
   it('deserializes back into a working circuit', () => {

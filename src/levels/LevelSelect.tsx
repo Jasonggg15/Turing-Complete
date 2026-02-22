@@ -58,10 +58,12 @@ export default function LevelSelect() {
     // BFS to assign rows (longest path from any root)
     const rowMap = new Map<string, number>();
     const queue: string[] = roots.map((r) => r.id);
+    const inQueue = new Set<string>(queue);
     roots.forEach((r) => rowMap.set(r.id, 0));
 
     while (queue.length > 0) {
       const id = queue.shift()!;
+      inQueue.delete(id);
       const row = rowMap.get(id)!;
       const children = childMap.get(id) ?? [];
       children.forEach((childId) => {
@@ -76,7 +78,10 @@ export default function LevelSelect() {
         if (existing === undefined || newRow > existing) {
           rowMap.set(childId, newRow);
         }
-        if (!queue.includes(childId)) queue.push(childId);
+        if (!inQueue.has(childId)) {
+          queue.push(childId);
+          inQueue.add(childId);
+        }
       });
     }
 

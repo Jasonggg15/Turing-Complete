@@ -15,11 +15,16 @@ export const WIRE_COLORS: Record<string, { hex: string; dark: string; glow: stri
 
 export const WIRE_COLOR_NAMES = Object.keys(WIRE_COLORS);
 
-/** Animated dash offset for signal flow; incremented externally each frame. */
+/** Animated dash offset for signal flow; managed by Canvas via ref. */
 let flowOffset = 0;
 
-export function advanceFlowOffset(): void {
+export function advanceFlowOffset(): number {
   flowOffset = (flowOffset + 0.6) % 20;
+  return flowOffset;
+}
+
+export function getFlowOffset(): number {
+  return flowOffset;
 }
 
 /** Compute orthogonal (right-angle) path: horizontal first, then vertical. */
@@ -111,6 +116,7 @@ export function drawWire(
   wire: Wire,
   simulationResult?: Map<string, boolean>,
   highlighted?: boolean,
+  flowOffsetOverride?: number,
 ): void {
   const fromGate = circuit.getGate(wire.fromGateId);
   const toGate = circuit.getGate(wire.toGateId);
@@ -167,7 +173,7 @@ export function drawWire(
     ctx.strokeStyle = colorEntry.flow;
     ctx.lineWidth = 2;
     ctx.setLineDash([6, 14]);
-    ctx.lineDashOffset = -flowOffset;
+    ctx.lineDashOffset = -(flowOffsetOverride ?? flowOffset);
     orthoPathMulti(ctx, points);
     ctx.stroke();
     ctx.setLineDash([]);

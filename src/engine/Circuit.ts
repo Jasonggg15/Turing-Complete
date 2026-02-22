@@ -3,7 +3,7 @@ import type {
   Position,
   SerializedCircuit,
 } from './types';
-import { GateType } from './types';
+import { GateType, parsePinId } from './types';
 import { type Gate, createGate } from './Gate';
 import { Wire } from './Wire';
 
@@ -102,6 +102,19 @@ export class Circuit {
     return this.wiresCache;
   }
 
+  setWireColor(wireId: string, color: string): void {
+    const wire = this.wires.get(wireId);
+    if (!wire) throw new Error(`Wire "${wireId}" not found in circuit`);
+    wire.color = color;
+  }
+
+  setWireWaypoint(wireId: string, index: number, pos: Position): void {
+    const wire = this.wires.get(wireId);
+    if (!wire) throw new Error(`Wire "${wireId}" not found in circuit`);
+    if (index < 0 || index >= wire.waypoints.length) throw new Error(`Waypoint index ${index} out of range`);
+    wire.waypoints[index] = { ...pos };
+  }
+
   getGatePosition(id: string): Position | undefined {
     const pos = this.positions.get(id);
     return pos ? { ...pos } : undefined;
@@ -120,8 +133,8 @@ export class Circuit {
 
     const wires = this.getWires().map((wire) => ({
       id: wire.id,
-      from: wire.fromPinId,
-      to: wire.toPinId,
+      fromPinId: wire.fromPinId,
+      toPinId: wire.toPinId,
       ...(wire.color !== 'green' ? { color: wire.color } : {}),
       ...(wire.waypoints.length > 0 ? { waypoints: wire.waypoints.map(p => ({ ...p })) } : {}),
     }));
@@ -143,8 +156,8 @@ export class Circuit {
     }
 
     for (const sw of data.wires) {
-      const fromPin = this.findPinById(sw.from);
-      const toPin = this.findPinById(sw.to);
+      const fromPin = this.findPinById(sw.fromPinId ?? sw.from ?? '');
+      const toPin = this.findPinById(sw.toPinId ?? sw.to ?? '');
       if (fromPin && toPin) {
         const wire = new Wire(fromPin, toPin, sw.id, sw.color, sw.waypoints);
         this.wires.set(wire.id, wire);
@@ -162,17 +175,19 @@ export class Circuit {
     }
 
     for (const sw of data.wires) {
-      const fromPin = circuit.findPinById(sw.from);
-      const toPin = circuit.findPinById(sw.to);
+      const fromId = sw.fromPinId ?? sw.from ?? '';
+      const toId = sw.toPinId ?? sw.to ?? '';
+      const fromPin = circuit.findPinById(fromId);
+      const toPin = circuit.findPinById(toId);
 
       if (!fromPin) {
         throw new Error(
-          `Cannot deserialize: source pin "${sw.from}" not found`,
+          `Cannot deserialize: source pin "${fromId}" not found`,
         );
       }
       if (!toPin) {
         throw new Error(
-          `Cannot deserialize: target pin "${sw.to}" not found`,
+          `Cannot deserialize: target pin "${toId}" not found`,
         );
       }
 
@@ -184,16 +199,14 @@ export class Circuit {
   }
 
   private findPinById(pinId: string): Pin | undefined {
-    const colonIndex = pinId.indexOf(':');
-    if (colonIndex === -1) return undefined;
+    const parsed = parsePinId(pinId);
+    if (!parsed) return undefined;
 
-    const gateId = pinId.substring(0, colonIndex);
-    const pinName = pinId.substring(colonIndex + 1);
-    const gate = this.gates.get(gateId);
+    const gate = this.gates.get(parsed.gateId);
     if (!gate) return undefined;
 
     return [...gate.inputs, ...gate.outputs].find(
-      (p) => p.name === pinName,
+      (p) => p.name === parsed.pinName,
     );
   }
 }

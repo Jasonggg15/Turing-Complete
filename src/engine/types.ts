@@ -43,13 +43,24 @@ export interface SerializedGate {
 
 export interface SerializedWire {
   id: string;
-  from: string;
-  to: string;
+  fromPinId: string;
+  toPinId: string;
   color?: string;
   waypoints?: Position[];
+  /** @deprecated Use fromPinId. Kept for backward-compatible deserialization. */
+  from?: string;
+  /** @deprecated Use toPinId. Kept for backward-compatible deserialization. */
+  to?: string;
 }
 
 export interface SerializedCircuit {
   gates: SerializedGate[];
   wires: SerializedWire[];
+}
+
+/** Parse a pin ID ("gateId:pinName") into its components. Uses lastIndexOf to handle gate IDs containing colons. */
+export function parsePinId(pinId: string): { gateId: string; pinName: string } | null {
+  const i = pinId.lastIndexOf(':');
+  if (i === -1) return null;
+  return { gateId: pinId.substring(0, i), pinName: pinId.substring(i + 1) };
 }
