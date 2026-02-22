@@ -12,6 +12,7 @@ export const level38Counter: Level = {
   name: 'Counter',
   section: 'Arithmetic and Memory',
   prerequisites: ['37-little-box'],
+  unlocks: ['39-arithmetic-engine'],
   description:
     'Build a counter that increments by one each tick. The counter wraps around when it overflows.',
   availableGates: [

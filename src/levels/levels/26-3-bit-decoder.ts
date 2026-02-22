@@ -6,6 +6,7 @@ export const level263BitDecoder: Level = {
   name: '3 Bit Decoder',
   section: 'Arithmetic and Memory',
   prerequisites: ['25-1-bit-decoder'],
+  unlocks: ['27-logic-engine', '40-registers'],
   description:
     'Choose between eight outputs using three inputs. Decode a 3-bit value to one of 8 output lines.',
   availableGates: [GateType.AND, GateType.NOT],

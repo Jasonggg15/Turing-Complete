@@ -6,6 +6,7 @@ export const level02NandGate: Level = {
   name: 'NAND Gate',
   section: 'Basic Logic',
   prerequisites: ['01-crude-awakening'],
+  unlocks: ['03-not-gate'],
   description:
     'Figure out the behavior of the NAND gate by setting the output correctly for each input combination.',
   availableGates: [GateType.NAND],

@@ -16,6 +16,7 @@ export const level28CircularDependency: Level = {
   name: 'Circular Dependency',
   section: 'Arithmetic and Memory',
   prerequisites: ['11-bigger-and-gate'],
+  unlocks: ['29-delayed-lines'],
   description:
     'Introduction to feedback loops. Use a D flip-flop to store a signal. When STORE is on, save the value of IN. The output should always reflect the stored value.',
   availableGates: [

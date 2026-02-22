@@ -6,6 +6,7 @@ export const level23NegativeNumbers: Level = {
   name: 'Negative Numbers',
   section: 'Arithmetic and Memory',
   prerequisites: ['18-byte-or', '22-adding-bytes'],
+  unlocks: ['24-signed-negator'],
   description:
     "Represent negative numbers in binary using two's complement. Detect when a 4-bit signed number is negative (sign bit set).",
   availableGates: [

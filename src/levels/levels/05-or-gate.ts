@@ -6,6 +6,7 @@ export const level05OrGate: Level = {
   name: 'OR Gate',
   section: 'Basic Logic',
   prerequisites: ['03-not-gate'],
+  unlocks: ['07-always-on'],
   description:
     'Create the OR gate by placing NOT gates on both inputs of a NAND gate.',
   availableGates: [GateType.NAND, GateType.NOT],

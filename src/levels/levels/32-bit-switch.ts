@@ -12,6 +12,7 @@ export const level32BitSwitch: Level = {
   name: 'Bit Switch',
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number', '13-odd-number-of-signals'],
+  unlocks: ['22-adding-bytes', '33-input-selector'],
   description:
     'Build an SR latch: SET turns it on, RESET turns it off. If neither is active, hold the value. SET has priority over RESET.',
   availableGates: [

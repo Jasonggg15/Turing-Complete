@@ -6,6 +6,7 @@ export const level08SecondTick: Level = {
   name: 'Second Tick',
   section: 'Basic Logic',
   prerequisites: ['07-always-on'],
+  unlocks: ['09-xor-gate'],
   description:
     'Create a non-standard gate where the output is only true when the first input is true and the second input is false.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR],

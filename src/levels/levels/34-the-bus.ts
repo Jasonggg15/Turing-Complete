@@ -13,6 +13,7 @@ export const level34TheBus: Level = {
   name: 'The Bus',
   section: 'Arithmetic and Memory',
   prerequisites: ['33-input-selector'],
+  unlocks: ['36-saving-bytes'],
   description:
     'Build a 4-to-1 multiplexer that routes one of four data inputs to the output based on a 2-bit select code.',
   availableGates: [

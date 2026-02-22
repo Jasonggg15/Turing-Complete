@@ -12,6 +12,7 @@ export const level30OddTicks: Level = {
   name: 'Odd Ticks',
   section: 'Arithmetic and Memory',
   prerequisites: ['29-delayed-lines'],
+  unlocks: ['31-bit-inverter'],
   description:
     'Create a circuit that outputs ON every other tick (oscillator). The output should alternate between OFF and ON each clock cycle.',
   availableGates: [

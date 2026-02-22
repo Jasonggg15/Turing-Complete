@@ -5,7 +5,8 @@ export const level17DoubleTheNumber: Level = {
   id: '17-double-the-number',
   name: 'Double the Number',
   section: 'Arithmetic and Memory',
-  prerequisites: ['15-binary-racer'],
+  prerequisites: ['13-odd-number-of-signals'],
+  unlocks: ['18-byte-or', '19-byte-not', '22-adding-bytes', '32-bit-switch'],
   description:
     'Double the input value by shifting each bit to its doubled-value position.',
   availableGates: [

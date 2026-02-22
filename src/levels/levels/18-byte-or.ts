@@ -18,6 +18,7 @@ export const level18ByteOr: Level = {
   name: 'Byte OR',
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number'],
+  unlocks: ['23-negative-numbers'],
   description:
     'OR together two byte values bitwise.',
   availableGates: [

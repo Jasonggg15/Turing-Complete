@@ -58,6 +58,8 @@ export interface Level {
   hints?: string[];
   /** Level IDs that must ALL be completed before this level unlocks. */
   prerequisites?: string[];
+  /** Level IDs that completing this level unlocks (informational). */
+  unlocks?: string[];
   maxGates?: number;
   /** For programming levels: available assembly instructions. */
   availableInstructions?: string[];

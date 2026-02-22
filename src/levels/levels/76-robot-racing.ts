@@ -11,6 +11,7 @@ export const level76RobotRacing: Level = {
   name: 'Robot Racing',
   section: 'Assembly Challenges',
   prerequisites: ['74-functions'],
+  unlocks: ['80-tower-of-alloy'],
   type: 'programming',
   description:
     'Race your robot! Memory address 0 contains the number of time steps N. Addresses 1..N contain speed values for each step. Compute the total distance (sum of all speeds) and output it.',

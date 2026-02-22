@@ -6,6 +6,7 @@ export const level04NorGate: Level = {
   name: 'NOR Gate',
   section: 'Basic Logic',
   prerequisites: ['03-not-gate'],
+  unlocks: ['07-always-on'],
   description: 'Create the NOR gate.',
   availableGates: [GateType.NAND, GateType.NOT],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],

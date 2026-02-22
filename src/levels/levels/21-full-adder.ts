@@ -6,6 +6,7 @@ export const level21FullAdder: Level = {
   name: 'Full Adder',
   section: 'Arithmetic and Memory',
   prerequisites: ['20-half-adder'],
+  unlocks: ['22-adding-bytes'],
   description:
     'Construct a full adder combining two input bits and a carry bit to produce a sum and carry-over.',
   availableGates: [

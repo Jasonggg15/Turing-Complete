@@ -24,6 +24,7 @@ export const level61WireSpaghetti: Level = {
   name: 'Wire Spaghetti',
   section: 'CPU Architecture 2',
   prerequisites: ['60-wide-instructions'],
+  unlocks: ['62-opcodes'],
   description:
     'Build an 8-bit 2:1 multiplexer. When SEL=0, pass through the 8-bit input A. When SEL=1, pass through B. Untangle the wire spaghetti!',
   availableGates: [

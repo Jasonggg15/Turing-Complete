@@ -12,6 +12,7 @@ export const level31BitInverter: Level = {
   name: 'Bit Inverter',
   section: 'Arithmetic and Memory',
   prerequisites: ['30-odd-ticks'],
+  unlocks: ['33-input-selector'],
   description:
     'Create a circuit that inverts the stored bit each time TOGGLE goes high. Uses a D flip-flop to store the current state.',
   availableGates: [

@@ -5,7 +5,8 @@ export const level20HalfAdder: Level = {
   id: '20-half-adder',
   name: 'Half Adder',
   section: 'Arithmetic and Memory',
-  prerequisites: ['12-xnor-gate'],
+  prerequisites: ['16-counting-signals'],
+  unlocks: ['21-full-adder'],
   description:
     'Create a basic arithmetic circuit that adds two bits producing a sum and a carry.',
   availableGates: [

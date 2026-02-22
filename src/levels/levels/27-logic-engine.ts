@@ -6,6 +6,7 @@ export const level27LogicEngine: Level = {
   name: 'Logic Engine',
   section: 'Arithmetic and Memory',
   prerequisites: ['24-signed-negator', '26-3-bit-decoder'],
+  unlocks: ['39-arithmetic-engine'],
   description:
     'Create a logic engine that can perform the selected operation on two data inputs using a 2-bit operation code: 00=OR, 01=NAND, 10=NOR, 11=AND.',
   availableGates: [

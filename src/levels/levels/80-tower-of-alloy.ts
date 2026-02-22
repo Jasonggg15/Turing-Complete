@@ -10,7 +10,7 @@ export const level80TowerOfAlloy: Level = {
   id: '80-tower-of-alloy',
   name: 'Tower of Alloy',
   section: 'Assembly Challenges',
-  prerequisites: ['76-robot-racing', '79-dancing-machine'],
+  prerequisites: ['76-robot-racing'],
   type: 'programming',
   description:
     'Solve the Tower of Alloy! Given N disks in R0, compute the minimum number of moves to solve the Tower of Hanoi puzzle: 2^N - 1. Output the result. You only have addition — compute 2^N by doubling.',

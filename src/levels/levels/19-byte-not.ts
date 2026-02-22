@@ -17,6 +17,7 @@ export const level19ByteNot: Level = {
   name: 'Byte NOT',
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number'],
+  unlocks: ['24-signed-negator'],
   description:
     'NOT each individual bit within a byte value.',
   availableGates: [

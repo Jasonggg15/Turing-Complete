@@ -6,6 +6,7 @@ export const level09XorGate: Level = {
   name: 'XOR Gate',
   section: 'Basic Logic',
   prerequisites: ['08-second-tick'],
+  unlocks: ['10-bigger-or-gate', '11-bigger-and-gate'],
   description:
     'Create the XOR gate - like OR except outputs false if both inputs are true.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR],

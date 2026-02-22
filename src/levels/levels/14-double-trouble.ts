@@ -6,6 +6,7 @@ export const level14DoubleTrouble: Level = {
   name: 'Double Trouble',
   section: 'Arithmetic and Memory',
   prerequisites: ['10-bigger-or-gate'],
+  unlocks: ['16-counting-signals'],
   description:
     'Output an ON signal when at least two of the four inputs are receiving an ON signal.',
   availableGates: [

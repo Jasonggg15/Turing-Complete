@@ -6,6 +6,7 @@ export const level11BiggerAndGate: Level = {
   name: 'Bigger AND Gate',
   section: 'Basic Logic',
   prerequisites: ['09-xor-gate'],
+  unlocks: ['12-xnor-gate', '28-circular-dependency'],
   description: 'Create a three-input version of the AND gate.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR, GateType.XOR],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }, { name: 'Input 3' }],

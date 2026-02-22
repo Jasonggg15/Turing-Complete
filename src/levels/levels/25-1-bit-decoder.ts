@@ -6,6 +6,7 @@ export const level251BitDecoder: Level = {
   name: '1 Bit Decoder',
   section: 'Arithmetic and Memory',
   prerequisites: ['36-saving-bytes'],
+  unlocks: ['26-3-bit-decoder', '37-little-box'],
   description:
     'Create a circuit that outputs ON to one of two pins depending on the input signal. One output is the input, the other is its inverse.',
   availableGates: [GateType.NOT],

@@ -6,6 +6,7 @@ export const level07AlwaysOn: Level = {
   name: 'Always On',
   section: 'Basic Logic',
   prerequisites: ['06-and-gate', '04-nor-gate', '05-or-gate'],
+  unlocks: ['08-second-tick'],
   description: 'Create a circuit that always outputs true regardless of input.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.OR],
   inputs: [{ name: 'Input' }],

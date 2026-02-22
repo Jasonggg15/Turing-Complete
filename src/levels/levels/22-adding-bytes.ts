@@ -18,6 +18,7 @@ export const level22AddingBytes: Level = {
   name: 'Adding Bytes',
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number', '21-full-adder', '32-bit-switch'],
+  unlocks: ['23-negative-numbers', '33-input-selector'],
   description:
     'Add together two byte values using Full Adder components chained for carry propagation.',
   availableGates: [

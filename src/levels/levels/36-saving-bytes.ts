@@ -13,6 +13,7 @@ export const level36SavingBytes: Level = {
   name: 'Saving Bytes',
   section: 'Arithmetic and Memory',
   prerequisites: ['34-the-bus', '35-saving-gracefully'],
+  unlocks: ['25-1-bit-decoder', '37-little-box'],
   description:
     'Create a component that saves and loads data values using addressed memory. When SAVE is high, store DATA into the register selected by ADDR.',
   availableGates: [

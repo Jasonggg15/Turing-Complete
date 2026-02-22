@@ -11,6 +11,7 @@ export const level81PlanetNames: Level = {
   name: 'Planet Names',
   section: 'Assembly Challenges',
   prerequisites: ['70-stack'],
+  unlocks: ['82-waterworld'],
   type: 'programming',
   description:
     'Measure the planet name! Memory starting at address 0 contains a null-terminated string (sequence of non-zero bytes ending with 0). Count the number of characters (non-zero bytes) and output the length.',

@@ -5,7 +5,8 @@ export const level03NotGate: Level = {
   id: '03-not-gate',
   name: 'NOT Gate',
   section: 'Basic Logic',
-  prerequisites: ['02-nand-gate'],
+  prerequisites: ['01-crude-awakening'],
+  unlocks: ['06-and-gate', '04-nor-gate', '05-or-gate'],
   description:
     'Create a circuit that outputs the opposite of the input using NAND gates.',
   availableGates: [GateType.NAND],

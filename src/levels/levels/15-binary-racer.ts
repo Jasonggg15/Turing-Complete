@@ -6,6 +6,7 @@ export const level15BinaryRacer: Level = {
   name: 'Binary Racer',
   section: 'Arithmetic and Memory',
   prerequisites: ['10-bigger-or-gate'],
+  unlocks: ['16-counting-signals'],
   description:
     'Convert decimal numbers to binary by toggling input bits to match the target value. Detect when the 3-bit input represents exactly the number 5 (binary 101).',
   availableGates: [

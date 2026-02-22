@@ -12,6 +12,7 @@ export const level35SavingGracefully: Level = {
   name: 'Saving Gracefully',
   section: 'Arithmetic and Memory',
   prerequisites: ['33-input-selector'],
+  unlocks: ['36-saving-bytes'],
   description:
     'Create a circuit that can save a single bit for an indeterminate amount of time. When SAVE is high, store the value of IN. When SAVE is low, hold the stored value.',
   availableGates: [

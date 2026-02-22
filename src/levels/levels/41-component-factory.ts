@@ -13,6 +13,7 @@ export const level41ComponentFactory: Level = {
   name: 'Component Factory',
   section: 'CPU Architecture',
   prerequisites: ['39-arithmetic-engine'],
+  unlocks: ['42-instruction-decoder', '45-conditions'],
   description:
     'Build a parallel load register. When LOAD is high, store the input value. When LOAD is low, hold the current value.',
   availableGates: [

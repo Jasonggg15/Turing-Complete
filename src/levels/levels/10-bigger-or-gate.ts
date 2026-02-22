@@ -6,6 +6,7 @@ export const level10BiggerOrGate: Level = {
   name: 'Bigger OR Gate',
   section: 'Basic Logic',
   prerequisites: ['09-xor-gate'],
+  unlocks: ['15-binary-racer', '14-double-trouble', '12-xnor-gate'],
   description: 'Create a three-input version of the OR gate.',
   availableGates: [GateType.NAND, GateType.NOT, GateType.AND, GateType.OR, GateType.XOR],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }, { name: 'Input 3' }],

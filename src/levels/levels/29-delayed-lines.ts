@@ -12,6 +12,7 @@ export const level29DelayedLines: Level = {
   name: 'Delayed Lines',
   section: 'Arithmetic and Memory',
   prerequisites: ['28-circular-dependency'],
+  unlocks: ['30-odd-ticks'],
   description:
     'Create a circuit that delays the input signal. The output at tick N should equal the input at tick N-1.',
   availableGates: [

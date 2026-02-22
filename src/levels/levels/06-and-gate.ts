@@ -6,6 +6,7 @@ export const level06AndGate: Level = {
   name: 'AND Gate',
   section: 'Basic Logic',
   prerequisites: ['03-not-gate'],
+  unlocks: ['07-always-on'],
   description: 'Create the AND gate using NAND and NOT gates.',
   availableGates: [GateType.NAND],
   inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],

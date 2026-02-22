@@ -6,6 +6,7 @@ export const level13OddNumberOfSignals: Level = {
   name: 'ODD Number of Signals',
   section: 'Arithmetic and Memory',
   prerequisites: ['12-xnor-gate'],
+  unlocks: ['17-double-the-number', '32-bit-switch'],
   description:
     'Output ON when an odd number of inputs (1 or 3) are ON.',
   availableGates: [GateType.XOR],

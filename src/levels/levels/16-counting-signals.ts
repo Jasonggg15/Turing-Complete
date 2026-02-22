@@ -5,7 +5,8 @@ export const level16CountingSignals: Level = {
   id: '16-counting-signals',
   name: 'Counting Signals',
   section: 'Arithmetic and Memory',
-  prerequisites: ['14-double-trouble'],
+  prerequisites: ['15-binary-racer', '14-double-trouble'],
+  unlocks: ['20-half-adder'],
   description:
     'Count the number of ON input signals and output the count as a binary number on 3 output nodes (values 1, 2, 4).',
   availableGates: [
