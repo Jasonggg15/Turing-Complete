@@ -7,13 +7,13 @@ export const level03NotGate: Level = {
   section: 'Basic Logic',
   prerequisites: ['02-nand-gate'],
   description:
-    'Build a NOT gate using only NAND gates. A NOT gate inverts its input.',
+    'Create a circuit that outputs the opposite of the input using NAND gates.',
   availableGates: [GateType.NAND],
-  inputs: [{ name: 'A' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { A: false }, outputs: { OUT: true } },
-    { inputs: { A: true }, outputs: { OUT: false } },
+    { inputs: { Input: false }, outputs: { Output: true } },
+    { inputs: { Input: true }, outputs: { Output: false } },
   ],
   hints: ['Connect both NAND inputs to the same signal'],
 };

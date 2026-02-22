@@ -7,17 +7,9 @@ export const level263BitDecoder: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['25-1-bit-decoder'],
   description:
-    'Build a 3-to-8 decoder. Given a 3-bit binary input, activate exactly one of 8 outputs corresponding to the input value.',
-  availableGates: [
-    GateType.NAND,
-    GateType.NOT,
-    GateType.NOR,
-    GateType.OR,
-    GateType.AND,
-    GateType.XOR,
-    GateType.XNOR,
-  ],
-  inputs: [{ name: 'B2' }, { name: 'B1' }, { name: 'B0' }],
+    'Choose between eight outputs using three inputs. Decode a 3-bit value to one of 8 output lines.',
+  availableGates: [GateType.AND, GateType.NOT],
+  inputs: [{ name: 'Bit 2' }, { name: 'Bit 1' }, { name: 'Bit 0' }],
   outputs: [
     { name: 'O0' },
     { name: 'O1' },
@@ -30,7 +22,7 @@ export const level263BitDecoder: Level = {
   ],
   truthTable: [
     {
-      inputs: { B2: false, B1: false, B0: false },
+      inputs: { 'Bit 2': false, 'Bit 1': false, 'Bit 0': false },
       outputs: {
         O0: true,
         O1: false,
@@ -43,7 +35,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: false, B1: false, B0: true },
+      inputs: { 'Bit 2': false, 'Bit 1': false, 'Bit 0': true },
       outputs: {
         O0: false,
         O1: true,
@@ -56,7 +48,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: false, B1: true, B0: false },
+      inputs: { 'Bit 2': false, 'Bit 1': true, 'Bit 0': false },
       outputs: {
         O0: false,
         O1: false,
@@ -69,7 +61,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: false, B1: true, B0: true },
+      inputs: { 'Bit 2': false, 'Bit 1': true, 'Bit 0': true },
       outputs: {
         O0: false,
         O1: false,
@@ -82,7 +74,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: true, B1: false, B0: false },
+      inputs: { 'Bit 2': true, 'Bit 1': false, 'Bit 0': false },
       outputs: {
         O0: false,
         O1: false,
@@ -95,7 +87,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: true, B1: false, B0: true },
+      inputs: { 'Bit 2': true, 'Bit 1': false, 'Bit 0': true },
       outputs: {
         O0: false,
         O1: false,
@@ -108,7 +100,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: true, B1: true, B0: false },
+      inputs: { 'Bit 2': true, 'Bit 1': true, 'Bit 0': false },
       outputs: {
         O0: false,
         O1: false,
@@ -121,7 +113,7 @@ export const level263BitDecoder: Level = {
       },
     },
     {
-      inputs: { B2: true, B1: true, B0: true },
+      inputs: { 'Bit 2': true, 'Bit 1': true, 'Bit 0': true },
       outputs: {
         O0: false,
         O1: false,

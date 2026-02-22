@@ -7,15 +7,15 @@ export const level05OrGate: Level = {
   section: 'Basic Logic',
   prerequisites: ['03-not-gate'],
   description:
-    'Build an OR gate. It outputs true if at least one input is true.',
+    'Create the OR gate by placing NOT gates on both inputs of a NAND gate.',
   availableGates: [GateType.NAND, GateType.NOT],
-  inputs: [{ name: 'A' }, { name: 'B' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { A: false, B: false }, outputs: { OUT: false } },
-    { inputs: { A: false, B: true }, outputs: { OUT: true } },
-    { inputs: { A: true, B: false }, outputs: { OUT: true } },
-    { inputs: { A: true, B: true }, outputs: { OUT: true } },
+    { inputs: { 'Input 1': false, 'Input 2': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': true }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': true }, outputs: { Output: true } },
   ],
   hints: ['Invert both inputs, then NAND them'],
 };

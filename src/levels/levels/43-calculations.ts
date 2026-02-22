@@ -14,7 +14,7 @@ export const level43Calculations: Level = {
   section: 'CPU Architecture',
   prerequisites: ['42-instruction-decoder', '40-registers'],
   description:
-    'Build a 2-bit accumulator register. When ADD=1, add the input value (V1, V0) to the stored accumulator value. When ADD=0, hold the current value. Output the accumulator value as A1, A0.',
+    'Build an accumulator that can add input values to a running total.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

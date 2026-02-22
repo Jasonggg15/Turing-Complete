@@ -6,16 +6,15 @@ export const level04NorGate: Level = {
   name: 'NOR Gate',
   section: 'Basic Logic',
   prerequisites: ['03-not-gate'],
-  description:
-    'Build a NOR gate. It outputs true only when both inputs are false.',
+  description: 'Create the NOR gate.',
   availableGates: [GateType.NAND, GateType.NOT],
-  inputs: [{ name: 'A' }, { name: 'B' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input 1' }, { name: 'Input 2' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { A: false, B: false }, outputs: { OUT: true } },
-    { inputs: { A: false, B: true }, outputs: { OUT: false } },
-    { inputs: { A: true, B: false }, outputs: { OUT: false } },
-    { inputs: { A: true, B: true }, outputs: { OUT: false } },
+    { inputs: { 'Input 1': false, 'Input 2': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': false, 'Input 2': true }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': true }, outputs: { Output: false } },
   ],
   hints: ['OR is NAND with inverted inputs. NOR is NOT of OR.'],
 };

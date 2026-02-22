@@ -23,7 +23,7 @@ export const level47TuringComplete: Level = {
   section: 'CPU Architecture',
   prerequisites: ['46-immediate-values'],
   description:
-    'Build a simple programmable computer! Each tick, read a 2-bit instruction (I1, I0): 00=NOP, 01=SET (output→1), 10=CLR (output→0), 11=HALT (freeze). The 2-bit program counter (PC1, PC0) increments each tick unless halted. When HALT is executed, PC and OUT freeze. Output the current PC, OUT value, and HALT flag.',
+    'Build a simple programmable computer with fetch-decode-execute cycle. This is the Turing Complete milestone!',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

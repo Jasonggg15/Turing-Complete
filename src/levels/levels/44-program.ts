@@ -14,7 +14,7 @@ export const level44Program: Level = {
   section: 'CPU Architecture',
   prerequisites: ['45-conditions'],
   description:
-    'Build a 2-bit program counter. Each tick, the PC increments by 1 (wrapping from 3 back to 0). When JUMP=1, load the jump target (J1, J0) into the PC instead of incrementing.',
+    'Build a program counter that increments each tick or loads a jump target when JUMP is high.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

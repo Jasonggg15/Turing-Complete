@@ -13,7 +13,7 @@ export const level31BitInverter: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['30-odd-ticks'],
   description:
-    'Build a circuit that stores a single bit. When TOGGLE is high, invert the stored value. When TOGGLE is low, hold the current value. Output the stored bit.',
+    'Create a circuit that inverts the stored bit each time TOGGLE goes high. Uses a D flip-flop to store the current state.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

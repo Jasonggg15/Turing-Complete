@@ -41,7 +41,7 @@ export const level39ArithmeticEngine: Level = {
   section: 'CPU Architecture',
   prerequisites: ['27-logic-engine', '38-counter'],
   description:
-    "Build an ALU that can add or subtract two 2-bit numbers. When SUB=0, compute A+B. When SUB=1, compute A-B using two's complement (A + NOT(B) + 1). Output the 2-bit result and CARRY flag.",
+    'Build an arithmetic engine that performs addition and subtraction on two values.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

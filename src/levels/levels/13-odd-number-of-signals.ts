@@ -4,71 +4,30 @@ import type { Level } from '../Level';
 export const level13OddNumberOfSignals: Level = {
   id: '13-odd-number-of-signals',
   name: 'ODD Number of Signals',
-  section: 'Arithmetic and Memory',
+  section: 'Basic Logic',
   prerequisites: ['12-xnor-gate'],
   description:
-    'Determine if an odd number of inputs are ON. Output true when the count of active inputs is odd.',
+    'Output ON when an odd number of inputs (1 or 3) are ON.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
-    GateType.NOR,
-    GateType.OR,
     GateType.AND,
+    GateType.OR,
+    GateType.NOR,
     GateType.XOR,
     GateType.XNOR,
   ],
-  inputs: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input 1' }, { name: 'Input 2' }, { name: 'Input 3' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    {
-      inputs: { A: false, B: false, C: false, D: false },
-      outputs: { OUT: false },
-    },
-    {
-      inputs: { A: false, B: false, C: false, D: true },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: false, B: false, C: true, D: false },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: false, B: false, C: true, D: true },
-      outputs: { OUT: false },
-    },
-    {
-      inputs: { A: false, B: true, C: false, D: false },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: false, B: true, C: false, D: true },
-      outputs: { OUT: false },
-    },
-    {
-      inputs: { A: false, B: true, C: true, D: false },
-      outputs: { OUT: false },
-    },
-    { inputs: { A: false, B: true, C: true, D: true }, outputs: { OUT: true } },
-    {
-      inputs: { A: true, B: false, C: false, D: false },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: true, B: false, C: false, D: true },
-      outputs: { OUT: false },
-    },
-    {
-      inputs: { A: true, B: false, C: true, D: false },
-      outputs: { OUT: false },
-    },
-    { inputs: { A: true, B: false, C: true, D: true }, outputs: { OUT: true } },
-    {
-      inputs: { A: true, B: true, C: false, D: false },
-      outputs: { OUT: false },
-    },
-    { inputs: { A: true, B: true, C: false, D: true }, outputs: { OUT: true } },
-    { inputs: { A: true, B: true, C: true, D: false }, outputs: { OUT: true } },
-    { inputs: { A: true, B: true, C: true, D: true }, outputs: { OUT: false } },
+    { inputs: { 'Input 1': false, 'Input 2': false, 'Input 3': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': false, 'Input 3': true }, outputs: { Output: true } },
+    { inputs: { 'Input 1': false, 'Input 2': true, 'Input 3': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': false, 'Input 2': true, 'Input 3': true }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': false, 'Input 3': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': false, 'Input 3': true }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': true, 'Input 3': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': true, 'Input 3': true }, outputs: { Output: true } },
   ],
   hints: [
     'XOR of two signals is 1 when they differ',

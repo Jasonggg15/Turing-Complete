@@ -14,7 +14,7 @@ export const level36SavingBytes: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['34-the-bus', '35-saving-gracefully'],
   description:
-    'Build two 1-bit registers addressed by ADDR. When SAVE is high, store DATA into the register selected by ADDR. Output always shows the value in the register selected by ADDR.',
+    'Create a component that saves and loads data values using addressed memory. When SAVE is high, store DATA into the register selected by ADDR.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

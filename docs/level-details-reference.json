@@ -1,0 +1,722 @@
+{
+  "Crude Awakening": {
+    "section": "Basic Logic",
+    "objective": "Click the input icon to turn it off. Tutorial level teaching that you can change input values.",
+    "inputs": [{"name": "Input", "bits": 1}],
+    "outputs": [],
+    "truthTable": null,
+    "concepts": "Introduction to inputs and toggling signals",
+    "availableComponents": [],
+    "source": "wiki"
+  },
+  "NAND Gate": {
+    "section": "Basic Logic",
+    "objective": "Figure out the behavior of the NAND gate by setting the output correctly for each input combination.",
+    "inputs": [{"name": "Input One", "bits": 1}, {"name": "Input Two", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "NAND gate - universal gate, returns false only when both inputs true",
+    "availableComponents": ["NAND"],
+    "source": "wiki"
+  },
+  "NOT Gate": {
+    "section": "Basic Logic",
+    "objective": "Create a circuit that outputs the opposite of the input using NAND gates.",
+    "inputs": [{"name": "Input", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "NOT/inverter gate - built from NAND by connecting both inputs together",
+    "availableComponents": ["NAND"],
+    "source": "wiki"
+  },
+  "AND Gate": {
+    "section": "Basic Logic",
+    "objective": "Create the AND gate using NAND and NOT gates.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "AND gate - output true only when both inputs true. Built as NAND + NOT.",
+    "availableComponents": ["NAND", "NOT"],
+    "source": "wiki"
+  },
+  "NOR Gate": {
+    "section": "Basic Logic",
+    "objective": "Create the NOR gate.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "NOR gate - output true only when both inputs false",
+    "availableComponents": ["NAND", "NOT"],
+    "source": "wiki"
+  },
+  "OR Gate": {
+    "section": "Basic Logic",
+    "objective": "Create the OR gate by placing NOT gates on both inputs of a NAND gate.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "OR gate - De Morgan's law: OR = NAND(NOT A, NOT B)",
+    "availableComponents": ["NAND", "NOT"],
+    "source": "wiki"
+  },
+  "Always On": {
+    "section": "Basic Logic",
+    "objective": "Create a circuit that always outputs true regardless of input.",
+    "inputs": [{"name": "Input", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "Constant signal generation, De Morgan's laws",
+    "availableComponents": ["NAND", "NOT", "NOR", "AND", "OR"],
+    "unlocks": ["ON", "OFF"],
+    "source": "wiki"
+  },
+  "Second Tick": {
+    "section": "Basic Logic",
+    "objective": "Create a non-standard gate where the output is only true when input 1 is true and input 2 is false.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "Combining gates to create custom logic functions (AND-NOT pattern)",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR"],
+    "source": "wiki"
+  },
+  "XOR Gate": {
+    "section": "Basic Logic",
+    "objective": "Create the XOR gate - like OR except outputs false if both inputs are true.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "XOR gate - exclusive or. Simplest solution uses 4 NAND gates.",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR"],
+    "scored": true,
+    "highScore": 7,
+    "source": "wiki"
+  },
+  "Bigger OR Gate": {
+    "section": "Basic Logic",
+    "objective": "Create a three-input version of the OR gate.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}, {"name": "Input 3", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 0, "C": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1, "C": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1, "C": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0, "C": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0, "C": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1, "C": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1, "C": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "Scaling gates to more inputs by chaining",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR"],
+    "scored": true,
+    "highScore": 6,
+    "source": "wiki"
+  },
+  "Bigger AND Gate": {
+    "section": "Basic Logic",
+    "objective": "Create a three-input version of the AND gate.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}, {"name": "Input 3", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 0, "C": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1, "C": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0, "C": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1, "C": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "Scaling gates to more inputs by chaining two AND gates",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR"],
+    "scored": true,
+    "highScore": 6,
+    "source": "wiki"
+  },
+  "XNOR Gate": {
+    "section": "Basic Logic",
+    "objective": "Create the XNOR gate - inverse of XOR.",
+    "inputs": [{"name": "Input One", "bits": 1}, {"name": "Input Two", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "XNOR gate - equality check for single bits. XOR + NOT.",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR"],
+    "scored": true,
+    "highScore": 7,
+    "source": "wiki"
+  },
+  "Binary Racer": {
+    "section": "Arithmetic and Memory",
+    "objective": "Convert decimal numbers to binary by toggling eight input bits to match the target value within a time limit.",
+    "inputs": [{"name": "Bit 0-7", "bits": 1, "count": 8}],
+    "outputs": [{"name": "8-bit value", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Binary number representation, powers of 2 (1,2,4,8,16,32,64,128)",
+    "availableComponents": [],
+    "source": "steam-100"
+  },
+  "Double Trouble": {
+    "section": "Basic Logic",
+    "objective": "Output an ON signal when at least two of the three inputs are receiving an ON signal.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}, {"name": "Input 3", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 0, "C": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1, "C": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0, "C": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1, "C": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1, "C": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "Majority gate / threshold logic - at least 2 of 3 inputs",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR", "XNOR"],
+    "source": "steam-100"
+  },
+  "ODD Number of Signals": {
+    "section": "Basic Logic",
+    "objective": "Output ON when an odd number of inputs (1 or 3) are ON.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}, {"name": "Input 3", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 0, "C": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1, "C": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 0, "B": 1, "C": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 0, "C": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0, "C": 1}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1, "C": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 1, "B": 1, "C": 1}, "outputs": {"Out": 1}}
+    ],
+    "concepts": "Parity check - 3-input XOR chain detects odd number of ON signals",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR", "XNOR"],
+    "source": "steam-100"
+  },
+  "Counting Signals": {
+    "section": "Basic Logic",
+    "objective": "Count the number of ON input signals and output the count as a binary number on 3 output nodes (values 1, 2, 4).",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}, {"name": "Input 3", "bits": 1}, {"name": "Input 4", "bits": 1}],
+    "outputs": [{"name": "Bit 0 (value 1)", "bits": 1}, {"name": "Bit 1 (value 2)", "bits": 1}, {"name": "Bit 2 (value 4)", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Population count / signal counting, binary encoding of counts",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR", "XNOR"],
+    "source": "steam-100"
+  },
+  "Half Adder": {
+    "section": "Arithmetic",
+    "objective": "Create a basic arithmetic circuit that adds two bits producing a sum and a carry.",
+    "inputs": [{"name": "A", "bits": 1}, {"name": "B", "bits": 1}],
+    "outputs": [{"name": "SUM", "bits": 1}, {"name": "CAR", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"SUM": 0, "CAR": 0}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"SUM": 1, "CAR": 0}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"SUM": 1, "CAR": 0}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"SUM": 0, "CAR": 1}}
+    ],
+    "concepts": "Half adder - SUM is XOR, CARRY is AND. Foundation of binary arithmetic.",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "NOR", "XOR", "XNOR"],
+    "source": "wiki+steam-100"
+  },
+  "Double the Number": {
+    "section": "Arithmetic",
+    "objective": "Double the input byte value by shifting each bit to its doubled-value position using Byte Splitter/Maker.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Bit shifting - left shift by 1 is equivalent to multiplying by 2",
+    "availableComponents": ["Byte Splitter", "8 Bit Maker"],
+    "source": "steam-100"
+  },
+  "Full Adder": {
+    "section": "Arithmetic",
+    "objective": "Construct a full adder combining two input bits and a carry bit to produce a sum and carry-over.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}, {"name": "Carry In", "bits": 1}],
+    "outputs": [{"name": "SUM", "bits": 1}, {"name": "CAR", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0, "Cin": 0}, "outputs": {"SUM": 0, "CAR": 0}},
+      {"inputs": {"A": 1, "B": 0, "Cin": 0}, "outputs": {"SUM": 1, "CAR": 0}},
+      {"inputs": {"A": 0, "B": 1, "Cin": 0}, "outputs": {"SUM": 1, "CAR": 0}},
+      {"inputs": {"A": 1, "B": 1, "Cin": 0}, "outputs": {"SUM": 0, "CAR": 1}},
+      {"inputs": {"A": 0, "B": 0, "Cin": 1}, "outputs": {"SUM": 1, "CAR": 0}},
+      {"inputs": {"A": 1, "B": 0, "Cin": 1}, "outputs": {"SUM": 0, "CAR": 1}},
+      {"inputs": {"A": 0, "B": 1, "Cin": 1}, "outputs": {"SUM": 0, "CAR": 1}},
+      {"inputs": {"A": 1, "B": 1, "Cin": 1}, "outputs": {"SUM": 1, "CAR": 1}}
+    ],
+    "concepts": "Full adder - building block of binary arithmetic. Uses XOR for sum, AND+OR for carry.",
+    "availableComponents": ["NAND", "NOT", "AND", "OR", "XOR", "Half Adder"],
+    "scored": true,
+    "highScore": 15,
+    "source": "wiki+steam-100"
+  },
+  "Byte OR": {
+    "section": "Arithmetic",
+    "objective": "OR together two byte values bitwise using eight OR gates between Byte Splitter and 8 Bit Maker.",
+    "inputs": [{"name": "Byte A", "bits": 8}, {"name": "Byte B", "bits": 8}],
+    "outputs": [{"name": "Result", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Bitwise OR operation on 8-bit values using splitter/maker pattern",
+    "availableComponents": ["OR", "Byte Splitter", "8 Bit Maker"],
+    "scored": true,
+    "highScore": 10,
+    "source": "wiki+steam-100"
+  },
+  "Byte NOT": {
+    "section": "Arithmetic",
+    "objective": "NOT each individual bit within a byte value.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Bitwise NOT / ones complement on 8-bit values",
+    "availableComponents": ["NOT", "Byte Splitter", "8 Bit Maker"],
+    "source": "steam-100"
+  },
+  "Adding Bytes": {
+    "section": "Arithmetic",
+    "objective": "Add together two byte values using Full Adder components chained for carry propagation.",
+    "inputs": [{"name": "Byte A", "bits": 8}, {"name": "Byte B", "bits": 8}, {"name": "Carry In", "bits": 1}],
+    "outputs": [{"name": "Result", "bits": 8}, {"name": "Carry Out", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Ripple carry adder - chaining 8 full adders for byte addition",
+    "availableComponents": ["Full Adder", "Byte Splitter", "8 Bit Maker"],
+    "scored": true,
+    "highScore": 83,
+    "source": "wiki+steam-100"
+  },
+  "Negative Numbers": {
+    "section": "Arithmetic",
+    "objective": "Represent negative numbers in binary using two's complement. Interactive racer level.",
+    "inputs": [{"name": "Bit 0-7", "bits": 1, "count": 8}],
+    "outputs": [{"name": "8-bit signed value", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Two's complement representation. Highest bit represents -128. Range: -128 to 127.",
+    "availableComponents": [],
+    "source": "steam-100+steam-walkthrough"
+  },
+  "Signed Negator": {
+    "section": "Arithmetic",
+    "objective": "Negate a signed byte value using two's complement: invert all bits then add one.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Two's complement negation: NOT(x) + 1 = -x",
+    "availableComponents": ["NOT", "Byte Splitter", "8 Bit Maker", "Add"],
+    "source": "steam-100"
+  },
+  "1 Bit Decoder": {
+    "section": "Arithmetic",
+    "objective": "Create a circuit that outputs ON to one of two pins depending on the input signal. One output is the input, the other is its inverse.",
+    "inputs": [{"name": "Input", "bits": 1}],
+    "outputs": [{"name": "Output 0", "bits": 1}, {"name": "Output 1", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0}, "outputs": {"Out0": 1, "Out1": 0}},
+      {"inputs": {"A": 1}, "outputs": {"Out0": 0, "Out1": 1}}
+    ],
+    "concepts": "Decoder - converts binary input to one-hot output",
+    "availableComponents": ["NOT"],
+    "scored": true,
+    "highScore": 3,
+    "source": "wiki+steam-100"
+  },
+  "3 Bit Decoder": {
+    "section": "Arithmetic",
+    "objective": "Choose between eight outputs using three inputs. Decode a 3-bit value to one of 8 output lines.",
+    "inputs": [{"name": "Bit 0", "bits": 1}, {"name": "Bit 1", "bits": 1}, {"name": "Bit 2", "bits": 1}],
+    "outputs": [{"name": "Output 0", "bits": 1}, {"name": "Output 1", "bits": 1}, {"name": "Output 2", "bits": 1}, {"name": "Output 3", "bits": 1}, {"name": "Output 4", "bits": 1}, {"name": "Output 5", "bits": 1}, {"name": "Output 6", "bits": 1}, {"name": "Output 7", "bits": 1}],
+    "truthTable": null,
+    "concepts": "3-to-8 decoder using AND gates and NOT gates (or 1-bit decoders)",
+    "availableComponents": ["AND", "NOT", "1 Bit Decoder"],
+    "source": "wiki+steam-100"
+  },
+  "Logic Engine": {
+    "section": "Arithmetic",
+    "objective": "Create a logic engine capable of performing OR, NOR, AND, and NAND operations on two byte arguments, selected by a control code.",
+    "inputs": [{"name": "Byte A", "bits": 8}, {"name": "Byte B", "bits": 8}, {"name": "Operation Code", "bits": 2}],
+    "outputs": [{"name": "Result", "bits": 8}],
+    "truthTable": null,
+    "concepts": "ALU logic unit - multiplexing between multiple bitwise operations using decoders",
+    "availableComponents": ["3 Bit Decoder", "Byte OR", "Byte AND", "Byte NOR", "Byte NAND", "Bit Switch"],
+    "source": "wiki+steam-100"
+  },
+  "Bit Switch": {
+    "section": "Memory",
+    "objective": "Create an XOR gate from Switch and NOT components only.",
+    "inputs": [{"name": "Input 1", "bits": 1}, {"name": "Input 2", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"A": 0, "B": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"A": 0, "B": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"A": 1, "B": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "Multiplexer/switch component - routing signals conditionally",
+    "availableComponents": ["Switch", "NOT"],
+    "source": "wiki"
+  },
+  "Input Selector": {
+    "section": "Memory",
+    "objective": "Build an 8-bit multiplexer that selects between two byte inputs based on a control bit.",
+    "inputs": [{"name": "Input 1", "bits": 8}, {"name": "Input 2", "bits": 8}, {"name": "Select", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "8-bit multiplexer (MUX) - selecting between multiple data sources",
+    "availableComponents": ["8 Bit Switch", "NOT"],
+    "scored": true,
+    "highScore": 21,
+    "source": "wiki"
+  },
+  "The Bus": {
+    "section": "Memory",
+    "objective": "Extension of Input Selector where you also switch the outputs. Illustrates routing signals via a shared bus.",
+    "inputs": [{"name": "Input 1", "bits": 8}, {"name": "Input 2", "bits": 8}, {"name": "Select", "bits": 1}],
+    "outputs": [{"name": "Output 1", "bits": 8}, {"name": "Output 2", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Bus architecture - shared data path between components",
+    "availableComponents": ["8 Bit Switch", "8 Bit Mux", "NOT"],
+    "source": "wiki"
+  },
+  "Delayed Lines": {
+    "section": "Memory",
+    "objective": "Create a circuit that delays the signal by two ticks by chaining two Delay Line components.",
+    "inputs": [{"name": "Input", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Delay lines - storing signal state between clock ticks, sequential logic",
+    "availableComponents": ["Delay Line"],
+    "source": "wiki"
+  },
+  "Odd Ticks": {
+    "section": "Memory",
+    "objective": "Create a circuit that outputs ON every other tick (oscillator) using NOT gate and Delay Line in a loop.",
+    "inputs": [],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Clock/oscillator circuit - feedback loop with delay and inversion",
+    "availableComponents": ["NOT", "Delay Line"],
+    "source": "wiki"
+  },
+  "Bit Inverter": {
+    "section": "Memory",
+    "objective": "Create a circuit that inverts the first input if the second input is true (this is just XOR).",
+    "inputs": [{"name": "Value", "bits": 1}, {"name": "Invert", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": [
+      {"inputs": {"Value": 0, "Invert": 0}, "outputs": {"Out": 0}},
+      {"inputs": {"Value": 0, "Invert": 1}, "outputs": {"Out": 1}},
+      {"inputs": {"Value": 1, "Invert": 0}, "outputs": {"Out": 1}},
+      {"inputs": {"Value": 1, "Invert": 1}, "outputs": {"Out": 0}}
+    ],
+    "concepts": "Conditional bit inversion using XOR gate",
+    "availableComponents": ["XOR", "NOT", "Delay Line"],
+    "source": "wiki"
+  },
+  "Saving Gracefully": {
+    "section": "Memory",
+    "objective": "Create a circuit that can save a single bit for an indeterminate amount of time using a Delay Line and switches.",
+    "inputs": [{"name": "Value", "bits": 1}, {"name": "Save", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": null,
+    "concepts": "1-bit memory/register - feedback loop with delay line and write-enable",
+    "availableComponents": ["Delay Line", "Switch", "NOT"],
+    "source": "wiki"
+  },
+  "Saving Bytes": {
+    "section": "Memory",
+    "objective": "Create a component that saves and loads an entire 8-bit value by placing eight 1-bit memory components.",
+    "inputs": [{"name": "Value", "bits": 8}, {"name": "Save", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "8-bit register - scaling 1-bit memory to a full byte using splitter/maker",
+    "availableComponents": ["1 Bit Memory", "Byte Splitter", "8 Bit Maker"],
+    "source": "wiki"
+  },
+  "Counter": {
+    "section": "CPU Architecture",
+    "objective": "Create a component that either increments by one each tick or loads a new value (program counter).",
+    "inputs": [{"name": "Value", "bits": 8}, {"name": "Load", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Program counter - incrementing register with load capability. Foundation of instruction sequencing.",
+    "availableComponents": ["Register", "Add", "8 Bit Mux", "Always On"],
+    "source": "wiki"
+  },
+  "Component Factory": {
+    "section": "CPU Architecture",
+    "objective": "Tool level - learn to create custom reusable components with custom input/output pins.",
+    "inputs": [],
+    "outputs": [],
+    "truthTable": null,
+    "concepts": "Abstraction and encapsulation - creating reusable circuit components",
+    "availableComponents": ["All previously unlocked"],
+    "source": "wiki"
+  },
+  "Equality": {
+    "section": "CPU Architecture 2",
+    "objective": "Create a circuit that checks if two 8-bit values are identical using XNOR gates and AND gates.",
+    "inputs": [{"name": "Byte A", "bits": 8}, {"name": "Byte B", "bits": 8}],
+    "outputs": [{"name": "Equal", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Byte equality comparator - XNOR each bit pair, AND all results together",
+    "availableComponents": ["XNOR", "AND", "Byte Splitter"],
+    "scored": true,
+    "highScore": 40,
+    "source": "wiki"
+  },
+  "Hex Racer": {
+    "section": "Functions",
+    "objective": "Convert hexadecimal numbers to binary by toggling bits. Third round of Binary Racer with hex display.",
+    "inputs": [{"name": "Bit 0-7", "bits": 1, "count": 8}],
+    "outputs": [{"name": "8-bit value", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Hexadecimal number representation - 4 bits per hex digit",
+    "availableComponents": [],
+    "source": "wiki"
+  },
+  "Delay": {
+    "section": "Functions",
+    "objective": "Build a circuit that costs exactly 5 gates and 6 delay. Introduces delay as a scoring criterion.",
+    "inputs": [{"name": "Input", "bits": 1}],
+    "outputs": [{"name": "Output", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Understanding gate delay and critical path length in circuits",
+    "availableComponents": ["NAND", "NOT", "AND", "OR"],
+    "source": "wiki"
+  },
+  "Robot Racing": {
+    "section": "Assembly Challenges",
+    "objective": "Program FastBot to navigate a Hilbert curve path. Robot moves in cardinal directions without seeing ahead.",
+    "inputs": [],
+    "outputs": [{"name": "Direction", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Assembly programming, Hilbert curves, hardcoded vs algorithmic solutions",
+    "availableComponents": ["LEG Architecture CPU"],
+    "source": "wiki"
+  },
+  "Planet Names": {
+    "section": "Assembly Challenges",
+    "objective": "Capitalize the first letter of each word in a list of planet names (ASCII encoded, space-separated).",
+    "inputs": [{"name": "Character stream", "bits": 8}],
+    "outputs": [{"name": "Character stream", "bits": 8}],
+    "truthTable": null,
+    "concepts": "String processing in assembly - ASCII manipulation, conditional subtraction of 32 to capitalize",
+    "availableComponents": ["LEG Architecture CPU"],
+    "source": "wiki"
+  },
+  "Wire Spaghetti": {
+    "section": "CPU Architecture 2",
+    "objective": "Build a CPU based on the LEG architecture with register groups, ALU, instruction decoder, and bus routing.",
+    "inputs": [],
+    "outputs": [],
+    "truthTable": null,
+    "concepts": "LEG CPU architecture - register files, dual-bus design, instruction decoding, ALU integration",
+    "availableComponents": ["Register", "ALU", "3 Bit Decoder", "8 Bit Switch", "8 Bit Mux", "Counter", "Add"],
+    "source": "wiki"
+  },
+  "The Lab": {
+    "section": "Functions",
+    "objective": "Debugging tool level - save programs for automatic verification. Introduces expect and set_input keywords.",
+    "inputs": [],
+    "outputs": [],
+    "truthTable": null,
+    "concepts": "Testing and verification of CPU programs, automated test harness",
+    "availableComponents": ["All previously unlocked", "16/32/64-bit components", "Displays", "RAM", "ROM", "Halt", "Sound", "Console"],
+    "source": "wiki"
+  },
+  "Arithmetic Engine": {
+    "section": "CPU Architecture",
+    "objective": "Build an arithmetic engine that performs addition and subtraction on byte values.",
+    "inputs": [{"name": "Byte A", "bits": 8}, {"name": "Byte B", "bits": 8}, {"name": "Operation", "bits": 2}],
+    "outputs": [{"name": "Result", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Arithmetic unit portion of ALU - addition, subtraction using two's complement",
+    "availableComponents": ["Add", "Signed Negator", "8 Bit Mux", "3 Bit Decoder"],
+    "source": "steam-walkthrough"
+  },
+  "ALU": {
+    "section": "CPU Architecture",
+    "objective": "Combine Logic Engine and Arithmetic Engine into a full ALU with operation code selection.",
+    "inputs": [{"name": "Byte A", "bits": 8}, {"name": "Byte B", "bits": 8}, {"name": "Op Code", "bits": 3}],
+    "outputs": [{"name": "Result", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Arithmetic Logic Unit - combines arithmetic (add/sub) and bitwise (AND/OR/NAND/NOR) operations",
+    "availableComponents": ["Logic Engine", "Arithmetic Engine", "3 Bit Decoder", "8 Bit Switch"],
+    "source": "steam-walkthrough"
+  },
+  "Instruction Decoder": {
+    "section": "CPU Architecture",
+    "objective": "Create an instruction decoder that interprets opcodes and generates control signals for the CPU.",
+    "inputs": [{"name": "Instruction", "bits": 8}],
+    "outputs": [{"name": "Control signals", "bits": 1, "count": "multiple"}],
+    "truthTable": null,
+    "concepts": "Instruction decoding - converting opcodes to control signals for CPU components",
+    "availableComponents": ["3 Bit Decoder", "1 Bit Decoder", "AND", "OR"],
+    "source": "steam-walkthrough"
+  },
+  "Conditions": {
+    "section": "CPU Architecture",
+    "objective": "Build a condition unit that evaluates whether a value satisfies various conditions (=0, >0, <0, etc.).",
+    "inputs": [{"name": "Value", "bits": 8}, {"name": "Condition Code", "bits": 3}],
+    "outputs": [{"name": "Result", "bits": 1}],
+    "truthTable": null,
+    "concepts": "Conditional evaluation - comparisons, branch conditions for program flow control",
+    "availableComponents": ["3 Bit Decoder", "AND", "OR", "NOT", "8-Input OR"],
+    "source": "steam-walkthrough"
+  },
+  "Registers": {
+    "section": "CPU Architecture",
+    "objective": "Create a register file with multiple registers that can be read and written by index.",
+    "inputs": [{"name": "Data In", "bits": 8}, {"name": "Write Address", "bits": 3}, {"name": "Read Address", "bits": 3}, {"name": "Write Enable", "bits": 1}],
+    "outputs": [{"name": "Data Out", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Register file - indexed storage for CPU operands",
+    "availableComponents": ["Register", "3 Bit Decoder", "8 Bit Switch", "8 Bit Mux"],
+    "source": "steam-walkthrough"
+  },
+  "Overture": {
+    "section": "CPU Architecture",
+    "objective": "Build the Overture CPU - the first complete CPU architecture with fetch-decode-execute cycle.",
+    "inputs": [],
+    "outputs": [],
+    "truthTable": null,
+    "concepts": "Complete CPU design - program counter, instruction memory, registers, ALU, control logic",
+    "availableComponents": ["Counter", "Register", "ALU", "Instruction Decoder", "Conditions", "RAM", "8 Bit Mux", "8 Bit Switch"],
+    "source": "steam-walkthrough"
+  },
+  "Add 5": {
+    "section": "Programming",
+    "objective": "Write assembly to read input, add 5, and output the result.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Basic assembly programming - immediate values, addition, I/O",
+    "availableComponents": ["Overture CPU"],
+    "source": "steam-walkthrough"
+  },
+  "Calibrating Laser Cannons": {
+    "section": "Programming",
+    "objective": "Write assembly to perform arithmetic calibration on input values.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Assembly programming with multiple arithmetic operations",
+    "availableComponents": ["Overture CPU"],
+    "source": "steam-walkthrough"
+  },
+  "Spacial Invasion": {
+    "section": "Programming",
+    "objective": "Write assembly to handle a space invaders style challenge with conditional logic.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Conditional branching, loops in assembly",
+    "availableComponents": ["Overture CPU"],
+    "source": "steam-walkthrough"
+  },
+  "Storage Cracker": {
+    "section": "Programming",
+    "objective": "Write assembly to crack storage by manipulating memory values.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Memory manipulation, reading and writing RAM in assembly",
+    "availableComponents": ["Overture CPU"],
+    "source": "steam-walkthrough"
+  },
+  "Masking Time": {
+    "section": "Programming",
+    "objective": "Write assembly to perform bitwise masking operations.",
+    "inputs": [{"name": "Input", "bits": 8}],
+    "outputs": [{"name": "Output", "bits": 8}],
+    "truthTable": null,
+    "concepts": "Bitwise masking - AND with constants to extract/clear bits",
+    "availableComponents": ["Overture CPU"],
+    "source": "steam-walkthrough"
+  },
+  "The Maze": {
+    "section": "Programming",
+    "objective": "Write assembly to navigate a maze using conditional movement.",
+    "inputs": [{"name": "Sensor input", "bits": 8}],
+    "outputs": [{"name": "Direction", "bits": 8}],
+    "truthTable": null,
+    "concepts": "State machines in assembly, sensor-based navigation algorithms",
+    "availableComponents": ["Overture CPU"],
+    "source": "steam-walkthrough"
+  },
+  "_metadata": {
+    "scrapedAt": "2026-02-22T02:28:00+08:00",
+    "sources": {
+      "wiki": "https://turingcomplete.wiki/wiki/Level/{Name}",
+      "steam-100": "https://steamcommunity.com/sharedfiles/filedetails/?id=2686200253",
+      "steam-walkthrough": "https://steamcommunity.com/sharedfiles/filedetails/?id=3058316651"
+    },
+    "sections": [
+      "Basic Logic",
+      "Arithmetic",
+      "Memory",
+      "CPU Architecture",
+      "Programming",
+      "CPU Architecture 2",
+      "Assembly Challenges",
+      "Functions"
+    ],
+    "levelOrder": [
+      "Crude Awakening", "NAND Gate", "NOT Gate", "AND Gate", "NOR Gate", "OR Gate",
+      "Always On", "Second Tick", "XOR Gate", "Bigger OR Gate", "Bigger AND Gate", "XNOR Gate",
+      "Double Trouble", "ODD Number of Signals", "Counting Signals",
+      "Binary Racer", "Half Adder", "Double the Number", "Full Adder",
+      "Byte OR", "Byte NOT", "Adding Bytes", "Negative Numbers", "Signed Negator",
+      "Bit Switch", "Bit Inverter", "Delayed Lines", "Odd Ticks",
+      "Saving Gracefully", "Saving Bytes", "Input Selector", "The Bus",
+      "1 Bit Decoder", "3 Bit Decoder", "Logic Engine", "Arithmetic Engine", "ALU",
+      "Component Factory", "Instruction Decoder", "Conditions", "Registers", "Counter",
+      "Overture",
+      "Add 5", "Calibrating Laser Cannons", "Spacial Invasion", "Storage Cracker", "Masking Time", "The Maze",
+      "Equality", "Wire Spaghetti",
+      "Hex Racer", "Delay", "The Lab",
+      "Robot Racing", "Planet Names"
+    ],
+    "notes": "YouTube descriptions could not be extracted (page requires JS). Some wiki pages were stubs. Steam guides provided supplementary descriptions for arithmetic/memory/programming levels."
+  }
+}

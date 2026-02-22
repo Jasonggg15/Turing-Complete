@@ -7,7 +7,7 @@ export const level17DoubleTheNumber: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['15-binary-racer'],
   description:
-    'Double a 3-bit binary number by shifting it left. The result is a 4-bit number.',
+    'Double the input value by shifting each bit to its doubled-value position.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
@@ -17,40 +17,40 @@ export const level17DoubleTheNumber: Level = {
     GateType.XOR,
     GateType.XNOR,
   ],
-  inputs: [{ name: 'B2' }, { name: 'B1' }, { name: 'B0' }],
-  outputs: [{ name: 'R3' }, { name: 'R2' }, { name: 'R1' }, { name: 'R0' }],
+  inputs: [{ name: 'Bit 2' }, { name: 'Bit 1' }, { name: 'Bit 0' }],
+  outputs: [{ name: 'Result 3' }, { name: 'Result 2' }, { name: 'Result 1' }, { name: 'Result 0' }],
   truthTable: [
     {
-      inputs: { B2: false, B1: false, B0: false },
-      outputs: { R3: false, R2: false, R1: false, R0: false },
+      inputs: { 'Bit 2': false, 'Bit 1': false, 'Bit 0': false },
+      outputs: { 'Result 3': false, 'Result 2': false, 'Result 1': false, 'Result 0': false },
     },
     {
-      inputs: { B2: false, B1: false, B0: true },
-      outputs: { R3: false, R2: false, R1: true, R0: false },
+      inputs: { 'Bit 2': false, 'Bit 1': false, 'Bit 0': true },
+      outputs: { 'Result 3': false, 'Result 2': false, 'Result 1': true, 'Result 0': false },
     },
     {
-      inputs: { B2: false, B1: true, B0: false },
-      outputs: { R3: false, R2: true, R1: false, R0: false },
+      inputs: { 'Bit 2': false, 'Bit 1': true, 'Bit 0': false },
+      outputs: { 'Result 3': false, 'Result 2': true, 'Result 1': false, 'Result 0': false },
     },
     {
-      inputs: { B2: false, B1: true, B0: true },
-      outputs: { R3: false, R2: true, R1: true, R0: false },
+      inputs: { 'Bit 2': false, 'Bit 1': true, 'Bit 0': true },
+      outputs: { 'Result 3': false, 'Result 2': true, 'Result 1': true, 'Result 0': false },
     },
     {
-      inputs: { B2: true, B1: false, B0: false },
-      outputs: { R3: true, R2: false, R1: false, R0: false },
+      inputs: { 'Bit 2': true, 'Bit 1': false, 'Bit 0': false },
+      outputs: { 'Result 3': true, 'Result 2': false, 'Result 1': false, 'Result 0': false },
     },
     {
-      inputs: { B2: true, B1: false, B0: true },
-      outputs: { R3: true, R2: false, R1: true, R0: false },
+      inputs: { 'Bit 2': true, 'Bit 1': false, 'Bit 0': true },
+      outputs: { 'Result 3': true, 'Result 2': false, 'Result 1': true, 'Result 0': false },
     },
     {
-      inputs: { B2: true, B1: true, B0: false },
-      outputs: { R3: true, R2: true, R1: false, R0: false },
+      inputs: { 'Bit 2': true, 'Bit 1': true, 'Bit 0': false },
+      outputs: { 'Result 3': true, 'Result 2': true, 'Result 1': false, 'Result 0': false },
     },
     {
-      inputs: { B2: true, B1: true, B0: true },
-      outputs: { R3: true, R2: true, R1: true, R0: false },
+      inputs: { 'Bit 2': true, 'Bit 1': true, 'Bit 0': true },
+      outputs: { 'Result 3': true, 'Result 2': true, 'Result 1': true, 'Result 0': false },
     },
   ],
   hints: [

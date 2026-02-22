@@ -7,7 +7,7 @@ export const level24SignedNegator: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['23-negative-numbers'],
   description:
-    "Negate a 4-bit two's complement number. To negate: invert all bits, then add 1.",
+    "Negate a signed value using two's complement: invert all bits then add one.",
   availableGates: [
     GateType.NAND,
     GateType.NOT,

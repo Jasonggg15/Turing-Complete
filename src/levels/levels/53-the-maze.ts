@@ -14,7 +14,7 @@ export const level53TheMaze: Level = {
   prerequisites: ['50-masking-time'],
   type: 'programming',
   description:
-    'Navigate the maze! Memory contains a sequence of commands starting at address 0: 1=step forward, 2=turn left, 3=turn right, 0=stop. Read commands one by one, count the total number of forward steps (command=1), and output the count when you hit a stop command (0). Requires loops, memory access, and conditionals.',
+    'Write assembly to navigate a maze using conditional movement.',
   availableGates: [],
   availableInstructions: [
     'LOAD', 'LOAD_MEM', 'STORE', 'MOV', 'ADD', 'SUB',

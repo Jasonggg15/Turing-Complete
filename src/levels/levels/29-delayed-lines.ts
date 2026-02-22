@@ -13,7 +13,7 @@ export const level29DelayedLines: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['28-circular-dependency'],
   description:
-    'Output the input signal delayed by one clock cycle. The output at tick N should equal the input at tick N-1.',
+    'Create a circuit that delays the input signal. The output at tick N should equal the input at tick N-1.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

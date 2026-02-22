@@ -19,7 +19,7 @@ export const level18ByteOr: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number'],
   description:
-    'Perform a bitwise OR on two 8-bit numbers. Each output bit is the OR of the corresponding input bits.',
+    'OR together two byte values bitwise.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

@@ -6,13 +6,13 @@ export const level01CrudeAwakening: Level = {
   section: 'Basic Logic',
   prerequisites: [],
   description:
-    'Welcome! Click the input gate to toggle it and observe the output. Just wire the input to the output.',
+    'Click the input to turn it off to prove you are not a plant.',
   availableGates: [],
-  inputs: [{ name: 'IN' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { IN: false }, outputs: { OUT: false } },
-    { inputs: { IN: true }, outputs: { OUT: true } },
+    { inputs: { Input: false }, outputs: { Output: false } },
+    { inputs: { Input: true }, outputs: { Output: true } },
   ],
   hints: ['Connect the input directly to the output'],
 };

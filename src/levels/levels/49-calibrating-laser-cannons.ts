@@ -13,7 +13,7 @@ export const level49CalibratingLaserCannons: Level = {
   prerequisites: ['48-add-5'],
   type: 'programming',
   description:
-    'Calibrate the laser cannons! Compute output = input × 3 + 1. R0 contains the input. Use MOV, ADD, and OUT to calculate the result. Hint: multiplying by 3 is the same as adding the value to itself twice.',
+    'Write assembly to perform arithmetic calibration on input values.',
   availableGates: [],
   availableInstructions: ['LOAD', 'MOV', 'ADD', 'SUB', 'OUT', 'HALT'],
   inputs: [],

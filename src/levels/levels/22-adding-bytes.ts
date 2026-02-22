@@ -19,7 +19,7 @@ export const level22AddingBytes: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number', '21-full-adder', '32-bit-switch'],
   description:
-    'Add two 8-bit binary numbers with a carry-in. Chain full adders to build an 8-bit ripple-carry adder.',
+    'Add together two byte values using Full Adder components chained for carry propagation.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

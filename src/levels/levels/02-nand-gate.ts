@@ -7,15 +7,15 @@ export const level02NandGate: Level = {
   section: 'Basic Logic',
   prerequisites: ['01-crude-awakening'],
   description:
-    'The NAND gate outputs false only when both inputs are true. Build a circuit that implements this truth table.',
+    'Figure out the behavior of the NAND gate by setting the output correctly for each input combination.',
   availableGates: [GateType.NAND],
-  inputs: [{ name: 'A' }, { name: 'B' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input One' }, { name: 'Input Two' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { A: false, B: false }, outputs: { OUT: true } },
-    { inputs: { A: false, B: true }, outputs: { OUT: true } },
-    { inputs: { A: true, B: false }, outputs: { OUT: true } },
-    { inputs: { A: true, B: true }, outputs: { OUT: false } },
+    { inputs: { 'Input One': false, 'Input Two': false }, outputs: { Output: true } },
+    { inputs: { 'Input One': false, 'Input Two': true }, outputs: { Output: true } },
+    { inputs: { 'Input One': true, 'Input Two': false }, outputs: { Output: true } },
+    { inputs: { 'Input One': true, 'Input Two': true }, outputs: { Output: false } },
   ],
   hints: ['Place a NAND gate and connect both inputs through it'],
 };

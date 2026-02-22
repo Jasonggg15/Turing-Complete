@@ -13,7 +13,7 @@ export const level50MaskingTime: Level = {
   prerequisites: ['51-storage-cracker'],
   type: 'programming',
   description:
-    'Extract the upper and lower nibbles of a byte using bitwise operations. R0 contains the input byte. Output two values: first the lower nibble (bits 0-3), then the upper nibble (bits 4-7). Use AND to mask bits.',
+    'Write assembly to perform bitwise masking operations.',
   availableGates: [],
   availableInstructions: ['LOAD', 'MOV', 'ADD', 'AND', 'OR', 'XOR', 'SHR', 'OUT', 'HALT'],
   inputs: [],

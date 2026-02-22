@@ -14,7 +14,7 @@ export const level34TheBus: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['33-input-selector'],
   description:
-    'Build a 4-to-1 multiplexer. Four data inputs (D0-D3) and two select bits (S1, S0). Output the selected input: 00→D0, 01→D1, 10→D2, 11→D3.',
+    'Build a 4-to-1 multiplexer that routes one of four data inputs to the output based on a 2-bit select code.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

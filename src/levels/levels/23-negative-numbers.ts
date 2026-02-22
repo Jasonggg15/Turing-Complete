@@ -7,7 +7,7 @@ export const level23NegativeNumbers: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['18-byte-or', '22-adding-bytes'],
   description:
-    "Determine if a 4-bit two's complement number is negative. In two's complement, the most significant bit is the sign bit.",
+    "Represent negative numbers in binary using two's complement. Detect when a 4-bit signed number is negative (sign bit set).",
   availableGates: [
     GateType.NAND,
     GateType.NOT,

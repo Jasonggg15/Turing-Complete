@@ -18,7 +18,7 @@ export const level19ByteNot: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number'],
   description:
-    'Invert every bit of an 8-bit number. Each output bit is the NOT of the corresponding input bit.',
+    'NOT each individual bit within a byte value.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

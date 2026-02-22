@@ -14,7 +14,7 @@ export const level33InputSelector: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['22-adding-bytes', '32-bit-switch', '31-bit-inverter'],
   description:
-    'Build a 2-to-1 multiplexer. When SEL is off, output A. When SEL is on, output B.',
+    'Build a 2-to-1 multiplexer. When SEL is off, output A. When SEL is on, output B. Selects between two inputs based on a control bit.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

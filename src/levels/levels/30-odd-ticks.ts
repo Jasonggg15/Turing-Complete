@@ -13,7 +13,7 @@ export const level30OddTicks: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['29-delayed-lines'],
   description:
-    'Build a toggle circuit that alternates its output every tick. The output should be OFF on even ticks and ON on odd ticks (starting from tick 0).',
+    'Create a circuit that outputs ON every other tick (oscillator). The output should alternate between OFF and ON each clock cycle.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

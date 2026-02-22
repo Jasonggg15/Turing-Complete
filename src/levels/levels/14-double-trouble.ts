@@ -4,89 +4,33 @@ import type { Level } from '../Level';
 export const level14DoubleTrouble: Level = {
   id: '14-double-trouble',
   name: 'Double Trouble',
-  section: 'Arithmetic and Memory',
+  section: 'Basic Logic',
   prerequisites: ['10-bigger-or-gate'],
   description:
-    'Solve two independent logic problems at once. Output X = A AND B, and Y = C OR D.',
+    'Output an ON signal when at least two of the three inputs are receiving an ON signal.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
-    GateType.NOR,
-    GateType.OR,
     GateType.AND,
+    GateType.OR,
+    GateType.NOR,
     GateType.XOR,
     GateType.XNOR,
   ],
-  inputs: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }],
-  outputs: [{ name: 'X' }, { name: 'Y' }],
+  inputs: [{ name: 'Input 1' }, { name: 'Input 2' }, { name: 'Input 3' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    {
-      inputs: { A: false, B: false, C: false, D: false },
-      outputs: { X: false, Y: false },
-    },
-    {
-      inputs: { A: false, B: false, C: false, D: true },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: false, B: false, C: true, D: false },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: false, B: false, C: true, D: true },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: false, B: true, C: false, D: false },
-      outputs: { X: false, Y: false },
-    },
-    {
-      inputs: { A: false, B: true, C: false, D: true },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: false, B: true, C: true, D: false },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: false, B: true, C: true, D: true },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: true, B: false, C: false, D: false },
-      outputs: { X: false, Y: false },
-    },
-    {
-      inputs: { A: true, B: false, C: false, D: true },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: true, B: false, C: true, D: false },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: true, B: false, C: true, D: true },
-      outputs: { X: false, Y: true },
-    },
-    {
-      inputs: { A: true, B: true, C: false, D: false },
-      outputs: { X: true, Y: false },
-    },
-    {
-      inputs: { A: true, B: true, C: false, D: true },
-      outputs: { X: true, Y: true },
-    },
-    {
-      inputs: { A: true, B: true, C: true, D: false },
-      outputs: { X: true, Y: true },
-    },
-    {
-      inputs: { A: true, B: true, C: true, D: true },
-      outputs: { X: true, Y: true },
-    },
+    { inputs: { 'Input 1': false, 'Input 2': false, 'Input 3': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': false, 'Input 3': true }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': true, 'Input 3': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': false, 'Input 2': true, 'Input 3': true }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': false, 'Input 3': false }, outputs: { Output: false } },
+    { inputs: { 'Input 1': true, 'Input 2': false, 'Input 3': true }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': true, 'Input 3': false }, outputs: { Output: true } },
+    { inputs: { 'Input 1': true, 'Input 2': true, 'Input 3': true }, outputs: { Output: true } },
   ],
   hints: [
-    'Each output depends on a different pair of inputs',
-    'X needs AND, Y needs OR',
+    'Output is ON when any two inputs are both ON',
+    '(A AND B) OR (A AND C) OR (B AND C)',
   ],
 };

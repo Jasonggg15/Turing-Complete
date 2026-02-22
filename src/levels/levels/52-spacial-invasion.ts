@@ -13,7 +13,7 @@ export const level52SpacialInvasion: Level = {
   prerequisites: ['49-calibrating-laser-cannons'],
   type: 'programming',
   description:
-    'Defend against the spacial invasion! Compute the sum of all integers from 1 to N (where N is the input in R0). Output the total. You will need a loop: add the counter to an accumulator, decrement, and repeat until zero.',
+    'Write assembly to handle a space invaders style challenge with conditional logic.',
   availableGates: [],
   availableInstructions: [
     'LOAD', 'MOV', 'ADD', 'SUB', 'CMP', 'JMP', 'JZ', 'JNZ', 'OUT', 'HALT',

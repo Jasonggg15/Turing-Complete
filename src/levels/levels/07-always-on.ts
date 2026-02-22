@@ -6,7 +6,7 @@ export const level07AlwaysOn: Level = {
   name: 'Always On',
   section: 'Basic Logic',
   prerequisites: ['06-and-gate', '04-nor-gate', '05-or-gate'],
-  description: 'Build a circuit that always outputs true, regardless of input.',
+  description: 'Create a circuit that always outputs true regardless of input.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
@@ -14,11 +14,11 @@ export const level07AlwaysOn: Level = {
     GateType.OR,
     GateType.AND,
   ],
-  inputs: [{ name: 'A' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [{ name: 'Input' }],
+  outputs: [{ name: 'Output' }],
   truthTable: [
-    { inputs: { A: false }, outputs: { OUT: true } },
-    { inputs: { A: true }, outputs: { OUT: true } },
+    { inputs: { Input: false }, outputs: { Output: true } },
+    { inputs: { Input: true }, outputs: { Output: true } },
   ],
   hints: ['A OR NOT A is always true'],
 };

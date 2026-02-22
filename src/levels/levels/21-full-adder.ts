@@ -6,56 +6,31 @@ export const level21FullAdder: Level = {
   name: 'Full Adder',
   section: 'Arithmetic and Memory',
   prerequisites: ['20-half-adder'],
-  unlocksComponent: { name: 'Full Adder', gateType: GateType.FULL_ADDER },
   description:
-    'Build a full adder that adds two bits plus a carry-in. It produces a sum and carry-out.',
+    'Construct a full adder combining two input bits and a carry bit to produce a sum and carry-over.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
-    GateType.NOR,
-    GateType.OR,
     GateType.AND,
+    GateType.OR,
     GateType.XOR,
-    GateType.XNOR,
+    GateType.HALF_ADDER,
   ],
-  inputs: [{ name: 'A' }, { name: 'B' }, { name: 'CIN' }],
-  outputs: [{ name: 'SUM' }, { name: 'COUT' }],
+  inputs: [{ name: 'Input 1' }, { name: 'Input 2' }, { name: 'Carry In' }],
+  outputs: [{ name: 'SUM' }, { name: 'CAR' }],
   truthTable: [
-    {
-      inputs: { A: false, B: false, CIN: false },
-      outputs: { SUM: false, COUT: false },
-    },
-    {
-      inputs: { A: false, B: false, CIN: true },
-      outputs: { SUM: true, COUT: false },
-    },
-    {
-      inputs: { A: false, B: true, CIN: false },
-      outputs: { SUM: true, COUT: false },
-    },
-    {
-      inputs: { A: false, B: true, CIN: true },
-      outputs: { SUM: false, COUT: true },
-    },
-    {
-      inputs: { A: true, B: false, CIN: false },
-      outputs: { SUM: true, COUT: false },
-    },
-    {
-      inputs: { A: true, B: false, CIN: true },
-      outputs: { SUM: false, COUT: true },
-    },
-    {
-      inputs: { A: true, B: true, CIN: false },
-      outputs: { SUM: false, COUT: true },
-    },
-    {
-      inputs: { A: true, B: true, CIN: true },
-      outputs: { SUM: true, COUT: true },
-    },
+    { inputs: { 'Input 1': false, 'Input 2': false, 'Carry In': false }, outputs: { SUM: false, CAR: false } },
+    { inputs: { 'Input 1': true, 'Input 2': false, 'Carry In': false }, outputs: { SUM: true, CAR: false } },
+    { inputs: { 'Input 1': false, 'Input 2': true, 'Carry In': false }, outputs: { SUM: true, CAR: false } },
+    { inputs: { 'Input 1': true, 'Input 2': true, 'Carry In': false }, outputs: { SUM: false, CAR: true } },
+    { inputs: { 'Input 1': false, 'Input 2': false, 'Carry In': true }, outputs: { SUM: true, CAR: false } },
+    { inputs: { 'Input 1': true, 'Input 2': false, 'Carry In': true }, outputs: { SUM: false, CAR: true } },
+    { inputs: { 'Input 1': false, 'Input 2': true, 'Carry In': true }, outputs: { SUM: false, CAR: true } },
+    { inputs: { 'Input 1': true, 'Input 2': true, 'Carry In': true }, outputs: { SUM: true, CAR: true } },
   ],
   hints: [
-    'A full adder is two half adders chained together',
-    'The carry-out is 1 when at least 2 of the 3 inputs are 1',
+    'A full adder can be built from two half adders',
+    'Chain the carry output of the first half adder into the second',
   ],
+  unlocksComponent: { name: 'Full Adder', gateType: GateType.FULL_ADDER },
 };

@@ -13,7 +13,7 @@ export const level38Counter: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['37-little-box'],
   description:
-    'Build a 3-bit binary counter. Each tick, the counter increments by 1. Output the current count as three bits: B2 (MSB), B1, B0 (LSB). The counter wraps around after 7 (111).',
+    'Build a counter that increments by one each tick. The counter wraps around when it overflows.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

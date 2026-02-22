@@ -15,7 +15,7 @@ export const level40Registers: Level = {
   section: 'CPU Architecture',
   prerequisites: ['26-3-bit-decoder'],
   description:
-    'Build a register file with two 2-bit registers. ADDR selects the register. When WRITE is high, store the 2-bit input (D1, D0) into the selected register. Outputs Q1, Q0 always show the selected register value.',
+    'Create a register file with registers that can be read and written by address.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

@@ -7,7 +7,7 @@ export const level27LogicEngine: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['24-signed-negator', '26-3-bit-decoder'],
   description:
-    'Build a programmable logic unit. Given two data inputs and two operation-select inputs, perform the selected operation: 00=AND, 01=OR, 10=XOR, 11=NAND.',
+    'Create a logic engine that can perform the selected operation on two data inputs using a 2-bit operation code: 00=OR, 01=NOR, 10=AND, 11=NAND.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
@@ -17,72 +17,81 @@ export const level27LogicEngine: Level = {
     GateType.XOR,
     GateType.XNOR,
   ],
-  inputs: [{ name: 'A' }, { name: 'B' }, { name: 'OP1' }, { name: 'OP0' }],
-  outputs: [{ name: 'OUT' }],
+  inputs: [
+    { name: 'Input 1' },
+    { name: 'Input 2' },
+    { name: 'Op 1' },
+    { name: 'Op 0' },
+  ],
+  outputs: [{ name: 'Output' }],
   truthTable: [
+    // Op=00 (OR): Output = Input 1 OR Input 2
     {
-      inputs: { A: false, B: false, OP1: false, OP0: false },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': false, 'Op 0': false },
+      outputs: { Output: false },
     },
     {
-      inputs: { A: false, B: true, OP1: false, OP0: false },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': false, 'Op 0': false },
+      outputs: { Output: true },
     },
     {
-      inputs: { A: true, B: false, OP1: false, OP0: false },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': true, 'Input 2': false, 'Op 1': false, 'Op 0': false },
+      outputs: { Output: true },
     },
     {
-      inputs: { A: true, B: true, OP1: false, OP0: false },
-      outputs: { OUT: true },
+      inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': false, 'Op 0': false },
+      outputs: { Output: true },
+    },
+    // Op=01 (NOR): Output = NOT(Input 1 OR Input 2)
+    {
+      inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': false, 'Op 0': true },
+      outputs: { Output: true },
     },
     {
-      inputs: { A: false, B: false, OP1: false, OP0: true },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': false, 'Op 0': true },
+      outputs: { Output: false },
     },
     {
-      inputs: { A: false, B: true, OP1: false, OP0: true },
-      outputs: { OUT: true },
+      inputs: { 'Input 1': true, 'Input 2': false, 'Op 1': false, 'Op 0': true },
+      outputs: { Output: false },
     },
     {
-      inputs: { A: true, B: false, OP1: false, OP0: true },
-      outputs: { OUT: true },
+      inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': false, 'Op 0': true },
+      outputs: { Output: false },
+    },
+    // Op=10 (AND): Output = Input 1 AND Input 2
+    {
+      inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': true, 'Op 0': false },
+      outputs: { Output: false },
     },
     {
-      inputs: { A: true, B: true, OP1: false, OP0: true },
-      outputs: { OUT: true },
+      inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': true, 'Op 0': false },
+      outputs: { Output: false },
     },
     {
-      inputs: { A: false, B: false, OP1: true, OP0: false },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': true, 'Input 2': false, 'Op 1': true, 'Op 0': false },
+      outputs: { Output: false },
     },
     {
-      inputs: { A: false, B: true, OP1: true, OP0: false },
-      outputs: { OUT: true },
+      inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': true, 'Op 0': false },
+      outputs: { Output: true },
+    },
+    // Op=11 (NAND): Output = NOT(Input 1 AND Input 2)
+    {
+      inputs: { 'Input 1': false, 'Input 2': false, 'Op 1': true, 'Op 0': true },
+      outputs: { Output: true },
     },
     {
-      inputs: { A: true, B: false, OP1: true, OP0: false },
-      outputs: { OUT: true },
+      inputs: { 'Input 1': false, 'Input 2': true, 'Op 1': true, 'Op 0': true },
+      outputs: { Output: true },
     },
     {
-      inputs: { A: true, B: true, OP1: true, OP0: false },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': true, 'Input 2': false, 'Op 1': true, 'Op 0': true },
+      outputs: { Output: true },
     },
     {
-      inputs: { A: false, B: false, OP1: true, OP0: true },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: false, B: true, OP1: true, OP0: true },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: true, B: false, OP1: true, OP0: true },
-      outputs: { OUT: true },
-    },
-    {
-      inputs: { A: true, B: true, OP1: true, OP0: true },
-      outputs: { OUT: false },
+      inputs: { 'Input 1': true, 'Input 2': true, 'Op 1': true, 'Op 0': true },
+      outputs: { Output: false },
     },
   ],
   hints: [

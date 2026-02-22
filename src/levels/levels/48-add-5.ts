@@ -13,7 +13,7 @@ export const level48Add5: Level = {
   prerequisites: ['47-turing-complete'],
   type: 'programming',
   description:
-    'Write a program that adds 5 to the input value. Register R0 is pre-loaded with the input. Use ADD and OUT instructions to produce the result.',
+    'Write assembly to read input, add 5, and output the result.',
   availableGates: [],
   availableInstructions: ['LOAD', 'ADD', 'SUB', 'OUT', 'HALT'],
   inputs: [],

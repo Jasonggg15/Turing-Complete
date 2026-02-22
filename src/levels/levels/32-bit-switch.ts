@@ -13,7 +13,7 @@ export const level32BitSwitch: Level = {
   section: 'Arithmetic and Memory',
   prerequisites: ['17-double-the-number', '13-odd-number-of-signals'],
   description:
-    'Build a circuit that stores a single bit. SET turns it on, RESET turns it off. If neither is active, hold the value. SET has priority over RESET.',
+    'Build an SR latch: SET turns it on, RESET turns it off. If neither is active, hold the value. SET has priority over RESET.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,

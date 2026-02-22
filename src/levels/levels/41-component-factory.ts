@@ -14,7 +14,7 @@ export const level41ComponentFactory: Level = {
   section: 'CPU Architecture',
   prerequisites: ['39-arithmetic-engine'],
   description:
-    'Build a 4-bit parallel load register. When LOAD is high, store the 4-bit input (D3-D0) into the register. When LOAD is low, the register holds its current value. Outputs Q3-Q0 always show the stored value.',
+    'Build a parallel load register. When LOAD is high, store the input value. When LOAD is low, hold the current value.',
   availableGates: [
     GateType.NAND,
     GateType.NOT,
