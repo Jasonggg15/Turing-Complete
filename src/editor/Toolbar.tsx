@@ -21,6 +21,7 @@ const buttonBase: React.CSSProperties = {
   fontFamily: 'monospace',
   fontWeight: 'bold',
   transition: 'background 0.15s',
+  outline: 'none',
 };
 
 const selectedStyle: React.CSSProperties = {

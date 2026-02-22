@@ -184,3 +184,8 @@ body {
 .tree-node--unlocked:hover {
   transform: scale(1.05);
 }
+
+/* Prevent browser default focus styles from overriding button borders */
+button:focus, button:focus-visible {
+  outline: none;
+}
