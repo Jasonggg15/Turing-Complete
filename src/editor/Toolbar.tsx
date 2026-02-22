@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { GateType } from '../engine/types';
 import { WIRE_COLORS, WIRE_COLOR_NAMES } from './WireRenderer';
 
@@ -62,6 +63,20 @@ export default function Toolbar({
   wireColor = 'green',
   onWireColorChange,
 }: ToolbarProps) {
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!colorPickerOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(e.target as Node)) {
+        setColorPickerOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [colorPickerOpen]);
+
   return (
     <div
       style={{
@@ -138,33 +153,73 @@ export default function Toolbar({
               margin: '0 4px',
             }}
           />
-          <button
-            style={{
-              ...buttonBase,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 10px',
-            }}
-            onClick={() => {
-              const idx = WIRE_COLOR_NAMES.indexOf(wireColor);
-              const next = WIRE_COLOR_NAMES[(idx + 1) % WIRE_COLOR_NAMES.length]!;
-              onWireColorChange(next);
-            }}
-            title={`Wire color: ${wireColor} (click to cycle)`}
-          >
-            <span
+          <div ref={colorPickerRef} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <button
               style={{
-                width: 14,
-                height: 14,
-                borderRadius: '50%',
-                background: (WIRE_COLORS[wireColor] ?? WIRE_COLORS['green']!).hex,
-                display: 'inline-block',
-                border: '1px solid #6a6a8a',
+                ...buttonBase,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 10px',
               }}
-            />
-            <span style={{ fontSize: '11px' }}>Wire</span>
-          </button>
+              onClick={() => setColorPickerOpen(!colorPickerOpen)}
+              title={`Wire color: ${wireColor}`}
+            >
+              <span
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: '50%',
+                  background: (WIRE_COLORS[wireColor] ?? WIRE_COLORS['green']!).hex,
+                  display: 'inline-block',
+                  border: '1px solid #6a6a8a',
+                }}
+              />
+              <span style={{ fontSize: '11px' }}>Wire</span>
+            </button>
+
+            {colorPickerOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  marginTop: '4px',
+                  display: 'flex',
+                  gap: '4px',
+                  padding: '6px 8px',
+                  background: '#1a1a2e',
+                  border: '1px solid #4a4a6a',
+                  borderRadius: '6px',
+                  zIndex: 50,
+                }}
+              >
+                {WIRE_COLOR_NAMES.map((name) => {
+                  const entry = WIRE_COLORS[name]!;
+                  const isSelected = name === wireColor;
+                  return (
+                    <button
+                      key={name}
+                      onClick={() => {
+                        onWireColorChange(name);
+                        setColorPickerOpen(false);
+                      }}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        background: entry.hex,
+                        border: isSelected ? '2px solid #e2e8f0' : '2px solid transparent',
+                        cursor: 'pointer',
+                        outline: 'none',
+                      }}
+                      title={name}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </>
       )}
 

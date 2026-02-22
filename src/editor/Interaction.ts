@@ -10,7 +10,7 @@ import {
   getGateBounds,
   PIN_RADIUS,
 } from './GateRenderer';
-import { hitTestOrthoWire } from './WireRenderer';
+import { hitTestOrthoWire, hitTestOrthoWireMulti } from './WireRenderer';
 import type { Level } from '../levels/Level';
 import { soundManager } from './SoundManager';
 import type { SerializedCircuit } from '../engine/types';
@@ -21,7 +21,8 @@ type InteractionState =
   | 'dragging'
   | 'wiring'
   | 'box-selecting'
-  | 'dragging-selection';
+  | 'dragging-selection'
+  | 'dragging-waypoint';
 
 export interface RadialMenuItem {
   type: GateType;
@@ -35,7 +36,7 @@ export interface RadialMenuState {
   screenX: number;
   screenY: number;
   items: RadialMenuItem[];
-  hoveredIndex: number;
+  hoveredIndex: number; // -1 = center (pointer mode)
 }
 
 export interface SelectionRect {
@@ -60,6 +61,7 @@ export class Interaction {
   private selectedTool: GateType | null = null;
   private selectedGateId: string | null = null;
   private wiringFrom: { gate: Gate; pin: Pin; pos: Position } | null = null;
+  private wiringWaypoints: Position[] = [];
   private mouseWorld: Position = { x: 0, y: 0 };
   private isPanning = false;
   private panStart = { x: 0, y: 0 };
@@ -84,6 +86,10 @@ export class Interaction {
 
   // Clipboard
   private clipboard: SerializedCircuit | null = null;
+
+  // Waypoint dragging
+  private dragWireId: string | null = null;
+  private dragWaypointIndex: number = -1;
 
   private readonly handleMouseDown: (e: MouseEvent) => void;
   private readonly handleMouseMove: (e: MouseEvent) => void;
@@ -147,6 +153,10 @@ export class Interaction {
 
   getWiringFrom(): { pos: Position } | null {
     return this.wiringFrom ? { pos: this.wiringFrom.pos } : null;
+  }
+
+  getWiringWaypoints(): Position[] {
+    return this.wiringWaypoints;
   }
 
   getMouseWorld(): Position {
@@ -272,8 +282,27 @@ export class Interaction {
       const from = getPinPosition(fromGate, fromPin, fromPos);
       const to = getPinPosition(toGate, toPin, toPos);
 
-      if (hitTestOrthoWire(from, to, world, 8)) {
-        return wire;
+      if (wire.waypoints.length > 0) {
+        const points = [from, ...wire.waypoints, to];
+        if (hitTestOrthoWireMulti(points, world, 8)) return wire;
+      } else {
+        if (hitTestOrthoWire(from, to, world, 8)) return wire;
+      }
+    }
+    return null;
+  }
+
+  private findWaypointAt(world: Position): { wire: Wire; waypointIndex: number } | null {
+    const threshold = 8;
+    for (const wire of this.circuit.getWires()) {
+      if (wire.waypoints.length === 0) continue;
+      for (let i = 0; i < wire.waypoints.length; i++) {
+        const wp = wire.waypoints[i]!;
+        const dx = world.x - wp.x;
+        const dy = world.y - wp.y;
+        if (dx * dx + dy * dy <= threshold * threshold) {
+          return { wire, waypointIndex: i };
+        }
       }
     }
     return null;
@@ -350,14 +379,31 @@ export class Interaction {
     this.callbacks.requestRender();
   }
 
-  private closeRadialMenu(): GateType | null {
+  /** Close radial menu. Returns selected GateType, 'pointer' for center, or null if no menu. */
+  private closeRadialMenu(): GateType | 'pointer' | null {
     if (!this.radialMenu) return null;
     const idx = this.radialMenu.hoveredIndex;
-    const selected = idx >= 0 ? this.radialMenu.items[idx]?.type ?? null : null;
+    let selected: GateType | 'pointer' | null;
+    if (idx >= 0) {
+      selected = this.radialMenu.items[idx]?.type ?? null;
+    } else {
+      // Center zone = pointer mode
+      selected = 'pointer';
+    }
     this.radialMenu = null;
     this.radialMenuActive = false;
     this.callbacks.requestRender();
     return selected;
+  }
+
+  private handleRadialSelection(selected: GateType | 'pointer' | null): void {
+    if (selected === 'pointer') {
+      this.setSelectedTool(null);
+      this.callbacks.onToolChange?.(null);
+    } else if (selected) {
+      this.setSelectedTool(selected);
+      this.callbacks.onToolChange?.(selected);
+    }
   }
 
   private deleteSelection(): void {
@@ -434,7 +480,11 @@ export class Interaction {
       const fromPin = newFromGate.outputs.find((p) => p.name === fromPinName);
       const toPin = newToGate.inputs.find((p) => p.name === toPinName);
       if (!fromPin || !toPin) continue;
-      try { this.circuit.addWire(fromPin, toPin, sw.color); } catch { /* skip */ }
+      const adjustedWaypoints = sw.waypoints?.map(wp => ({
+        x: wp.x + offsetX,
+        y: wp.y + offsetY,
+      }));
+      try { this.circuit.addWire(fromPin, toPin, sw.color, adjustedWaypoints); } catch { /* skip */ }
     }
 
     this.clearSelection();
@@ -462,14 +512,47 @@ export class Interaction {
     // Close radial menu on left click
     if (this.radialMenu) {
       const selected = this.closeRadialMenu();
-      if (selected) {
-        this.setSelectedTool(selected);
-        this.callbacks.onToolChange?.(selected);
-      }
+      this.handleRadialSelection(selected);
       return;
     }
 
-    // #6: Placing mode — place one gate then return to pointer
+    // KiCad wiring: while in wiring state, clicks add waypoints or finalize
+    if (this.state === 'wiring' && this.wiringFrom) {
+      const pinHit = this.findPinAt(world);
+      if (
+        pinHit &&
+        pinHit.pin.direction === 'input' &&
+        pinHit.gate.id !== this.wiringFrom.gate.id
+      ) {
+        // Finalize wire with waypoints
+        try {
+          this.pushUndo();
+          this.circuit.addWire(
+            this.wiringFrom.pin,
+            pinHit.pin,
+            this.wireColor,
+            this.wiringWaypoints.length > 0 ? [...this.wiringWaypoints] : undefined,
+          );
+          soundManager.wireConnect();
+          this.callbacks.onCircuitChange();
+        } catch {
+          this.undoStack.pop();
+        }
+        this.wiringFrom = null;
+        this.wiringWaypoints = [];
+        this.state = this.selectedTool ? 'placing' : 'idle';
+        this.callbacks.requestRender();
+        return;
+      }
+
+      // Click on empty space: add waypoint
+      const snapped = { x: snapToGrid(world.x), y: snapToGrid(world.y) };
+      this.wiringWaypoints.push(snapped);
+      this.callbacks.requestRender();
+      return;
+    }
+
+    // Placing mode — place one gate then return to pointer
     if (this.state === 'placing' && this.selectedTool) {
       if (this.level && !this.level.availableGates.includes(this.selectedTool)) return;
       const snapped = { x: snapToGrid(world.x), y: snapToGrid(world.y) };
@@ -485,6 +568,7 @@ export class Interaction {
       return;
     }
 
+    // Start wiring from output pin
     const pinHit = this.findPinAt(world);
     if (pinHit && pinHit.pin.direction === 'output') {
       const gatePos = this.circuit.getGatePosition(pinHit.gate.id);
@@ -495,6 +579,7 @@ export class Interaction {
           pin: pinHit.pin,
           pos: getPinPosition(pinHit.gate, pinHit.pin, gatePos),
         };
+        this.wiringWaypoints = [];
         this.callbacks.requestRender();
         return;
       }
@@ -510,20 +595,24 @@ export class Interaction {
       }
     }
 
+    // Check waypoint hit before gate hit
+    const wpHit = this.findWaypointAt(world);
+    if (wpHit) {
+      this.pushUndo();
+      this.state = 'dragging-waypoint';
+      this.dragWireId = wpHit.wire.id;
+      this.dragWaypointIndex = wpHit.waypointIndex;
+      this.clearSelection();
+      this.selectedWireIds.add(wpHit.wire.id);
+      this.callbacks.requestRender();
+      return;
+    }
+
     const gateHit = this.findGateAt(world);
     if (gateHit) {
-      if (gateHit.type === GateType.INPUT) {
-        const outPin = gateHit.outputs[0];
-        if (outPin) {
-          outPin.value = !outPin.value;
-          this.callbacks.onCircuitChange();
-          this.callbacks.requestRender();
-        }
-      }
-
-      // Multi-selection drag
+      // Multi-selection drag — check BEFORE INPUT toggle to prevent spurious toggles
       if (this.selectedGateIds.has(gateHit.id) && this.selectedGateIds.size > 1) {
-        this.pushUndo(); // #7
+        this.pushUndo();
         this.state = 'dragging-selection';
         this.dragOffset = { x: world.x, y: world.y };
         this.dragSelectionStart.clear();
@@ -535,12 +624,22 @@ export class Interaction {
         return;
       }
 
+      // INPUT toggle (only for single-gate interaction, not multi-drag)
+      if (gateHit.type === GateType.INPUT) {
+        const outPin = gateHit.outputs[0];
+        if (outPin) {
+          outPin.value = !outPin.value;
+          this.callbacks.onCircuitChange();
+          this.callbacks.requestRender();
+        }
+      }
+
       // Single gate select + drag
       this.clearSelection();
       this.selectedGateId = gateHit.id;
       this.selectedGateIds.add(gateHit.id);
       this.callbacks.onSelectGate(gateHit.id);
-      this.pushUndo(); // #7
+      this.pushUndo();
       this.state = 'dragging';
       const gatePos = this.circuit.getGatePosition(gateHit.id);
       if (gatePos) {
@@ -559,7 +658,7 @@ export class Interaction {
       return;
     }
 
-    // Empty space — start box selection (#2)
+    // Empty space — start box selection
     this.clearSelection();
     this.state = 'box-selecting';
     this.boxStart = { ...world };
@@ -617,6 +716,19 @@ export class Interaction {
       return;
     }
 
+    if (this.state === 'dragging-waypoint' && this.dragWireId !== null) {
+      const wire = this.circuit.getWires().find(w => w.id === this.dragWireId);
+      if (wire && this.dragWaypointIndex >= 0 && this.dragWaypointIndex < wire.waypoints.length) {
+        wire.waypoints[this.dragWaypointIndex] = {
+          x: snapToGrid(world.x),
+          y: snapToGrid(world.y),
+        };
+        this.callbacks.onCircuitChange();
+        this.callbacks.requestRender();
+      }
+      return;
+    }
+
     if (this.state === 'box-selecting' && this.boxStart) {
       this.selectionRect = {
         x: this.boxStart.x,
@@ -650,10 +762,7 @@ export class Interaction {
     if (e.button === 2) {
       if (this.radialMenuActive && this.radialMenu) {
         const selected = this.closeRadialMenu();
-        if (selected) {
-          this.setSelectedTool(selected);
-          this.callbacks.onToolChange?.(selected);
-        }
+        this.handleRadialSelection(selected);
       }
       return;
     }
@@ -663,26 +772,8 @@ export class Interaction {
       return;
     }
 
+    // KiCad wiring: mouseup is a no-op (wire finalizes via mousedown on input pin)
     if (this.state === 'wiring' && this.wiringFrom) {
-      const world = this.screenToWorld(e.clientX, e.clientY);
-      const pinHit = this.findPinAt(world);
-      if (
-        pinHit &&
-        pinHit.pin.direction === 'input' &&
-        pinHit.gate.id !== this.wiringFrom.gate.id
-      ) {
-        try {
-          this.pushUndo();
-          this.circuit.addWire(this.wiringFrom.pin, pinHit.pin, this.wireColor);
-          soundManager.wireConnect();
-          this.callbacks.onCircuitChange();
-        } catch {
-          this.undoStack.pop();
-        }
-      }
-      this.wiringFrom = null;
-      this.state = this.selectedTool ? 'placing' : 'idle';
-      this.callbacks.requestRender();
       return;
     }
 
@@ -707,9 +798,15 @@ export class Interaction {
       this.state = 'idle';
       this.dragSelectionStart.clear();
     }
+
+    if (this.state === 'dragging-waypoint') {
+      this.state = 'idle';
+      this.dragWireId = null;
+      this.dragWaypointIndex = -1;
+    }
   }
 
-  // #3 + #4: Right-click shows radial menu or wire color picker (no more right-click delete)
+  // Right-click shows radial menu or wire color picker
   private onContextMenu(e: MouseEvent): void {
     e.preventDefault();
     const world = this.screenToWorld(e.clientX, e.clientY);
@@ -723,7 +820,7 @@ export class Interaction {
       return;
     }
 
-    // Right-click on empty space or gate → radial menu (#3)
+    // Right-click on empty space or gate → radial menu
     this.buildRadialMenu(e.clientX, e.clientY);
   }
 
@@ -753,7 +850,7 @@ export class Interaction {
       e.preventDefault();
     }
 
-    // #4: Delete/Backspace deletes selection
+    // Delete/Backspace deletes selection
     if (e.code === 'Delete' || e.code === 'Backspace') {
       if (this.selectedGateIds.size > 0 || this.selectedWireIds.size > 0) {
         this.deleteSelection();
@@ -778,7 +875,7 @@ export class Interaction {
       return;
     }
 
-    // #5: Copy/Paste
+    // Copy/Paste
     if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
       e.preventDefault();
       this.copySelection();
@@ -792,10 +889,16 @@ export class Interaction {
 
     if (e.code === 'Escape') {
       if (this.radialMenu) { this.closeRadialMenu(); return; }
+      if (this.state === 'wiring') {
+        this.wiringFrom = null;
+        this.wiringWaypoints = [];
+        this.state = this.selectedTool ? 'placing' : 'idle';
+        this.callbacks.requestRender();
+        return;
+      }
       this.selectedTool = null;
       this.state = 'idle';
       this.placingGhost = null;
-      this.wiringFrom = null;
       this.clearSelection();
       this.callbacks.onToolChange?.(null);
       this.callbacks.requestRender();

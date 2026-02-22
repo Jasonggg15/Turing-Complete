@@ -52,7 +52,7 @@ export default function WireColorPicker({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: 'repeat(7, 1fr)',
           gap: '4px',
         }}
       >

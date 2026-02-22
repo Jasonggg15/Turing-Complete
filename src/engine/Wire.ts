@@ -1,4 +1,4 @@
-import type { Pin } from './types';
+import type { Pin, Position } from './types';
 
 export class Wire {
   readonly id: string;
@@ -7,8 +7,9 @@ export class Wire {
   readonly fromGateId: string;
   readonly toGateId: string;
   color: string;
+  waypoints: Position[];
 
-  constructor(from: Pin, to: Pin, id?: string, color?: string) {
+  constructor(from: Pin, to: Pin, id?: string, color?: string, waypoints?: Position[]) {
     if (from.direction !== 'output') {
       throw new Error(
         `Wire source must be an output pin, got ${from.direction} pin "${from.id}"`,
@@ -26,5 +27,6 @@ export class Wire {
     this.fromGateId = from.gateId;
     this.toGateId = to.gateId;
     this.color = color ?? 'green';
+    this.waypoints = waypoints ? waypoints.map(p => ({ ...p })) : [];
   }
 }

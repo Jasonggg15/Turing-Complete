@@ -46,6 +46,7 @@ export interface SerializedWire {
   from: string;
   to: string;
   color?: string;
+  waypoints?: Position[];
 }
 
 export interface SerializedCircuit {

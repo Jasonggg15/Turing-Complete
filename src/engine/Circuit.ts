@@ -47,7 +47,7 @@ export class Circuit {
     this.positions.delete(id);
   }
 
-  addWire(from: Pin, to: Pin, color?: string): Wire {
+  addWire(from: Pin, to: Pin, color?: string, waypoints?: Position[]): Wire {
     if (!this.gates.has(from.gateId)) {
       throw new Error(
         `Source pin "${from.id}" belongs to gate "${from.gateId}" which is not in this circuit`,
@@ -67,7 +67,7 @@ export class Circuit {
       }
     }
 
-    const wire = new Wire(from, to, undefined, color);
+    const wire = new Wire(from, to, undefined, color, waypoints);
     this.wires.set(wire.id, wire);
     return wire;
   }
@@ -112,6 +112,7 @@ export class Circuit {
       from: wire.fromPinId,
       to: wire.toPinId,
       ...(wire.color !== 'green' ? { color: wire.color } : {}),
+      ...(wire.waypoints.length > 0 ? { waypoints: wire.waypoints.map(p => ({ ...p })) } : {}),
     }));
 
     return { gates, wires };
@@ -132,7 +133,7 @@ export class Circuit {
       const fromPin = this.findPinById(sw.from);
       const toPin = this.findPinById(sw.to);
       if (fromPin && toPin) {
-        const wire = new Wire(fromPin, toPin, sw.id, sw.color);
+        const wire = new Wire(fromPin, toPin, sw.id, sw.color, sw.waypoints);
         this.wires.set(wire.id, wire);
       }
     }

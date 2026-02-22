@@ -6,7 +6,7 @@ import type { Level } from '../levels/Level';
 import type { Camera } from './Grid';
 import { drawGrid } from './Grid';
 import { drawGate, getGateBounds } from './GateRenderer';
-import { drawWire, drawWirePreview, advanceFlowOffset } from './WireRenderer';
+import { drawWire, drawWirePreview, drawWireWaypoints, advanceFlowOffset } from './WireRenderer';
 import { Interaction } from './Interaction';
 import type { RadialMenuState } from './Interaction';
 import WireColorPicker from './WireColorPicker';
@@ -80,6 +80,9 @@ export default function Canvas({
 
     for (const wire of circuit.getWires()) {
       drawWire(ctx, circuit, wire, simulationResult, selectedWireIds.has(wire.id));
+      if (selectedWireIds.has(wire.id) && wire.waypoints.length > 0) {
+        drawWireWaypoints(ctx, wire);
+      }
     }
 
     for (const gate of circuit.getGates()) {
@@ -94,7 +97,8 @@ export default function Canvas({
     if (interaction) {
       const wiringFrom = interaction.getWiringFrom();
       if (wiringFrom && interaction.getState() === 'wiring') {
-        drawWirePreview(ctx, wiringFrom.pos, interaction.getMouseWorld());
+        const waypoints = interaction.getWiringWaypoints();
+        drawWirePreview(ctx, wiringFrom.pos, interaction.getMouseWorld(), waypoints.length > 0 ? waypoints : undefined);
       }
 
       // Box selection rectangle
@@ -396,14 +400,25 @@ export default function Canvas({
             zIndex: 40,
           }}
         >
-          {/* Center dot */}
+          {/* Center zone — pointer mode */}
           <div style={{
             position: 'absolute',
-            left: -4, top: -4,
-            width: 8, height: 8,
+            left: -16, top: -16,
+            width: 32, height: 32,
             borderRadius: '50%',
-            background: '#6366f1',
-          }} />
+            background: radialMenu.hoveredIndex === -1 ? '#6366f1' : '#1a1a2e',
+            border: `2px solid ${radialMenu.hoveredIndex === -1 ? '#818cf8' : '#4a4a6a'}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: radialMenu.hoveredIndex === -1 ? '#fff' : '#94a3b8',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            pointerEvents: 'none',
+            transition: 'background 0.1s, border-color 0.1s',
+          }}>
+            ×
+          </div>
           {/* Menu items */}
           {radialMenu.items.map((item, i) => {
             const isHovered = i === radialMenu.hoveredIndex;
