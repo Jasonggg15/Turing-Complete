@@ -46,11 +46,21 @@ export default function Canvas({
   const needsRenderRef = useRef(true);
   const undoStackRef = useRef<SerializedCircuit[]>([]);
   const redoStackRef = useRef<SerializedCircuit[]>([]);
+  const simulationResultRef = useRef<Map<string, boolean> | undefined>(undefined);
+  const hasActiveSignalsRef = useRef(false);
   const [hoveredGate, setHoveredGate] = useState<Gate | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
-  const [zoom, setZoom] = useState(1);
   const [colorPicker, setColorPicker] = useState<{ wireId: string; x: number; y: number } | null>(null);
   const [radialMenu, setRadialMenu] = useState<RadialMenuState | null>(null);
+
+  // Keep simulationResult in a ref to avoid rebuilding the render callback
+  useEffect(() => {
+    simulationResultRef.current = simulationResultProp ?? undefined;
+    // Check if any signals are active (need continuous rendering for flow animation)
+    const sim = simulationResultRef.current;
+    hasActiveSignalsRef.current = sim ? [...sim.values()].some(v => v) : false;
+    needsRenderRef.current = true;
+  }, [simulationResultProp]);
 
   const render = useCallback(() => {
     const canvas = canvasRef.current;
@@ -73,7 +83,7 @@ export default function Canvas({
     ctx.translate(camera.offsetX, camera.offsetY);
     ctx.scale(camera.zoom, camera.zoom);
 
-    const simulationResult = simulationResultProp ?? undefined;
+    const simulationResult = simulationResultRef.current;
     const interaction = interactionRef.current;
     const selectedGateIds = interaction?.getSelectedGateIds() ?? new Set<string>();
     const selectedWireIds = interaction?.getSelectedWireIds() ?? new Set<string>();
@@ -132,10 +142,18 @@ export default function Canvas({
 
     ctx.restore();
 
+    // Draw zoom indicator directly on canvas (avoids React state updates)
+    ctx.save();
+    ctx.font = '11px monospace';
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${Math.round(camera.zoom * 100)}%`, width - 8, height - 8);
+    ctx.restore();
+
     // Update radial menu state for React overlay
     const rmState = interaction?.getRadialMenu() ?? null;
     setRadialMenu(rmState);
-  }, [circuit, selectedGateId, simulationResultProp]);
+  }, [circuit, selectedGateId]);
 
   const requestRender = useCallback(() => {
     needsRenderRef.current = true;
@@ -143,18 +161,19 @@ export default function Canvas({
 
   useEffect(() => {
     const loop = () => {
-      advanceFlowOffset();
-      const currentZoom = cameraRef.current.zoom;
-      if (currentZoom !== zoom) setZoom(currentZoom);
+      if (hasActiveSignalsRef.current) {
+        advanceFlowOffset();
+        needsRenderRef.current = true;
+      }
       if (needsRenderRef.current) {
         needsRenderRef.current = false;
+        render();
       }
-      render();
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [render, zoom]);
+  }, [render]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -283,6 +302,7 @@ export default function Canvas({
   }, [circuit, onCircuitChange, onWireColorChange, requestRender]);
 
   const handleDeleteWire = useCallback((wireId: string) => {
+    interactionRef.current?.pushUndo();
     circuit.removeWire(wireId);
     onCircuitChange();
     requestRender();
@@ -320,24 +340,6 @@ export default function Canvas({
           cursor: selectedTool ? 'crosshair' : 'default',
         }}
       />
-
-      {/* Zoom indicator */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 8,
-          right: 8,
-          background: 'rgba(26, 26, 46, 0.85)',
-          color: '#94a3b8',
-          padding: '4px 8px',
-          borderRadius: '4px',
-          fontSize: '11px',
-          fontFamily: 'monospace',
-          pointerEvents: 'none',
-        }}
-      >
-        {Math.round(cameraRef.current.zoom * 100)}%
-      </div>
 
       {/* Gate tooltip */}
       {hoveredGate && tooltipPos && (() => {

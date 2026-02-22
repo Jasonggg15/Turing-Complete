@@ -11,11 +11,14 @@ export class Circuit {
   private gates = new Map<string, Gate>();
   private wires = new Map<string, Wire>();
   private positions = new Map<string, Position>();
+  private gatesCache: Gate[] | null = null;
+  private wiresCache: Wire[] | null = null;
 
   addGate(type: GateType, position: Position, label?: string): Gate {
     const gate = createGate({ type, label });
     this.gates.set(gate.id, gate);
     this.positions.set(gate.id, { ...position });
+    this.gatesCache = null;
     return gate;
   }
 
@@ -30,6 +33,8 @@ export class Circuit {
     this.gates.clear();
     this.wires.clear();
     this.positions.clear();
+    this.gatesCache = null;
+    this.wiresCache = null;
   }
 
   removeGate(id: string): void {
@@ -45,6 +50,8 @@ export class Circuit {
 
     this.gates.delete(id);
     this.positions.delete(id);
+    this.gatesCache = null;
+    this.wiresCache = null;
   }
 
   addWire(from: Pin, to: Pin, color?: string, waypoints?: Position[]): Wire {
@@ -69,6 +76,7 @@ export class Circuit {
 
     const wire = new Wire(from, to, undefined, color, waypoints);
     this.wires.set(wire.id, wire);
+    this.wiresCache = null;
     return wire;
   }
 
@@ -77,6 +85,7 @@ export class Circuit {
       throw new Error(`Wire "${id}" not found in circuit`);
     }
     this.wires.delete(id);
+    this.wiresCache = null;
   }
 
   getGate(id: string): Gate | undefined {
@@ -84,11 +93,13 @@ export class Circuit {
   }
 
   getGates(): Gate[] {
-    return [...this.gates.values()];
+    if (!this.gatesCache) this.gatesCache = [...this.gates.values()];
+    return this.gatesCache;
   }
 
   getWires(): Wire[] {
-    return [...this.wires.values()];
+    if (!this.wiresCache) this.wiresCache = [...this.wires.values()];
+    return this.wiresCache;
   }
 
   getGatePosition(id: string): Position | undefined {
@@ -122,6 +133,8 @@ export class Circuit {
     this.gates.clear();
     this.wires.clear();
     this.positions.clear();
+    this.gatesCache = null;
+    this.wiresCache = null;
 
     for (const sg of data.gates) {
       const gate = createGate({ type: sg.type, id: sg.id, label: sg.label });
@@ -163,7 +176,7 @@ export class Circuit {
         );
       }
 
-      const wire = new Wire(fromPin, toPin, sw.id, sw.color);
+      const wire = new Wire(fromPin, toPin, sw.id, sw.color, sw.waypoints);
       circuit.wires.set(wire.id, wire);
     }
 

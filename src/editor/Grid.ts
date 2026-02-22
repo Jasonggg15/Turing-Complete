@@ -18,19 +18,20 @@ export function drawGrid(
 ): void {
   const { offsetX, offsetY, zoom } = camera;
 
-  const startX = Math.floor(-offsetX / zoom / GRID_SIZE) * GRID_SIZE;
-  const startY = Math.floor(-offsetY / zoom / GRID_SIZE) * GRID_SIZE;
-  const endX =
-    Math.ceil((width - offsetX) / zoom / GRID_SIZE) * GRID_SIZE;
-  const endY =
-    Math.ceil((height - offsetY) / zoom / GRID_SIZE) * GRID_SIZE;
+  // At low zoom, use larger grid spacing to reduce dot count
+  const step = zoom < 0.5 ? GRID_SIZE * 2 : GRID_SIZE;
+
+  const startX = Math.floor(-offsetX / zoom / step) * step;
+  const startY = Math.floor(-offsetY / zoom / step) * step;
+  const endX = Math.ceil((width - offsetX) / zoom / step) * step;
+  const endY = Math.ceil((height - offsetY) / zoom / step) * step;
 
   // Draw subtle dot grid
   const dotRadius = 1 / zoom;
   ctx.fillStyle = '#1e2a4a';
 
-  for (let x = startX; x <= endX; x += GRID_SIZE) {
-    for (let y = startY; y <= endY; y += GRID_SIZE) {
+  for (let x = startX; x <= endX; x += step) {
+    for (let y = startY; y <= endY; y += step) {
       const sx = x * zoom + offsetX;
       const sy = y * zoom + offsetY;
       ctx.beginPath();

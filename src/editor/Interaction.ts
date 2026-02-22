@@ -194,7 +194,7 @@ export class Interaction {
     return this.wireColor;
   }
 
-  private pushUndo(): void {
+  pushUndo(): void {
     this.undoStack.push(this.circuit.serialize());
     if (this.undoStack.length > 50) this.undoStack.shift();
     this.redoStack.length = 0;

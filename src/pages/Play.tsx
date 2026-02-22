@@ -148,25 +148,17 @@ export default function Play() {
 
   const handleClear = useCallback(() => {
     if (!level || !circuitRef.current) return;
-    const ioGates = circuitRef.current
-      .getGates()
-      .filter((g) => g.type !== GateType.INPUT && g.type !== GateType.OUTPUT);
-    for (const gate of ioGates) {
-      circuitRef.current.removeGate(gate.id);
-    }
-    const remainingWires = circuitRef.current.getWires();
-    for (const wire of remainingWires) {
-      try {
-        circuitRef.current.removeWire(wire.id);
-      } catch {
-        // wire already removed via gate removal
-      }
-    }
+    const circuit = circuitRef.current;
+    // Save I/O gates and positions, clear everything, then restore I/O
+    const ioGates = circuit.getGates()
+      .filter((g) => g.type === GateType.INPUT || g.type === GateType.OUTPUT)
+      .map((g) => ({ type: g.type, id: g.id, position: circuit.getGatePosition(g.id)!, label: g.label }));
+    circuit.loadFrom({ gates: ioGates, wires: [] });
     setVerifyResult(null);
     setSimulationResult(null);
     setSelectedTool(null);
     setSelectedGateId(null);
-    saveCircuit(level.id, circuitRef.current.serialize());
+    saveCircuit(level.id, circuit.serialize());
     setRenderVersion((n) => n + 1);
   }, [level]);
 
