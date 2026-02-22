@@ -75,19 +75,51 @@ body {
   z-index: 2;
 }
 
-/* Pulsing glow on AND gate logo */
-.logo-glow {
-  filter: drop-shadow(0 0 6px rgba(212, 168, 67, 0.4));
-  animation: logo-pulse 3s ease-in-out infinite;
+/* PCB Logo — chip glow */
+.pcb-chip {
+  animation: pcb-chip-glow 4s ease-in-out infinite;
 }
 
-@keyframes logo-pulse {
+@keyframes pcb-chip-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 6px rgba(212, 168, 67, 0.3));
+    filter: drop-shadow(0 0 4px rgba(212, 168, 67, 0.1));
   }
   50% {
-    filter: drop-shadow(0 0 18px rgba(212, 168, 67, 0.7));
+    filter: drop-shadow(0 0 16px rgba(212, 168, 67, 0.35));
   }
+}
+
+/* PCB signal flow animations */
+.pcb-signal-1 { animation: pcb-flow-38 2.5s linear infinite; }
+.pcb-signal-2 { animation: pcb-flow-38 2.5s linear infinite 0.8s; }
+.pcb-signal-3 { animation: pcb-flow-30 2.2s linear infinite 0.3s; }
+.pcb-signal-4 { animation: pcb-flow-30 2.2s linear infinite 1.4s; }
+.pcb-signal-5 { animation: pcb-flow-27 1.8s linear infinite 0.5s; }
+.pcb-signal-6 { animation: pcb-flow-30 2s linear infinite 1s; }
+
+@keyframes pcb-flow-38 {
+  from { stroke-dashoffset: 38; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pcb-flow-30 {
+  from { stroke-dashoffset: 30; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pcb-flow-27 {
+  from { stroke-dashoffset: 27; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Via pulse */
+.pcb-via-pulse {
+  animation: pcb-via-pulse 3s ease-in-out infinite;
+}
+
+@keyframes pcb-via-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 1; filter: drop-shadow(0 0 4px rgba(212, 168, 67, 0.6)); }
 }
 
 /* Menu item hover transition */

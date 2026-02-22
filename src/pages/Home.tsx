@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import PcbLogo from './PcbLogo';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -17,84 +18,12 @@ export default function Home() {
         background: '#0f0f1a',
         color: '#e2e8f0',
         fontFamily: "'Courier New', Courier, monospace",
-        paddingTop: '18vh',
+        paddingTop: '8vh',
       }}
     >
       <div className="home-content" style={{ display: 'contents' }}>
-        {/* Title */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div
-            style={{
-              fontSize: 'clamp(4rem, 8vw, 6rem)',
-              fontWeight: 300,
-              letterSpacing: '0.3em',
-              color: '#e2e8f0',
-              lineHeight: 1.1,
-            }}
-          >
-            TURING
-          </div>
-          <div
-            style={{
-              fontSize: 'clamp(4rem, 8vw, 6rem)',
-              fontWeight: 700,
-              letterSpacing: '0.2em',
-              color: '#D4A843',
-              lineHeight: 1.1,
-            }}
-          >
-            COMPLETE
-          </div>
-        </div>
-
-        {/* Circuit-inspired AND gate logo with pulsing glow */}
-        <svg
-          className="logo-glow"
-          width="120"
-          height="80"
-          viewBox="0 0 120 80"
-          fill="none"
-          style={{ marginBottom: '48px' }}
-        >
-          {/* AND gate body — curved D-shape */}
-          <path
-            d="M20 10 L55 10 C85 10 95 40 95 40 C95 40 85 70 55 70 L20 70 L20 10 Z"
-            stroke="#D4A843"
-            strokeWidth="2"
-            strokeOpacity="0.6"
-            fill="none"
-          />
-          {/* Input line top */}
-          <line
-            x1="0"
-            y1="28"
-            x2="20"
-            y2="28"
-            stroke="#D4A843"
-            strokeWidth="2"
-            strokeOpacity="0.6"
-          />
-          {/* Input line bottom */}
-          <line
-            x1="0"
-            y1="52"
-            x2="20"
-            y2="52"
-            stroke="#D4A843"
-            strokeWidth="2"
-            strokeOpacity="0.6"
-          />
-          {/* Output line */}
-          <line
-            x1="95"
-            y1="40"
-            x2="120"
-            y2="40"
-            stroke="#D4A843"
-            strokeWidth="2"
-            strokeOpacity="0.6"
-          />
-        </svg>
+        {/* PCB-style chip logo */}
+        <PcbLogo />
 
         {/* Left-aligned menu */}
         <div
