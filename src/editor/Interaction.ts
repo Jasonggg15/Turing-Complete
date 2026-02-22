@@ -25,7 +25,7 @@ type InteractionState =
   | 'dragging-waypoint';
 
 export interface RadialMenuItem {
-  type: GateType;
+  type: GateType | 'pointer';
   label: string;
   angle: number;
   x: number;
@@ -308,6 +308,27 @@ export class Interaction {
     return null;
   }
 
+  /**
+   * Remove redundant waypoints: keep only those that cause an actual direction change
+   * in the orthogonal routing (H-V-H between each consecutive pair).
+   */
+  private simplifyWaypoints(from: Position, waypoints: Position[], to: Position): Position[] {
+    if (waypoints.length === 0) return [];
+    const pts = [from, ...waypoints, to];
+    const result: Position[] = [];
+    for (let i = 1; i < pts.length - 1; i++) {
+      const prev = pts[i - 1]!;
+      const curr = pts[i]!;
+      const next = pts[i + 1]!;
+      // Same horizontal line → redundant
+      if (prev.y === curr.y && curr.y === next.y) continue;
+      // Same vertical line → redundant
+      if (prev.x === curr.x && curr.x === next.x) continue;
+      result.push(curr);
+    }
+    return result;
+  }
+
   private clearSelection(): void {
     this.selectedGateIds.clear();
     this.selectedWireIds.clear();
@@ -338,8 +359,10 @@ export class Interaction {
     if (gates.length === 0) return;
 
     const radius = 80;
+    // Gate items spread evenly, leaving a slot at the bottom for "Pointer"
+    const totalSlots = gates.length + 1;
     const items: RadialMenuItem[] = gates.map((type, i) => {
-      const angle = (i / gates.length) * Math.PI * 2 - Math.PI / 2;
+      const angle = (i / totalSlots) * Math.PI * 2 - Math.PI / 2;
       return {
         type,
         label: type === GateType.HALF_ADDER ? 'HA' : type === GateType.FULL_ADDER ? 'FA' : type,
@@ -347,6 +370,15 @@ export class Interaction {
         x: Math.cos(angle) * radius,
         y: Math.sin(angle) * radius,
       };
+    });
+    // "Pointer" sector at the bottom (last slot)
+    const pointerAngle = (gates.length / totalSlots) * Math.PI * 2 - Math.PI / 2;
+    items.push({
+      type: 'pointer',
+      label: '⊘ None',
+      angle: pointerAngle,
+      x: Math.cos(pointerAngle) * radius,
+      y: Math.sin(pointerAngle) * radius,
     });
 
     this.radialMenu = { screenX, screenY, items, hoveredIndex: -1 };
@@ -379,7 +411,7 @@ export class Interaction {
     this.callbacks.requestRender();
   }
 
-  /** Close radial menu. Returns selected GateType, 'pointer' for center, or null if no menu. */
+  /** Close radial menu. Returns selected item type, or null if center/no menu. */
   private closeRadialMenu(): GateType | 'pointer' | null {
     if (!this.radialMenu) return null;
     const idx = this.radialMenu.hoveredIndex;
@@ -387,8 +419,8 @@ export class Interaction {
     if (idx >= 0) {
       selected = this.radialMenu.items[idx]?.type ?? null;
     } else {
-      // Center zone = pointer mode
-      selected = 'pointer';
+      // Center zone = no selection (do nothing)
+      selected = null;
     }
     this.radialMenu = null;
     this.radialMenuActive = false;
@@ -505,7 +537,18 @@ export class Interaction {
       return;
     }
 
-    if (e.button === 2) return; // handled in contextmenu
+    // Right button: open radial menu (hold-drag-release)
+    if (e.button === 2) {
+      const wireHit = this.findWireAt(world);
+      if (wireHit) {
+        if (this.callbacks.onShowColorPicker) {
+          this.callbacks.onShowColorPicker(wireHit.id, e.clientX, e.clientY);
+        }
+      } else {
+        this.buildRadialMenu(e.clientX, e.clientY);
+      }
+      return;
+    }
 
     if (e.button !== 0) return;
 
@@ -524,14 +567,23 @@ export class Interaction {
         pinHit.pin.direction === 'input' &&
         pinHit.gate.id !== this.wiringFrom.gate.id
       ) {
-        // Finalize wire with waypoints
+        // Finalize wire with waypoints — simplify to keep only actual bends
+        const toPinPos = (() => {
+          const gp = this.circuit.getGatePosition(pinHit.gate.id);
+          return gp ? getPinPosition(pinHit.gate, pinHit.pin, gp) : null;
+        })();
+        let finalWaypoints: Position[] | undefined;
+        if (this.wiringWaypoints.length > 0 && toPinPos) {
+          const cleaned = this.simplifyWaypoints(this.wiringFrom.pos, this.wiringWaypoints, toPinPos);
+          finalWaypoints = cleaned.length > 0 ? cleaned : undefined;
+        }
         try {
           this.pushUndo();
           this.circuit.addWire(
             this.wiringFrom.pin,
             pinHit.pin,
             this.wireColor,
-            this.wiringWaypoints.length > 0 ? [...this.wiringWaypoints] : undefined,
+            finalWaypoints,
           );
           soundManager.wireConnect();
           this.callbacks.onCircuitChange();
@@ -806,22 +858,8 @@ export class Interaction {
     }
   }
 
-  // Right-click shows radial menu or wire color picker
   private onContextMenu(e: MouseEvent): void {
     e.preventDefault();
-    const world = this.screenToWorld(e.clientX, e.clientY);
-
-    // Right-click on wire → color picker
-    const wireHit = this.findWireAt(world);
-    if (wireHit) {
-      if (this.callbacks.onShowColorPicker) {
-        this.callbacks.onShowColorPicker(wireHit.id, e.clientX, e.clientY);
-      }
-      return;
-    }
-
-    // Right-click on empty space or gate → radial menu
-    this.buildRadialMenu(e.clientX, e.clientY);
   }
 
   private onWheel(e: WheelEvent): void {

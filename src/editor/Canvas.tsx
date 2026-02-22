@@ -5,7 +5,7 @@ import type { SerializedCircuit } from '../engine/types';
 import type { Level } from '../levels/Level';
 import type { Camera } from './Grid';
 import { drawGrid } from './Grid';
-import { drawGate, getGateBounds } from './GateRenderer';
+import { drawGate, getGateBounds, getPinPosition } from './GateRenderer';
 import { drawWire, drawWirePreview, drawWireWaypoints, advanceFlowOffset } from './WireRenderer';
 import { Interaction } from './Interaction';
 import type { RadialMenuState } from './Interaction';
@@ -81,7 +81,19 @@ export default function Canvas({
     for (const wire of circuit.getWires()) {
       drawWire(ctx, circuit, wire, simulationResult, selectedWireIds.has(wire.id));
       if (selectedWireIds.has(wire.id) && wire.waypoints.length > 0) {
-        drawWireWaypoints(ctx, wire);
+        const fromGate = circuit.getGate(wire.fromGateId);
+        const toGate = circuit.getGate(wire.toGateId);
+        if (fromGate && toGate) {
+          const fp = circuit.getGatePosition(wire.fromGateId);
+          const tp = circuit.getGatePosition(wire.toGateId);
+          if (fp && tp) {
+            const fromPin = fromGate.outputs.find(p => p.id === wire.fromPinId);
+            const toPin = toGate.inputs.find(p => p.id === wire.toPinId);
+            if (fromPin && toPin) {
+              drawWireWaypoints(ctx, wire, getPinPosition(fromGate, fromPin, fp), getPinPosition(toGate, toPin, tp));
+            }
+          }
+        }
       }
     }
 
@@ -400,25 +412,16 @@ export default function Canvas({
             zIndex: 40,
           }}
         >
-          {/* Center zone — pointer mode */}
+          {/* Center zone — no selection */}
           <div style={{
             position: 'absolute',
-            left: -16, top: -16,
-            width: 32, height: 32,
+            left: -12, top: -12,
+            width: 24, height: 24,
             borderRadius: '50%',
-            background: radialMenu.hoveredIndex === -1 ? '#6366f1' : '#1a1a2e',
-            border: `2px solid ${radialMenu.hoveredIndex === -1 ? '#818cf8' : '#4a4a6a'}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: radialMenu.hoveredIndex === -1 ? '#fff' : '#94a3b8',
-            fontSize: '16px',
-            fontWeight: 'bold',
+            background: '#1a1a2e',
+            border: '2px solid #4a4a6a',
             pointerEvents: 'none',
-            transition: 'background 0.1s, border-color 0.1s',
-          }}>
-            ×
-          </div>
+          }} />
           {/* Menu items */}
           {radialMenu.items.map((item, i) => {
             const isHovered = i === radialMenu.hoveredIndex;

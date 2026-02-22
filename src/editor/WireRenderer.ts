@@ -167,14 +167,24 @@ export function drawWire(
   }
 }
 
-/** Draw waypoint handles on a selected wire. */
+/** Draw waypoint handles on a selected wire — only at actual bends. */
 export function drawWireWaypoints(
   ctx: CanvasRenderingContext2D,
   wire: Wire,
+  from: Position,
+  to: Position,
 ): void {
-  for (const wp of wire.waypoints) {
+  if (wire.waypoints.length === 0) return;
+  const pts = [from, ...wire.waypoints, to];
+  for (let i = 1; i < pts.length - 1; i++) {
+    const prev = pts[i - 1]!;
+    const curr = pts[i]!;
+    const next = pts[i + 1]!;
+    // Skip collinear points (same row or same column)
+    if (prev.y === curr.y && curr.y === next.y) continue;
+    if (prev.x === curr.x && curr.x === next.x) continue;
     ctx.beginPath();
-    ctx.arc(wp.x, wp.y, 4, 0, Math.PI * 2);
+    ctx.arc(curr.x, curr.y, 4, 0, Math.PI * 2);
     ctx.fillStyle = '#6366f1';
     ctx.strokeStyle = '#818cf8';
     ctx.lineWidth = 1;
