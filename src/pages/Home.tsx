@@ -28,8 +28,7 @@ export default function Home() {
         {/* Left-aligned menu */}
         <div
           style={{
-            alignSelf: 'flex-start',
-            paddingLeft: '80px',
+            alignSelf: 'center',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
