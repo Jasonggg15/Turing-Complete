@@ -1,13 +1,13 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
 import { Circuit } from '../engine/Circuit';
 import { GateType } from '../engine/types';
+import type { SerializedCircuit } from '../engine/types';
 import type { Level } from '../levels/Level';
 import type { Camera } from './Grid';
 import { drawGrid } from './Grid';
 import { drawGate, getGateBounds } from './GateRenderer';
 import { drawWire, drawWirePreview, advanceFlowOffset } from './WireRenderer';
 import { Interaction } from './Interaction';
-import { Simulator } from '../engine/Simulator';
 import type { Gate } from '../engine/Gate';
 
 interface CanvasProps {
@@ -18,6 +18,7 @@ interface CanvasProps {
   onSelectGate: (id: string | null) => void;
   renderVersion: number;
   level?: Level;
+  simulationResult?: Map<string, boolean> | null;
 }
 
 export default function Canvas({
@@ -28,12 +29,15 @@ export default function Canvas({
   onSelectGate,
   renderVersion,
   level,
+  simulationResult: simulationResultProp,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cameraRef = useRef<Camera>({ offsetX: 100, offsetY: 100, zoom: 1 });
   const interactionRef = useRef<Interaction | null>(null);
   const rafRef = useRef<number>(0);
   const needsRenderRef = useRef(true);
+  const undoStackRef = useRef<SerializedCircuit[]>([]);
+  const redoStackRef = useRef<SerializedCircuit[]>([]);
   const [hoveredGate, setHoveredGate] = useState<Gate | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -44,7 +48,9 @@ export default function Canvas({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const { width, height } = canvas;
+    const dpr = devicePixelRatio || 1;
+    const width = canvas.width / dpr;
+    const height = canvas.height / dpr;
     const camera = cameraRef.current;
 
     ctx.clearRect(0, 0, width, height);
@@ -57,22 +63,7 @@ export default function Canvas({
     ctx.translate(camera.offsetX, camera.offsetY);
     ctx.scale(camera.zoom, camera.zoom);
 
-    let simulationResult: Map<string, boolean> | undefined;
-    try {
-      const inputGates = circuit
-        .getGates()
-        .filter((g) => g.type === GateType.INPUT);
-      const inputsMap = new Map<string, boolean>();
-      for (const ig of inputGates) {
-        const outPin = ig.outputs[0];
-        if (outPin) {
-          inputsMap.set(outPin.id, outPin.value ?? false);
-        }
-      }
-      simulationResult = new Simulator().simulate(circuit, inputsMap);
-    } catch {
-      simulationResult = undefined;
-    }
+    const simulationResult = simulationResultProp ?? undefined;
 
     for (const wire of circuit.getWires()) {
       drawWire(ctx, circuit, wire, simulationResult);
@@ -94,7 +85,7 @@ export default function Canvas({
     }
 
     ctx.restore();
-  }, [circuit, selectedGateId]);
+  }, [circuit, selectedGateId, simulationResultProp]);
 
   const requestRender = useCallback(() => {
     needsRenderRef.current = true;
@@ -130,6 +121,8 @@ export default function Canvas({
         requestRender,
       },
       level,
+      undoStackRef.current,
+      redoStackRef.current,
     );
     interactionRef.current = interaction;
 
@@ -160,16 +153,15 @@ export default function Canvas({
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width, height } = entry.contentRect;
-        canvas.width = width * devicePixelRatio;
-        canvas.height = height * devicePixelRatio;
+        const dpr = devicePixelRatio || 1;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          ctx.scale(devicePixelRatio, devicePixelRatio);
+          ctx.scale(dpr, dpr);
         }
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
-        canvas.width = width;
-        canvas.height = height;
         requestRender();
       }
     });

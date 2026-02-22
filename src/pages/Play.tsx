@@ -79,20 +79,6 @@ export default function Play() {
     );
   }
 
-  // Compute unlocked compound components from completed levels
-  const unlockedComponents = useMemo(() => {
-    const components: GateType[] = [];
-    for (const l of levels) {
-      if (l.unlocksComponent && isLevelCompleted(l.id)) {
-        components.push(l.unlocksComponent.gateType);
-      }
-    }
-    return components;
-  }, []);
-
-  if (!level) return <Navigate to="/levels" replace />;
-  if (locked) return <Navigate to="/levels" replace />;
-
   const [selectedTool, setSelectedTool] = useState<GateType | null>(null);
   const [selectedGateId, setSelectedGateId] = useState<string | null>(null);
   const [verifyResult, setVerifyResult] = useState<LevelResult | null>(null);
@@ -102,6 +88,20 @@ export default function Play() {
     boolean
   > | null>(null);
   const [renderVersion, setRenderVersion] = useState(0);
+
+  // Compute unlocked compound components from completed levels
+  const unlockedComponents = useMemo(() => {
+    const components: GateType[] = [];
+    for (const l of levels) {
+      if (l.unlocksComponent && isLevelCompleted(l.id)) {
+        components.push(l.unlocksComponent.gateType);
+      }
+    }
+    return components;
+  }, [verifyResult]);
+
+  if (!level) return <Navigate to="/levels" replace />;
+  if (locked) return <Navigate to="/levels" replace />;
 
   const handleCircuitChange = useCallback(() => {
     if (!level || !circuitRef.current) return;
@@ -171,40 +171,6 @@ export default function Play() {
     }
   }, [showSuccess]);
 
-  if (!level) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          background: '#0f0f1a',
-          color: '#e2e8f0',
-          fontFamily: 'monospace',
-        }}
-      >
-        <div>
-          <h2>Level not found</h2>
-          <button
-            onClick={() => navigate('/levels')}
-            style={{
-              padding: '10px 20px',
-              background: '#6366f1',
-              color: '#e2e8f0',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontFamily: 'monospace',
-            }}
-          >
-            Back to Levels
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   const circuit = circuitRef.current!;
 
   return (
@@ -244,6 +210,7 @@ export default function Play() {
             onSelectGate={setSelectedGateId}
             renderVersion={renderVersion}
             level={level}
+            simulationResult={simulationResult}
           />
 
           {showSuccess && (

@@ -53,7 +53,11 @@ export class Interaction {
     private camera: Camera,
     private callbacks: Callbacks,
     private level?: Level,
+    undoStack?: SerializedCircuit[],
+    redoStack?: SerializedCircuit[],
   ) {
+    if (undoStack) this.undoStack = undoStack;
+    if (redoStack) this.redoStack = redoStack;
     this.handleMouseDown = this.onMouseDown.bind(this);
     this.handleMouseMove = this.onMouseMove.bind(this);
     this.handleMouseUp = this.onMouseUp.bind(this);
