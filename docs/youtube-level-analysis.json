@@ -1,0 +1,2098 @@
+{
+  "NAND Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Figure out how the NAND component works by toggling inputs and observing outputs. Create the truth table.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND (provided, learn how it works)"
+    ],
+    "mechanics": "truth table: outputs TRUE except when both inputs are TRUE",
+    "unlockInfo": "First level after tutorial. Unlocks the NAND gate component for use in future levels.",
+    "solutionApproach": "Toggle inputs to discover: FF=T, FT=T, TF=T, TT=F. NAND is a universal gate.",
+    "source": "chapter-walkthrough"
+  },
+  "NOT Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Using the NAND gate, build the NOT gate (inverter).",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND"
+    ],
+    "mechanics": "truth table: T->F, F->T",
+    "unlockInfo": "Unlocked by NAND Gate",
+    "solutionApproach": "Connect both inputs of a NAND gate to the same signal. When input is T, both NAND inputs are T so output is F. When input is F, output is T.",
+    "source": "chapter-walkthrough"
+  },
+  "AND Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Create a circuit that matches the AND truth table: only TRUE when both inputs are TRUE.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND"
+    ],
+    "mechanics": "truth table: FF=F, FT=F, TF=F, TT=T",
+    "unlockInfo": "Unlocked by NOT Gate",
+    "solutionApproach": "NAND followed by NOT. Double-negate: NAND gives NOT-AND, then NOT removes the negation.",
+    "source": "chapter-walkthrough"
+  },
+  "NOR Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Create a circuit that matches the NOR truth table.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT"
+    ],
+    "mechanics": "truth table: FF=T, FT=F, TF=F, TT=F. NOR = NOT OR",
+    "unlockInfo": "Unlocked by AND Gate",
+    "solutionApproach": "Negate both inputs then feed into NAND. By De Morgan's law, NOT(A) NAND NOT(B) = NOT(NOT(A) AND NOT(B)) = A OR B... then negate. Or: negate inputs, then AND, which gives NOR.",
+    "source": "chapter-walkthrough"
+  },
+  "OR Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Create a circuit that matches the OR truth table.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT"
+    ],
+    "mechanics": "truth table: FF=F, FT=T, TF=T, TT=T",
+    "unlockInfo": "Unlocked by NOR Gate",
+    "solutionApproach": "Negate both inputs then feed into NAND gate. NOT(A) NAND NOT(B) = A OR B.",
+    "source": "chapter-walkthrough"
+  },
+  "Always On": {
+    "chapter": "Basic Logic",
+    "objective": "Create a circuit that is always on (always outputs TRUE).",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "OR"
+    ],
+    "mechanics": "Output must always be TRUE regardless of input",
+    "unlockInfo": "Unlocked by OR Gate. Unlocks first menu page (De Morgan's Law).",
+    "solutionApproach": "Take input, NOT it, then OR the input with its negation. One must always be TRUE.",
+    "source": "chapter-walkthrough"
+  },
+  "Second Tick": {
+    "chapter": "Basic Logic",
+    "objective": "Build a circuit that is TRUE only at the second tick of the truth table (first input TRUE, second FALSE).",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR"
+    ],
+    "mechanics": "truth table: only row where A=T, B=F outputs TRUE",
+    "unlockInfo": "Unlocked by Always On / De Morgan's Law",
+    "solutionApproach": "AND the first input with the NOT of the second input.",
+    "source": "chapter-walkthrough"
+  },
+  "XOR Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Build an XOR gate - TRUE when exactly one input is TRUE. Also known as the second or third tick level.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR"
+    ],
+    "mechanics": "truth table: FF=F, FT=T, TF=T, TT=F",
+    "unlockInfo": "Unlocked by Second Tick",
+    "solutionApproach": "Two copies: (A AND NOT B) OR (NOT A AND B). Or: 3 NAND gates construction.",
+    "source": "chapter-walkthrough"
+  },
+  "Bigger OR Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Create an OR gate with three inputs.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      },
+      {
+        "name": "Input 3",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "TRUE if at least one input is TRUE. OR is associative.",
+    "unlockInfo": "Unlocked by XOR Gate",
+    "solutionApproach": "Chain two OR gates: OR(OR(A,B), C). Order doesn't matter due to associativity.",
+    "source": "chapter-walkthrough"
+  },
+  "Bigger AND Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Create an AND gate with three inputs.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      },
+      {
+        "name": "Input 3",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "TRUE only when all inputs are TRUE. AND is associative.",
+    "unlockInfo": "Unlocked by Bigger OR Gate",
+    "solutionApproach": "Chain two AND gates: AND(AND(A,B), C).",
+    "source": "chapter-walkthrough"
+  },
+  "XNOR Gate": {
+    "chapter": "Basic Logic",
+    "objective": "Create the inverse XOR gate (XNOR).",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "truth table: FF=T, FT=F, TF=F, TT=T. TRUE when inputs are equal.",
+    "unlockInfo": "Unlocked by Bigger AND Gate. Completes Basic Logic chapter.",
+    "solutionApproach": "XOR followed by NOT.",
+    "source": "chapter-walkthrough"
+  },
+  "Binary Decoder": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Toggle bits to add up to a decimal number shown. Convert decimal to binary under time pressure. Must beat level 3 to pass.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "Toggle switches for bits 1,2,4,8,16,32,64,128"
+    ],
+    "mechanics": "Binary number representation. Each position is a power of 2.",
+    "unlockInfo": "First level in Arithmetic and Memory chapter",
+    "solutionApproach": "Click the largest power of 2 that fits, subtract, repeat. Hacky: look at bottom display.",
+    "source": "chapter-walkthrough"
+  },
+  "Double Trouble": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Output TRUE when two or more of four inputs are TRUE. (Sock sorting machine)",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      },
+      {
+        "name": "Input 3",
+        "bits": 1
+      },
+      {
+        "name": "Input 4",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "Output TRUE when at least 2 of 4 inputs are TRUE",
+    "unlockInfo": "Unlocked by Binary Decoder",
+    "solutionApproach": "Check if first pair both on (AND), last pair both on (AND), or one from each pair on (OR both, AND result). Combine all with OR.",
+    "source": "chapter-walkthrough"
+  },
+  "Odd Number of Signals": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Using maximum 3 components, output TRUE only when an odd number of 4 inputs are TRUE.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      },
+      {
+        "name": "Input 3",
+        "bits": 1
+      },
+      {
+        "name": "Input 4",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "XOR"
+    ],
+    "mechanics": "XOR is associative and outputs TRUE for odd number of TRUE inputs",
+    "unlockInfo": "Unlocked by Double Trouble",
+    "solutionApproach": "Chain 3 XOR gates: XOR(XOR(XOR(A,B),C),D). XOR naturally checks parity.",
+    "source": "chapter-walkthrough"
+  },
+  "Circular Dependency": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Create a circular dependency - where a component's input relies on its own output.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR"
+    ],
+    "mechanics": "Circular dependency: input depends on output. Normally not allowed.",
+    "unlockInfo": "Unlocked by Odd Number of Signals",
+    "solutionApproach": "Connect output of one component to input of another, and vice versa. Creates undetermined state.",
+    "source": "chapter-walkthrough"
+  },
+  "Counting Signals": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Count the number of TRUE signals among inputs. Output is a binary counter with pins for 1, 2, and 4.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      },
+      {
+        "name": "Input 3",
+        "bits": 1
+      },
+      {
+        "name": "Input 4",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Bit 1 (value 1)",
+        "bits": 1
+      },
+      {
+        "name": "Bit 2 (value 2)",
+        "bits": 1
+      },
+      {
+        "name": "Bit 3 (value 4)",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "Binary counting. XOR chain for ones digit, sock-problem circuit for twos, AND for fours.",
+    "unlockInfo": "Unlocked by Circular Dependency",
+    "solutionApproach": "Ones place: chain of 3 XOR gates (parity). Fours place: 4-input AND. Twos place: sock problem (at least 2 TRUE) with XOR to block when all 4 are TRUE.",
+    "source": "chapter-walkthrough"
+  },
+  "Half Adder": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Add two 1-bit inputs. Output sum and carry.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 1
+      },
+      {
+        "name": "Input B",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Sum",
+        "bits": 1
+      },
+      {
+        "name": "Carry",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "Binary addition of two bits. Carry when both inputs TRUE.",
+    "unlockInfo": "Unlocked by Counting Signals",
+    "solutionApproach": "Sum = XOR(A,B). Carry = AND(A,B).",
+    "source": "chapter-walkthrough"
+  },
+  "Delay Line": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Output the same as input, delayed by two ticks. Introduces the delay line component.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Delay Line"
+    ],
+    "mechanics": "Sequential logic. Delay line outputs its input one tick later.",
+    "unlockInfo": "Unlocked by Half Adder. Introduces time/sequential behavior.",
+    "solutionApproach": "Chain two delay line components together.",
+    "source": "chapter-walkthrough"
+  },
+  "Double the Number": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Double an 8-bit input number. Introduces byte splitter and maker components.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "Byte Maker"
+    ],
+    "mechanics": "Byte = 8 bits (0-255). Doubling = left shift by 1.",
+    "unlockInfo": "Unlocked by Delay Line",
+    "solutionApproach": "Split byte, connect each bit to the output position one higher (bit 0->bit 1, bit 1->bit 2, etc.). Overflow wraps around mod 256.",
+    "source": "chapter-walkthrough"
+  },
+  "Full Adder": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Add three 1-bit inputs (two values plus carry-in). Output sum and carry-out.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 1
+      },
+      {
+        "name": "Input B",
+        "bits": 1
+      },
+      {
+        "name": "Carry In",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Sum",
+        "bits": 1
+      },
+      {
+        "name": "Carry Out",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "XOR"
+    ],
+    "mechanics": "Full binary addition with carry propagation",
+    "unlockInfo": "Unlocked by Double the Number",
+    "solutionApproach": "Sum = XOR(XOR(A,B),Cin). Carry = OR(AND(A,B), AND(A,Cin), AND(B,Cin)). Check if at least 2 inputs are TRUE for carry.",
+    "source": "chapter-walkthrough"
+  },
+  "Odd Ticks": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Output TRUE on odd ticks, FALSE on even ticks (oscillator/clock).",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NOT",
+      "Delay Line"
+    ],
+    "mechanics": "Self-referencing circuit with delay. Like Minecraft repeater clock.",
+    "unlockInfo": "Unlocked by Full Adder",
+    "solutionApproach": "Connect a NOT gate's output through a delay line back to its own input. Creates oscillating signal.",
+    "source": "chapter-walkthrough"
+  },
+  "Switch": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Build an XOR gate using switches and NOT gates. Introduces the switch (bit switch) component with gray output pins.",
+    "inputs": [
+      {
+        "name": "Input 1",
+        "bits": 1
+      },
+      {
+        "name": "Input 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "NOT",
+      "Bit Switch"
+    ],
+    "mechanics": "Switch component: when top pin is off, output is disabled (gray). Multiple gray outputs can share a wire if only one enabled at a time.",
+    "unlockInfo": "Unlocked by Odd Ticks",
+    "solutionApproach": "Two switches controlled by one input's negation. Route input through appropriate switch to create XOR behavior.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte OR": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "OR each bit of two input bytes and output the result.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "Byte Maker",
+      "OR"
+    ],
+    "mechanics": "Bitwise operation on bytes",
+    "unlockInfo": "Unlocked after Switch",
+    "solutionApproach": "Split both bytes, OR corresponding bits, reassemble with byte maker.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte NOT": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "NOT each bit of the input byte.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "Byte Maker",
+      "NOT"
+    ],
+    "mechanics": "Bitwise NOT on byte",
+    "unlockInfo": "Unlocked after Byte OR",
+    "solutionApproach": "Split byte, NOT each bit, reassemble.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte Adder": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Add two 8-bit bytes with carry in/out. Each output bit is the result of adding corresponding input bits with carry propagation.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      },
+      {
+        "name": "Carry In",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Sum",
+        "bits": 8
+      },
+      {
+        "name": "Carry Out",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "Byte Maker",
+      "Full Adder"
+    ],
+    "mechanics": "8-bit ripple carry adder. Chain full adders from LSB to MSB.",
+    "unlockInfo": "Unlocked after Byte NOT",
+    "solutionApproach": "Split both bytes, chain 8 full adders from bit 0 to bit 7, carry propagates through. Final carry is the overflow/carry out.",
+    "source": "chapter-walkthrough"
+  },
+  "Signed Integers": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Learn two's complement representation. Toggle bits to match signed decimal numbers. Bit 8 represents -128 instead of +128.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "Toggle switches"
+    ],
+    "mechanics": "Two's complement: highest bit is -128. Range is -128 to 127. To negate: flip all bits and add 1.",
+    "unlockInfo": "Unlocked after Byte Adder",
+    "solutionApproach": "Same as binary decoder but highest bit is -128. Negative numbers have bit 8 on.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte Selector (Mux)": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "When bit selector is FALSE, output byte A; when TRUE, output byte B.",
+    "inputs": [
+      {
+        "name": "Selector",
+        "bits": 1
+      },
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Switch",
+      "NOT"
+    ],
+    "mechanics": "Multiplexer - select between two byte inputs",
+    "unlockInfo": "Unlocked after Signed Integers",
+    "solutionApproach": "Use two 8-bit switches. When selector is FALSE, enable switch A; when TRUE, enable switch B. Both output to same wire.",
+    "source": "chapter-walkthrough"
+  },
+  "Negate": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Negate a signed 8-bit number (e.g., 4 becomes -4, -9 becomes 9).",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte NOT",
+      "Byte Adder"
+    ],
+    "mechanics": "Two's complement negation: flip all bits then add 1.",
+    "unlockInfo": "Unlocked after Byte Selector",
+    "solutionApproach": "NOT the input byte, then add 1 using the byte adder (use carry-in as the +1).",
+    "source": "chapter-walkthrough"
+  },
+  "Input Selector": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Copy from one of two byte inputs to one of two byte outputs based on two bit selectors.",
+    "inputs": [
+      {
+        "name": "Input Select",
+        "bits": 1
+      },
+      {
+        "name": "Output Select",
+        "bits": 1
+      },
+      {
+        "name": "Input 0",
+        "bits": 8
+      },
+      {
+        "name": "Input 1",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output 0",
+        "bits": 8
+      },
+      {
+        "name": "Output 1",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Switch",
+      "NOT"
+    ],
+    "mechanics": "Routing/demultiplexing with switches",
+    "unlockInfo": "Unlocked after Negate",
+    "solutionApproach": "Four switches total. Use input select and its negation to pick source, output select and its negation to pick destination.",
+    "source": "chapter-walkthrough"
+  },
+  "1 Bit Memory": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Build a component that saves a 1-bit value. When save-enable is TRUE, store the save-value input. Always output the currently saved value.",
+    "inputs": [
+      {
+        "name": "Save Enable",
+        "bits": 1
+      },
+      {
+        "name": "Save Value",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Stored Value",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Delay Line",
+      "Bit Switch",
+      "NOT"
+    ],
+    "mechanics": "Sequential memory. Uses delay line feeding back to itself.",
+    "unlockInfo": "Unlocked after Input Selector",
+    "solutionApproach": "Use two switches: when save-enable is OFF, feed the delay line output back to itself (retain value). When ON, feed the new save value through instead.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte Memory": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Save and load a byte. When load bit is TRUE, output memory to output. When save bit is TRUE, save input byte.",
+    "inputs": [
+      {
+        "name": "Load",
+        "bits": 1
+      },
+      {
+        "name": "Save",
+        "bits": 1
+      },
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "1 Bit Memory",
+      "Byte Splitter",
+      "Byte Maker"
+    ],
+    "mechanics": "8-bit register using 8 individual 1-bit memories. Output has enable pin.",
+    "unlockInfo": "Unlocked after 1 Bit Memory",
+    "solutionApproach": "Use 8 copies of 1-bit memory, one per bit. Connect save/load signals to all. Enable output only on load.",
+    "source": "chapter-walkthrough"
+  },
+  "Little Box": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Switch a signal between two output pins based on a control bit.",
+    "inputs": [
+      {
+        "name": "Control",
+        "bits": 1
+      },
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output 0",
+        "bits": 8
+      },
+      {
+        "name": "Output 1",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Bit Switch",
+      "NOT"
+    ],
+    "mechanics": "1-to-2 demultiplexer",
+    "unlockInfo": "Unlocked after Byte Memory",
+    "solutionApproach": "Two switches: one enabled when control is FALSE, other when TRUE.",
+    "source": "chapter-walkthrough"
+  },
+  "3 Bit Decoder": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "With three bits of input (8 combinations), select exactly one of 8 outputs for each combination.",
+    "inputs": [
+      {
+        "name": "Bit 0",
+        "bits": 1
+      },
+      {
+        "name": "Bit 1",
+        "bits": 1
+      },
+      {
+        "name": "Bit 2",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output 0-7",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "AND",
+      "NOT"
+    ],
+    "mechanics": "Binary decoder: one-hot encoding from 3-bit input",
+    "unlockInfo": "Unlocked after Little Box",
+    "solutionApproach": "For each of 8 outputs, AND the appropriate combination of inputs and their negations. E.g., output 0 = NOT(A) AND NOT(B) AND NOT(C).",
+    "source": "chapter-walkthrough"
+  },
+  "ALU": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Create a device that can OR, NAND, NOR, and AND two inputs. The third input (2-bit instruction) selects which operation.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      },
+      {
+        "name": "Instruction",
+        "bits": 2
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "OR",
+      "NOT",
+      "Byte Switch",
+      "3 Bit Decoder"
+    ],
+    "mechanics": "Arithmetic Logic Unit. Instruction 0=OR, 1=NAND, 2=NOR, 3=AND. Red components cannot be moved.",
+    "unlockInfo": "Unlocked after 3 Bit Decoder",
+    "solutionApproach": "Build OR core with optional NOT on inputs and output. Use decoder + switches to select operation. OR with negated I/O = NAND (De Morgan's). Control NOTs with instruction bits.",
+    "source": "chapter-walkthrough"
+  },
+  "4 Byte Memory": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Build a circuit that can save/load from 4 different bytes of memory using 2 address bits.",
+    "inputs": [
+      {
+        "name": "Load",
+        "bits": 1
+      },
+      {
+        "name": "Save",
+        "bits": 1
+      },
+      {
+        "name": "Address (2 bits)",
+        "bits": 2
+      },
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Memory",
+      "3 Bit Decoder",
+      "AND"
+    ],
+    "mechanics": "Addressable memory with 4 locations",
+    "unlockInfo": "Unlocked after ALU",
+    "solutionApproach": "4 byte memories connected to same data bus. Use 2-bit decoder to enable save on correct memory. Load reads from correct memory using switches.",
+    "source": "chapter-walkthrough"
+  },
+  "Counter": {
+    "chapter": "Arithmetic and Memory",
+    "objective": "Build a counter that increments by 1 each tick. Option to overwrite counter with a given value.",
+    "inputs": [
+      {
+        "name": "Overwrite Enable",
+        "bits": 1
+      },
+      {
+        "name": "Overwrite Value",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Count",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Memory (Register)",
+      "Byte Adder",
+      "Byte Selector (Mux)"
+    ],
+    "mechanics": "Sequential counter with feedback loop. Register feeds back through adder.",
+    "unlockInfo": "Unlocked after 4 Byte Memory. Completes Arithmetic and Memory chapter.",
+    "solutionApproach": "Register output -> Adder (+1) -> Mux -> Register input. Mux selects between adder output (counting) and overwrite value.",
+    "source": "chapter-walkthrough"
+  },
+  "Overture - ALU with Add/Sub": {
+    "chapter": "CPU Architecture",
+    "objective": "Add addition and subtraction to the existing ALU circuit. Instructions: 0=OR, 1=NAND, 2=NOR, 3=AND, 4=ADD, 5=SUB.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      },
+      {
+        "name": "Instruction",
+        "bits": 3
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "OR",
+      "NOT",
+      "AND",
+      "Byte Adder",
+      "Byte Switch",
+      "Negate"
+    ],
+    "mechanics": "Extending ALU with arithmetic operations. SUB = ADD with negated second input.",
+    "unlockInfo": "First level in CPU Architecture",
+    "solutionApproach": "Add switches for arithmetic path. When instruction is 4 or 5, route through adder. For SUB, negate second input before adding.",
+    "source": "chapter-walkthrough"
+  },
+  "Registers": {
+    "chapter": "CPU Architecture",
+    "objective": "Create a circuit that can copy values between 6 registers, an input, and an output. Instruction byte encodes source (bits 4-6) and destination (bits 1-3).",
+    "inputs": [
+      {
+        "name": "Instruction",
+        "bits": 8
+      },
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Memory/Register",
+      "3 Bit Decoder",
+      "Byte Splitter",
+      "Byte Switch"
+    ],
+    "mechanics": "Register file with 6 registers (Reg0-Reg5), input source, and output destination. Source/destination encoded in instruction.",
+    "unlockInfo": "Unlocked after ALU with Add/Sub",
+    "solutionApproach": "Use 3-bit decoders for source and destination. Connect all registers to shared data bus via switches. Source decoder enables load, destination decoder enables save.",
+    "source": "chapter-walkthrough"
+  },
+  "Component Factory": {
+    "chapter": "CPU Architecture",
+    "objective": "Learn to use the Component Factory to save circuits as reusable components.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [],
+    "mechanics": "Tool level, not a challenge. Components saved here become available in architectures.",
+    "unlockInfo": "Unlocked after Registers",
+    "solutionApproach": "Go to level map and continue. This is a tool introduction, not a puzzle.",
+    "source": "chapter-walkthrough"
+  },
+  "Instruction Decoder": {
+    "chapter": "CPU Architecture",
+    "objective": "Determine the mode from the instruction input. Four modes based on top 2 bits: 00=Immediate, 01=Calculate, 10=Copy, 11=Condition.",
+    "inputs": [
+      {
+        "name": "Instruction",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Immediate",
+        "bits": 1
+      },
+      {
+        "name": "Calculate",
+        "bits": 1
+      },
+      {
+        "name": "Copy",
+        "bits": 1
+      },
+      {
+        "name": "Condition",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "AND",
+      "NOT"
+    ],
+    "mechanics": "Top 2 bits of instruction determine mode. Saved to Component Factory.",
+    "unlockInfo": "Unlocked after Component Factory",
+    "solutionApproach": "Split byte, take top 2 bits. Use AND/NOT combinations to decode 4 states.",
+    "source": "chapter-walkthrough"
+  },
+  "Calculating": {
+    "chapter": "CPU Architecture",
+    "objective": "Merge ALU and Register circuits. When in Calculate mode, take Reg1 and Reg2 as inputs, save result to Reg3.",
+    "inputs": [
+      {
+        "name": "Instruction",
+        "bits": 8
+      }
+    ],
+    "outputs": [],
+    "availableComponents": [
+      "ALU (component)",
+      "Registers",
+      "Instruction Decoder",
+      "Byte Switch"
+    ],
+    "mechanics": "Integrating ALU with register file. Instruction decoder routes between copy and calculate modes.",
+    "unlockInfo": "Unlocked after Instruction Decoder",
+    "solutionApproach": "Use instruction decoder to determine mode. In calculate mode, feed Reg1 and Reg2 to ALU, save result to Reg3. In copy mode, use register circuit.",
+    "source": "chapter-walkthrough"
+  },
+  "Conditions": {
+    "chapter": "CPU Architecture",
+    "objective": "Build a condition checker. Compare Reg3 value against conditions: Never, Equal Zero, Less Than Zero, and their inverses (Always, Not Equal Zero, Greater Than or Equal Zero).",
+    "inputs": [
+      {
+        "name": "Value",
+        "bits": 8
+      },
+      {
+        "name": "Condition (3 bits)",
+        "bits": 3
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Result",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "OR",
+      "AND",
+      "NOT",
+      "XOR"
+    ],
+    "mechanics": "6 conditions paired by XOR: Never/Always, EqZero/NeqZero, LtZero/GeqZero. Last bit XORs the result to get the inverse.",
+    "unlockInfo": "Unlocked after Calculating",
+    "solutionApproach": "Test for zero: OR all bits, if any is 1, not zero. Test for negative: check if highest bit is on. Use AND gates to select active test based on condition bits. XOR with last bit for inverse conditions.",
+    "source": "chapter-walkthrough"
+  },
+  "Program": {
+    "chapter": "CPU Architecture",
+    "objective": "Replace instruction input with a program component. Use counter to load next instruction each tick.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "Program Component",
+      "Counter"
+    ],
+    "mechanics": "Program counter drives program memory. Each tick loads next instruction.",
+    "unlockInfo": "Unlocked after Conditions",
+    "solutionApproach": "Connect counter output to program address input. Counter increments each tick.",
+    "source": "chapter-walkthrough"
+  },
+  "Immediate Values": {
+    "chapter": "CPU Architecture",
+    "objective": "When top 2 bits are 00 (immediate mode), the remaining 6 bits are a number (0-63) saved to Reg0.",
+    "inputs": [
+      {
+        "name": "Instruction",
+        "bits": 8
+      }
+    ],
+    "outputs": [],
+    "availableComponents": [
+      "Byte Switch",
+      "Register",
+      "AND"
+    ],
+    "mechanics": "Immediate mode: instruction itself contains a value to load into Reg0.",
+    "unlockInfo": "Unlocked after Program",
+    "solutionApproach": "When immediate mode detected, take lower 6 bits of instruction and save to Reg0 using a switch gated by the immediate signal.",
+    "source": "chapter-walkthrough"
+  },
+  "Conditional Jump": {
+    "chapter": "CPU Architecture",
+    "objective": "Add conditional jump: when top 2 bits are 11 (condition mode), compare Reg3 against condition. If TRUE, set counter to Reg0 value.",
+    "inputs": [
+      {
+        "name": "Instruction",
+        "bits": 8
+      }
+    ],
+    "outputs": [],
+    "availableComponents": [
+      "Conditions (component)",
+      "Counter",
+      "Register",
+      "AND"
+    ],
+    "mechanics": "Conditional branching. Enables loops and if-statements. Completes Turing-complete computer.",
+    "unlockInfo": "Unlocked after Immediate Values. Completes the Overture computer - a Turing-complete machine.",
+    "solutionApproach": "Feed Reg3 and condition bits to conditions component. If TRUE and in condition mode, overwrite counter with Reg0 value.",
+    "source": "chapter-walkthrough"
+  },
+  "Add 5": {
+    "chapter": "Programming",
+    "objective": "First programming level. Read input, add 5 to it, output result.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: Copy, Immediate, Add"
+    ],
+    "mechanics": "Assembly programming on the Overture computer.",
+    "unlockInfo": "First level in Programming chapter",
+    "solutionApproach": "Copy input to Reg1, set Reg0=5 (immediate), copy to Reg2, ADD, copy Reg3 to output.",
+    "source": "chapter-walkthrough"
+  },
+  "Circumference": {
+    "chapter": "Programming",
+    "objective": "Calculate 2*pi*r where r is input, approximate pi as 3. Output result.",
+    "inputs": [
+      {
+        "name": "r (radius)",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Circumference",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: Copy, Immediate, Add, Sub"
+    ],
+    "mechanics": "Assembly programming. Introduces assembly syntax with named instructions.",
+    "unlockInfo": "Unlocked after Add 5",
+    "solutionApproach": "Multiply by 6 (2*3) using repeated addition: add input to itself 6 times using a loop or sequential adds.",
+    "source": "chapter-walkthrough"
+  },
+  "Space Rats": {
+    "chapter": "Programming",
+    "objective": "Program a robot to shoot space rats with lasers in cargo hold. Robot commands: turn left(0), forward(1), turn right(2), enjoy moment(3), action(4), shoot(5).",
+    "inputs": [
+      {
+        "name": "Sensor (enemy detection)",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Robot Command",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: Copy, Immediate, Add, Sub, Conditions, Labels"
+    ],
+    "mechanics": "Robot programming with movement and shooting. Input shows what robot sees. Tab key reveals strategy.",
+    "unlockInfo": "Unlocked after Circumference",
+    "solutionApproach": "Position robot in center, rotate and wait. When sensor detects enemy (not zero), shoot. After 4 shots, turn right. Loop. Use labels and conditions for flow control.",
+    "source": "chapter-walkthrough"
+  },
+  "Storage Cracker": {
+    "chapter": "Programming",
+    "objective": "Find a passcode by trying combinations. Input tells you if guess was too high (1) or not (0).",
+    "inputs": [
+      {
+        "name": "Feedback (too high=1)",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Guess",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: Copy, Immediate, Add, Sub, Conditions, Labels"
+    ],
+    "mechanics": "Search algorithm. Can use linear scan or binary search.",
+    "unlockInfo": "Unlocked after Space Rats",
+    "solutionApproach": "Start at 0, increment by 1 each guess until correct (no output = fail, correct = pass). Optimization: increment by 32 first, then go back and increment by 1.",
+    "source": "chapter-walkthrough"
+  },
+  "Modulo 4": {
+    "chapter": "Programming",
+    "objective": "Calculate input modulo 4. Must complete within 8 ticks.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Result (mod 4)",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: Copy, Immediate, AND"
+    ],
+    "mechanics": "Bit masking. Modulo power-of-2 = AND with (n-1).",
+    "unlockInfo": "Unlocked after Storage Cracker",
+    "solutionApproach": "AND the input with 3 (binary 00000011). This extracts the bottom 2 bits which is the remainder when dividing by 4.",
+    "source": "chapter-walkthrough"
+  },
+  "The Maze": {
+    "chapter": "Programming",
+    "objective": "Program robot to navigate from start to exit of a maze. Hardest level in Programming chapter.",
+    "inputs": [
+      {
+        "name": "Sensor",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Robot Command",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: Copy, Immediate, Add, Sub, Conditions, Labels"
+    ],
+    "mechanics": "Robot maze navigation. Commands: left(0), forward(1), right(2), enjoy(3), action(4), shoot(5).",
+    "unlockInfo": "Unlocked after Modulo 4. Completing this wins the competition (story milestone).",
+    "solutionApproach": "Wall-following algorithm: always try to turn right first, then go forward, then turn left. Check for walls by looking and using action. Loop until exit found.",
+    "source": "chapter-walkthrough"
+  },
+  "XOR in Assembly": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Using Overture assembly, read two inputs and XOR them together.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "A XOR B",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Assembly: NAND, Copy"
+    ],
+    "mechanics": "Building XOR from NAND gates in assembly. XOR(A,B) = NAND(NAND(A,NAND(A,B)), NAND(B,NAND(A,B)))",
+    "unlockInfo": "First level in CPU Architecture 2",
+    "solutionApproach": "Compute NAND(A,B), then NAND(A,result) and NAND(B,result), then NAND those two results.",
+    "source": "chapter-walkthrough"
+  },
+  "Constant 164": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Create a circuit that always outputs the number 164.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Wire"
+    ],
+    "mechanics": "Hard-wired constant. 164 = 128+32+4.",
+    "unlockInfo": "Unlocked in CPU Architecture 2",
+    "solutionApproach": "Wire the bits for 128, 32, and 4 to ON. Leave rest OFF.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte XOR": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Create a circuit that XORs two bytes bitwise.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "NAND",
+      "NOT",
+      "AND",
+      "OR",
+      "Byte Splitter",
+      "Byte Maker"
+    ],
+    "mechanics": "Bitwise XOR on bytes using basic gates",
+    "unlockInfo": "Unlocked after Constant 164",
+    "solutionApproach": "Split both bytes, XOR each pair of corresponding bits using NAND construction, reassemble.",
+    "source": "chapter-walkthrough"
+  },
+  "Byte Equal": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Output TRUE when two input bytes are equal.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Equal",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Byte Adder",
+      "Byte Splitter",
+      "OR",
+      "NOR"
+    ],
+    "mechanics": "Equality comparison",
+    "unlockInfo": "Unlocked after Byte XOR",
+    "solutionApproach": "Subtract A from B. If result is zero (all bits 0), they're equal. OR all result bits, then NOR for final output.",
+    "source": "chapter-walkthrough"
+  },
+  "Unsigned Less Than": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Output TRUE when first unsigned byte input is less than second.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "A < B",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Byte NOT",
+      "Byte Adder"
+    ],
+    "mechanics": "Unsigned comparison using overflow detection",
+    "unlockInfo": "Unlocked after Byte Equal",
+    "solutionApproach": "NOT(A) + B. If carry bit is OFF, A >= B (no overflow). If carry is ON, A < B (overflow occurred). Uses the property that A + NOT(A) = 255.",
+    "source": "chapter-walkthrough"
+  },
+  "Signed Less Than": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Output TRUE when first signed byte input is less than second.",
+    "inputs": [
+      {
+        "name": "Input A",
+        "bits": 8
+      },
+      {
+        "name": "Input B",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "A < B (signed)",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Byte XOR",
+      "Unsigned Less Than",
+      "Constant 128"
+    ],
+    "mechanics": "Signed comparison by converting to unsigned",
+    "unlockInfo": "Unlocked after Unsigned Less Than",
+    "solutionApproach": "XOR both inputs with 128 to convert signed to unsigned (flip sign bit), then use unsigned less than comparison.",
+    "source": "chapter-walkthrough"
+  },
+  "Wide Instructions": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Create a device that saves program output on even ticks and outputs both bytes on odd ticks.",
+    "inputs": [
+      {
+        "name": "Program Output",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Byte 1",
+        "bits": 8
+      },
+      {
+        "name": "Byte 2",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Delay Line",
+      "Register",
+      "Switch"
+    ],
+    "mechanics": "Instruction widening - reading 2 bytes per instruction cycle",
+    "unlockInfo": "First building block of LEG architecture",
+    "solutionApproach": "Use oscillator to alternate. On even ticks, save byte to register. On odd ticks, output both saved byte and current byte.",
+    "source": "chapter-walkthrough"
+  },
+  "LEG Architecture": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Build the LEG architecture computer. 4 bytes per tick: opcode, arg1, arg2, result. 6 registers, counter, I/O.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "Program (4 outputs)",
+      "Counter (increment 4)",
+      "Register",
+      "Byte Adder",
+      "Equality",
+      "Switch"
+    ],
+    "mechanics": "New architecture with opcode-based instructions. Args are register addresses. Counter increments by 4.",
+    "unlockInfo": "Major milestone in CPU Architecture 2",
+    "solutionApproach": "Place program with 4 outputs, counter with increment=4. Wire 6 registers to data bus. Use equality comparisons to select correct register for read/write based on arg1, arg2, and result addresses.",
+    "source": "chapter-walkthrough"
+  },
+  "LEG Opcodes": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Implement opcodes: ADD, SUB, AND, OR, NOT, XOR for the LEG computer.",
+    "inputs": [
+      {
+        "name": "Opcode",
+        "bits": 8
+      },
+      {
+        "name": "Arg1",
+        "bits": 8
+      },
+      {
+        "name": "Arg2",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Result",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Adder",
+      "Negate",
+      "AND",
+      "OR",
+      "NOT",
+      "XOR",
+      "Switch",
+      "Decoder"
+    ],
+    "mechanics": "ALU for LEG architecture with 6 operations",
+    "unlockInfo": "Unlocked after LEG Architecture",
+    "solutionApproach": "Build as component (ALU Plus). Compute all operations in parallel, use switches controlled by opcode decoder to select correct output.",
+    "source": "chapter-walkthrough"
+  },
+  "Immediate Values (LEG)": {
+    "chapter": "CPU Architecture 2",
+    "objective": "When bit 8 of opcode is set, use arg1 as immediate value. When bit 7 is set, use arg2 as immediate value.",
+    "inputs": [
+      {
+        "name": "Opcode",
+        "bits": 8
+      }
+    ],
+    "outputs": [],
+    "availableComponents": [
+      "Mux",
+      "Byte Splitter"
+    ],
+    "mechanics": "Immediate mode for LEG: args can be literal values instead of register addresses",
+    "unlockInfo": "Unlocked after LEG Opcodes",
+    "solutionApproach": "Use mux components. Check bits 7 and 8 of opcode. When set, bypass register lookup and use arg value directly.",
+    "source": "chapter-walkthrough"
+  },
+  "Conditionals (LEG)": {
+    "chapter": "CPU Architecture 2",
+    "objective": "Add if-statements to LEG. Opcode 32+: compare arg1 and arg2, if condition true, jump to address in byte 4. Conditions: equal, not equal, unsigned less/greater.",
+    "inputs": [
+      {
+        "name": "Opcode",
+        "bits": 8
+      },
+      {
+        "name": "Arg1",
+        "bits": 8
+      },
+      {
+        "name": "Arg2",
+        "bits": 8
+      },
+      {
+        "name": "Jump Address",
+        "bits": 8
+      }
+    ],
+    "outputs": [],
+    "availableComponents": [
+      "Equality",
+      "Unsigned Less Than",
+      "AND",
+      "OR",
+      "NOT",
+      "Counter"
+    ],
+    "mechanics": "Conditional branching for LEG architecture",
+    "unlockInfo": "Unlocked after Immediate Values (LEG). Completes LEG computer.",
+    "solutionApproach": "When opcode bit 5 is set, compare args using equality and less-than. Build all 6 conditions, select with decoder. If condition true, overwrite counter with jump address.",
+    "source": "chapter-walkthrough"
+  },
+  "Hexadecimal": {
+    "chapter": "Functions",
+    "objective": "Convert hexadecimal to binary under time pressure. Must beat level 3.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "Toggle switches"
+    ],
+    "mechanics": "Hex representation: each hex digit = 4 bits. 0-9, A-F.",
+    "unlockInfo": "First level in Functions chapter",
+    "solutionApproach": "Convert each hex digit to 4 binary bits. 0=0000, F=1111, A=1010, etc.",
+    "source": "chapter-walkthrough"
+  },
+  "Shift Left": {
+    "chapter": "Functions",
+    "objective": "Shift first input left by the number of positions given by second input (0-7).",
+    "inputs": [
+      {
+        "name": "Value",
+        "bits": 8
+      },
+      {
+        "name": "Shift Amount",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Result",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Adder",
+      "3 Bit Decoder",
+      "Byte Switch"
+    ],
+    "mechanics": "Left shift = multiply by power of 2. Each position doubles the value.",
+    "unlockInfo": "Unlocked after Hexadecimal",
+    "solutionApproach": "Chain 7 adders, each adding the value to itself (doubling). Use 3-bit decoder on shift amount to select which stage's output to use via switches.",
+    "source": "chapter-walkthrough"
+  },
+  "Shift Right": {
+    "chapter": "Functions",
+    "objective": "Mirror version of shift left - shift bits to the right.",
+    "inputs": [
+      {
+        "name": "Value",
+        "bits": 8
+      },
+      {
+        "name": "Shift Amount",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Result",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Byte Splitter",
+      "Byte Maker",
+      "3 Bit Decoder",
+      "Byte Switch"
+    ],
+    "mechanics": "Right shift = integer divide by power of 2",
+    "unlockInfo": "Unlocked after Shift Left",
+    "solutionApproach": "Mirror of shift left schematic.",
+    "source": "chapter-walkthrough"
+  },
+  "RAM": {
+    "chapter": "Functions",
+    "objective": "Add a RAM block to the LEG computer. Register 4 selects RAM address (256 bytes). Must read 32 input values and output them in same order.",
+    "inputs": [
+      {
+        "name": "Address (from Reg4)",
+        "bits": 8
+      },
+      {
+        "name": "Data",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Data",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "RAM Block",
+      "Register"
+    ],
+    "mechanics": "256-byte addressable memory. One register dedicated to address selection.",
+    "unlockInfo": "Unlocked after Shift Right",
+    "solutionApproach": "Wire register 4 output to RAM address input. Read all 32 inputs first (store to RAM), then output them in order.",
+    "source": "chapter-walkthrough"
+  },
+  "Stack": {
+    "chapter": "Functions",
+    "objective": "Implement a last-in first-out (LIFO) stack using RAM.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "RAM",
+      "Register",
+      "Counter"
+    ],
+    "mechanics": "Stack: push adds to top, pop removes from top. Uses stack pointer.",
+    "unlockInfo": "Unlocked after RAM",
+    "solutionApproach": "Use a register as stack pointer. Push: write to RAM at stack pointer, increment pointer. Pop: decrement pointer, read from RAM.",
+    "source": "chapter-walkthrough"
+  },
+  "Bubble Sort": {
+    "chapter": "Assembly Challenges Part 2",
+    "objective": "Sort input values using bubble sort algorithm.",
+    "inputs": [
+      {
+        "name": "Unsorted values",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Sorted values",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Sorting algorithm implementation in assembly",
+    "unlockInfo": "Assembly Challenges",
+    "solutionApproach": "Nested loops: outer loop repeats until no swaps, inner loop compares adjacent elements and swaps if out of order.",
+    "source": "chapter-walkthrough"
+  },
+  "Robot Racing": {
+    "chapter": "Assembly Challenges",
+    "objective": "Various robot racing challenges - program robot to complete courses.",
+    "inputs": [
+      {
+        "name": "Sensor data",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Robot commands",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Robot programming challenges with increasingly complex courses",
+    "unlockInfo": "Assembly Challenges",
+    "solutionApproach": "Various pathfinding and optimization algorithms.",
+    "source": "per-level"
+  },
+  "Dancing Machine": {
+    "chapter": "Assembly Challenges",
+    "objective": "Program a dancing machine to perform dance sequences.",
+    "inputs": [
+      {
+        "name": "Dance input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Dance commands",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Pattern matching and sequence execution",
+    "unlockInfo": "Assembly Challenges",
+    "solutionApproach": "Read input patterns and output corresponding dance moves.",
+    "source": "per-level"
+  },
+  "Planet Names": {
+    "chapter": "Assembly Challenges",
+    "objective": "String processing challenge with planet names.",
+    "inputs": [
+      {
+        "name": "Character data",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Processed output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "String/character manipulation in assembly",
+    "unlockInfo": "Assembly Challenges",
+    "solutionApproach": "Process ASCII character data for planet name operations.",
+    "source": "per-level"
+  },
+  "Water World": {
+    "chapter": "Assembly Challenges",
+    "objective": "Water world simulation challenge.",
+    "inputs": [
+      {
+        "name": "Input data",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output data",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Complex assembly challenge",
+    "unlockInfo": "Late Assembly Challenges",
+    "solutionApproach": "Advanced assembly programming challenge.",
+    "source": "per-level"
+  },
+  "Nibbles": {
+    "chapter": "Assembly Challenges",
+    "objective": "Implement the classic Snake game (Nibbles).",
+    "inputs": [
+      {
+        "name": "Game input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Game output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Game implementation in assembly",
+    "unlockInfo": "Late Assembly Challenges",
+    "solutionApproach": "Implement snake movement, food collection, and collision detection in assembly.",
+    "source": "per-level"
+  },
+  "AI Showdown": {
+    "chapter": "Assembly Challenges Part 2",
+    "objective": "Final level - AI battle/showdown challenge.",
+    "inputs": [
+      {
+        "name": "Game state",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "AI decisions",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Final challenge requiring advanced AI/strategy programming",
+    "unlockInfo": "Final level of the game",
+    "solutionApproach": "Implement game strategy AI in assembly.",
+    "source": "per-level"
+  },
+  "Tower of Alloy": {
+    "chapter": "Assembly Challenges",
+    "objective": "Solve Tower of Hanoi variant in assembly.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "LEG Assembly"
+    ],
+    "mechanics": "Recursive algorithm implementation",
+    "unlockInfo": "Assembly Challenges",
+    "solutionApproach": "Implement Tower of Hanoi algorithm, potentially using stack for recursion.",
+    "source": "per-level"
+  },
+  "Spatial Invasion": {
+    "chapter": "Programming",
+    "objective": "Defend against space invaders - program robot to shoot incoming enemies.",
+    "inputs": [
+      {
+        "name": "Enemy positions",
+        "bits": 8
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Defense commands",
+        "bits": 8
+      }
+    ],
+    "availableComponents": [
+      "Overture Assembly"
+    ],
+    "mechanics": "Game defense programming",
+    "unlockInfo": "Unlocked in Programming chapter",
+    "solutionApproach": "Scan for enemies and shoot them systematically.",
+    "source": "per-level"
+  },
+  "Delay 6 Ticks": {
+    "chapter": "Functions",
+    "objective": "Build a circuit with a delay of 6 ticks.",
+    "inputs": [
+      {
+        "name": "Input",
+        "bits": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "Output (delayed 6 ticks)",
+        "bits": 1
+      }
+    ],
+    "availableComponents": [
+      "Delay Line"
+    ],
+    "mechanics": "Sequential delay chaining",
+    "unlockInfo": "Functions chapter",
+    "solutionApproach": "Chain 6 delay line components.",
+    "source": "chapter-walkthrough"
+  },
+  "Call and Return": {
+    "chapter": "Functions",
+    "objective": "Implement proper CALL and RET hardware instructions for function support.",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [
+      "Stack",
+      "Counter",
+      "LEG Architecture"
+    ],
+    "mechanics": "CALL pushes return address to stack and jumps. RET pops address and jumps back.",
+    "unlockInfo": "Functions chapter - enables proper function calls",
+    "solutionApproach": "Add CALL opcode: push current counter+4 to stack, set counter to target. Add RET opcode: pop from stack, set counter to popped value.",
+    "source": "per-level"
+  },
+  "_LEVEL_ORDER": {
+    "chapter": "META",
+    "objective": "Level unlock order / tree structure",
+    "inputs": [],
+    "outputs": [],
+    "availableComponents": [],
+    "mechanics": "\nCHAPTER 1 - Basic Logic:\n  NAND Gate -> NOT Gate -> AND Gate -> NOR Gate -> OR Gate -> Always On -> De Morgan's Law (menu)\n  -> Second Tick -> XOR Gate -> Bigger OR -> Bigger AND -> XNOR Gate\n\nCHAPTER 2 - Arithmetic and Memory:\n  Binary Decoder -> Double Trouble -> Odd Number of Signals -> Circular Dependency -> Counting Signals\n  -> Half Adder -> Delay Line -> Double the Number -> Full Adder -> Odd Ticks -> Switch\n  -> Byte OR -> Byte NOT -> Byte Adder -> Signed Integers -> Byte Selector (Mux) -> Negate\n  -> Input Selector -> 1 Bit Memory -> Byte Memory -> Little Box -> 3 Bit Decoder -> ALU -> 4 Byte Memory -> Counter\n\nCHAPTER 3 - CPU Architecture (Overture):\n  ALU with Add/Sub -> Registers -> Component Factory -> Instruction Decoder -> Calculating -> Conditions -> Program -> Immediate Values -> Conditional Jump\n  (Completes Overture computer)\n\nCHAPTER 4 - Programming (Overture Assembly):\n  Add 5 -> Circumference -> Space Rats -> Storage Cracker -> Modulo 4 -> The Maze -> Spatial Invasion\n\nCHAPTER 5 - CPU Architecture 2 (LEG):\n  XOR in Assembly -> Constant 164 -> Byte XOR -> Byte Equal -> Unsigned Less Than -> Signed Less Than\n  -> Wide Instructions -> LEG Architecture -> LEG Opcodes -> Immediate Values (LEG) -> Conditionals (LEG)\n\nCHAPTER 6 - Functions:\n  Hexadecimal -> Shift Left -> Shift Right -> RAM -> Stack -> Call and Return -> Delay 6 Ticks\n\nCHAPTERS 7-8 - Assembly Challenges:\n  Bubble Sort, Robot Racing, Dancing Machine, Planet Names, Water World, Nibbles, Tower of Alloy, AI Showdown\n",
+    "unlockInfo": "Complete tree from start to finish",
+    "solutionApproach": "",
+    "source": "chapter-walkthrough"
+  }
+}

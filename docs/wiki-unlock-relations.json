@@ -1,0 +1,449 @@
+{
+  "Crude Awakening": {
+    "section": "Basic Logic",
+    "prerequisite": [],
+    "unlocks": ["NAND Gate"]
+  },
+  "NAND Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["Crude Awakening"],
+    "unlocks": ["NOT Gate"]
+  },
+  "NOT Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["Crude Awakening"],
+    "unlocks": ["AND Gate", "NOR Gate", "OR Gate"]
+  },
+  "AND Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["NOT Gate"],
+    "unlocks": ["Always On"]
+  },
+  "NOR Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["NOT Gate"],
+    "unlocks": ["Always On"]
+  },
+  "OR Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["NOT Gate"],
+    "unlocks": ["Always On"]
+  },
+  "Always On": {
+    "section": "Basic Logic",
+    "prerequisite": ["AND Gate", "NOR Gate", "OR Gate"],
+    "unlocks": ["Second Tick"]
+  },
+  "Second Tick": {
+    "section": "Basic Logic",
+    "prerequisite": ["Always On"],
+    "unlocks": ["XOR Gate"]
+  },
+  "XOR Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["Second Tick"],
+    "unlocks": ["Bigger OR Gate", "Bigger AND Gate"]
+  },
+  "Bigger AND Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["XOR Gate"],
+    "unlocks": ["XNOR Gate", "Circular Dependency"]
+  },
+  "Bigger OR Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["XOR Gate"],
+    "unlocks": ["Binary Racer", "Double Trouble", "XNOR Gate"]
+  },
+  "XNOR Gate": {
+    "section": "Basic Logic",
+    "prerequisite": ["Bigger OR Gate", "Bigger AND Gate"],
+    "unlocks": ["ODD Number of Signals"]
+  },
+  "Binary Racer": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Bigger OR Gate"],
+    "unlocks": ["Counting Signals"]
+  },
+  "Double Trouble": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Bigger OR Gate"],
+    "unlocks": ["Counting Signals"]
+  },
+  "ODD Number of Signals": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["XNOR Gate"],
+    "unlocks": ["Double the Number", "Bit Switch"]
+  },
+  "Circular Dependency": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Bigger AND Gate"],
+    "unlocks": ["Delayed Lines"]
+  },
+  "Counting Signals": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Binary Racer", "Double Trouble"],
+    "unlocks": ["Half Adder"]
+  },
+  "Half Adder": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Counting Signals"],
+    "unlocks": ["Full Adder"]
+  },
+  "Delayed Lines": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Circular Dependency"],
+    "unlocks": ["Odd Ticks"]
+  },
+  "Double the Number": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["ODD Number of Signals"],
+    "unlocks": ["Byte OR", "Byte NOT", "Adding Bytes", "Bit Switch"]
+  },
+  "Full Adder": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Half Adder"],
+    "unlocks": ["Adding Bytes"]
+  },
+  "Odd Ticks": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Delayed Lines"],
+    "unlocks": ["Bit Inverter"]
+  },
+  "Bit Switch": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Double the Number", "ODD Number of Signals"],
+    "unlocks": ["Adding Bytes", "Input Selector"]
+  },
+  "Bit Inverter": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Odd Ticks"],
+    "unlocks": ["Input Selector"]
+  },
+  "Byte OR": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Double the Number"],
+    "unlocks": ["Negative Numbers"]
+  },
+  "Byte NOT": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Double the Number"],
+    "unlocks": ["Signed Negator"]
+  },
+  "Adding Bytes": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Double the Number", "Full Adder", "Bit Switch"],
+    "unlocks": ["Negative Numbers", "Input Selector"]
+  },
+  "Negative Numbers": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Adding Bytes", "Byte OR"],
+    "unlocks": ["Signed Negator"]
+  },
+  "Input Selector": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Adding Bytes", "Bit Switch", "Bit Inverter"],
+    "unlocks": ["The bus", "Saving Gracefully"]
+  },
+  "Signed Negator": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Negative Numbers", "Byte NOT"],
+    "unlocks": ["Logic Engine"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "The bus": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Input Selector"],
+    "unlocks": ["Saving Bytes"]
+  },
+  "Saving Gracefully": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Input Selector"],
+    "unlocks": ["Saving Bytes"]
+  },
+  "Saving Bytes": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["The bus", "Saving Gracefully"],
+    "unlocks": ["1 Bit Decoder", "Little Box"]
+  },
+  "1 Bit Decoder": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Saving Bytes"],
+    "unlocks": ["3 Bit Decoder", "Little Box"]
+  },
+  "3 Bit Decoder": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["1 Bit Decoder"],
+    "unlocks": ["Logic Engine", "Registers"]
+  },
+  "Logic Engine": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Signed Negator", "3 Bit Decoder"],
+    "unlocks": ["Arithmetic Engine"]
+  },
+  "Little Box": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Saving Bytes", "1 Bit Decoder"],
+    "unlocks": ["Counter"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Counter": {
+    "section": "Arithmetic and Memory",
+    "prerequisite": ["Little Box"],
+    "unlocks": ["Arithmetic Engine"]
+  },
+  "Arithmetic Engine": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Logic Engine", "Counter"],
+    "unlocks": ["Component Factory"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Registers": {
+    "section": "CPU Architecture",
+    "prerequisite": ["3 Bit Decoder"],
+    "unlocks": ["Calculations"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Component Factory": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Arithmetic Engine"],
+    "unlocks": ["Instruction Decoder", "Conditions"]
+  },
+  "Instruction Decoder": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Component Factory"],
+    "unlocks": ["Calculations"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Calculations": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Instruction Decoder", "Registers"],
+    "unlocks": ["Conditions"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Conditions": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Component Factory", "Calculations"],
+    "unlocks": ["Program"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Program": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Conditions"],
+    "unlocks": ["Immediate Values"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Immediate Values": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Program"],
+    "unlocks": ["Turing Complete"],
+    "_note": "Wiki page is Immediate_Values_(Overture), redlink (no content)"
+  },
+  "Turing Complete": {
+    "section": "CPU Architecture",
+    "prerequisite": ["Immediate Values"],
+    "unlocks": ["Add 5", "Calibrating Laser Cannons"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Add 5": {
+    "section": "Programming",
+    "prerequisite": ["Turing Complete"],
+    "unlocks": ["Calibrating Laser Cannons"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Calibrating Laser Cannons": {
+    "section": "Programming",
+    "prerequisite": ["Turing Complete", "Add 5"],
+    "unlocks": ["Spacial Invasion"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Spacial Invasion": {
+    "section": "Programming",
+    "prerequisite": ["Calibrating Laser Cannons"],
+    "unlocks": ["Storage Cracker"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Storage Cracker": {
+    "section": "Programming",
+    "prerequisite": ["Spacial Invasion"],
+    "unlocks": ["Masking Time"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Masking Time": {
+    "section": "Programming",
+    "prerequisite": ["Storage Cracker"],
+    "unlocks": ["The Maze"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "The Maze": {
+    "section": "Programming",
+    "prerequisite": ["Masking Time"],
+    "unlocks": ["XOR"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "XOR": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["The Maze"],
+    "unlocks": ["Byte Constant", "Byte XOR"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Byte Constant": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["XOR"],
+    "unlocks": ["Equality"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Byte XOR": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["XOR"],
+    "unlocks": ["Equality"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Equality": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Byte Constant"],
+    "unlocks": ["Unsigned Less", "Signed Less"]
+  },
+  "Unsigned Less": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Equality"],
+    "unlocks": ["Wide Instructions"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Signed Less": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Equality"],
+    "unlocks": ["Wide Instructions"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Wide Instructions": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Unsigned Less", "Signed Less"],
+    "unlocks": ["Wire Spaghetti"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Wire Spaghetti": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Wide Instructions"],
+    "unlocks": ["Opcodes"]
+  },
+  "Opcodes": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Wire Spaghetti"],
+    "unlocks": ["Immediate Values (Leg)"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Immediate Values (Leg)": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Opcodes"],
+    "unlocks": ["Conditionals"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Conditionals": {
+    "section": "CPU Architecture 2",
+    "prerequisite": ["Immediate Values (Leg)"],
+    "unlocks": ["Hex Racer", "Shift", "RAM", "Delay"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Hex Racer": {
+    "section": "Functions",
+    "prerequisite": ["Conditionals"],
+    "unlocks": []
+  },
+  "Shift": {
+    "section": "Functions",
+    "prerequisite": ["Conditionals"],
+    "unlocks": ["The Product of Nibbles"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "RAM": {
+    "section": "Functions",
+    "prerequisite": ["Conditionals"],
+    "unlocks": ["Stack"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Delay": {
+    "section": "Functions",
+    "prerequisite": ["Conditionals"],
+    "unlocks": []
+  },
+  "The Product of Nibbles": {
+    "section": "Functions",
+    "prerequisite": ["Shift"],
+    "unlocks": ["Divide"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Stack": {
+    "section": "Functions",
+    "prerequisite": ["RAM"],
+    "unlocks": ["The Lab", "PUSH and POP", "Planet Names"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "The Lab": {
+    "section": "Functions",
+    "prerequisite": ["Stack"],
+    "unlocks": []
+  },
+  "Divide": {
+    "section": "Functions",
+    "prerequisite": ["The Product of Nibbles"],
+    "unlocks": ["PUSH and POP"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "PUSH and POP": {
+    "section": "Functions",
+    "prerequisite": ["Stack", "Divide"],
+    "unlocks": ["Functions"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Functions": {
+    "section": "Functions",
+    "prerequisite": ["PUSH and POP"],
+    "unlocks": ["AI Showdown", "Robot Racing"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "AI Showdown": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Functions"],
+    "unlocks": [],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Robot Racing": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Functions"],
+    "unlocks": ["Tower of Alloy"]
+  },
+  "Unseen Fruit": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Functions"],
+    "unlocks": ["Delicious Order"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Delicious Order": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Unseen Fruit"],
+    "unlocks": ["Dancing Machine"],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Dancing Machine": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Delicious Order"],
+    "unlocks": [],
+    "_note": "Wiki page is a redlink (no content)"
+  },
+  "Tower of Alloy": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Robot Racing"],
+    "unlocks": []
+  },
+  "Planet Names": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Stack"],
+    "unlocks": ["Waterworld"]
+  },
+  "Waterworld": {
+    "section": "Assembly Challenges",
+    "prerequisite": ["Planet Names"],
+    "unlocks": [],
+    "_note": "Wiki page is a redlink (no content)"
+  }
+}
