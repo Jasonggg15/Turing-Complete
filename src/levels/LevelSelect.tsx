@@ -338,7 +338,7 @@ export default function LevelSelect() {
 
           {/* Connection lines (bezier curves for DAG) */}
           {edges.map((e) => {
-            const color = e.completed ? '#22c55e' : '#444';
+            const color = e.completed ? '#22c55e' : '#4a4a6a';
             const pathId = `path-${e.id}`;
             const dy = (e.y2 - e.y1) * 0.4;
             const d = `M ${e.x1} ${e.y1} C ${e.x1} ${e.y1 + dy}, ${e.x2} ${e.y2 - dy}, ${e.x2} ${e.y2}`;
@@ -354,7 +354,7 @@ export default function LevelSelect() {
                 />
                 <circle
                   r={3}
-                  fill={e.completed ? '#22c55e' : '#888'}
+                  fill={e.completed ? '#22c55e' : '#6a6a8a'}
                   opacity={0.8}
                 >
                   <animateMotion dur="2s" repeatCount="indefinite">

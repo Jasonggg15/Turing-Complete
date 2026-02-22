@@ -84,7 +84,7 @@ export default function Home() {
             zIndex: 2,
           }}
         >
-          Made by Jason & Moai 🗿 · Powered by Claude Opus 4.6
+          Made by Jason & Moai🗿 · Powered by Claude Opus 4.6
         </div>
 
         {/* Footer — bottom-right version */}

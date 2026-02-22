@@ -142,69 +142,6 @@ export default function PcbLogo() {
         <circle cx="135" cy="140" r="2.5" fill="#D4A843" opacity="0.35" />
       </g>
 
-      {/* ── CPU Block (bottom-right — game's ultimate goal) ── */}
-      <g>
-        <rect
-          x="472"
-          y="195"
-          width="90"
-          height="55"
-          rx="3"
-          fill="#0a0a1e"
-          stroke="#4a4a6a"
-          strokeWidth="1.2"
-        />
-        {/* Pin-1 dot */}
-        <circle cx="480" cy="203" r="2" fill="#D4A843" opacity="0.2" />
-        {/* Die text */}
-        <text
-          x="517"
-          y="220"
-          textAnchor="middle"
-          fill="#6366f1"
-          fontSize="14"
-          fontWeight="bold"
-          fontFamily="'Courier New', monospace"
-          letterSpacing="2"
-        >
-          CPU
-        </text>
-        <text
-          x="517"
-          y="236"
-          textAnchor="middle"
-          fill="#3a4a6a"
-          fontSize="6"
-          fontFamily="monospace"
-        >
-          {`ALU \u00B7 REG \u00B7 CTL`}
-        </text>
-        {/* Top pins */}
-        {[485, 505, 525, 548].map((x, i) => (
-          <rect
-            key={`ct${i}`}
-            x={x - 2}
-            y={188}
-            width={4}
-            height={7}
-            fill="#D4A843"
-            rx={0.5}
-          />
-        ))}
-        {/* Bottom pins */}
-        {[485, 510, 540].map((x, i) => (
-          <rect
-            key={`cb${i}`}
-            x={x - 2}
-            y={250}
-            width={4}
-            height={7}
-            fill="#D4A843"
-            rx={0.5}
-          />
-        ))}
-      </g>
-
       {/* ── Copper traces (asymmetric routing) ── */}
       <g
         stroke="#D4A843"
@@ -306,6 +243,69 @@ export default function PcbLogo() {
           />
         </g>
       ))}
+
+      {/* ── CPU Block (bottom-right — game's ultimate goal) ── */}
+      <g>
+        <rect
+          x="472"
+          y="195"
+          width="90"
+          height="55"
+          rx="3"
+          fill="#0a0a1e"
+          stroke="#4a4a6a"
+          strokeWidth="1.2"
+        />
+        {/* Pin-1 dot */}
+        <circle cx="480" cy="203" r="2" fill="#D4A843" opacity="0.2" />
+        {/* Die text */}
+        <text
+          x="517"
+          y="220"
+          textAnchor="middle"
+          fill="#6366f1"
+          fontSize="14"
+          fontWeight="bold"
+          fontFamily="'Courier New', monospace"
+          letterSpacing="2"
+        >
+          CPU
+        </text>
+        <text
+          x="517"
+          y="236"
+          textAnchor="middle"
+          fill="#3a4a6a"
+          fontSize="6"
+          fontFamily="monospace"
+        >
+          {`ALU \u00B7 REG \u00B7 CTL`}
+        </text>
+        {/* Top pins */}
+        {[485, 505, 525, 548].map((x, i) => (
+          <rect
+            key={`ct${i}`}
+            x={x - 2}
+            y={188}
+            width={4}
+            height={7}
+            fill="#D4A843"
+            rx={0.5}
+          />
+        ))}
+        {/* Bottom pins */}
+        {[485, 510, 540].map((x, i) => (
+          <rect
+            key={`cb${i}`}
+            x={x - 2}
+            y={250}
+            width={4}
+            height={7}
+            fill="#D4A843"
+            rx={0.5}
+          />
+        ))}
+      </g>
 
       {/* ── SMD components (left-heavy distribution) ── */}
       <g fill="none" strokeWidth="0.8">
@@ -509,6 +509,72 @@ export default function PcbLogo() {
           strokeWidth="1.5"
           fill="none"
           strokeDasharray="10 60"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+        {/* Signal 7 — Top fan-out 2 */}
+        <path
+          className="pcb-signal pcb-signal-7"
+          d="M220 33 L220 18 L100 18 L100 42"
+          stroke="#D4A843"
+          strokeWidth="1.5"
+          fill="none"
+          strokeDasharray="8 30"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+        {/* Signal 8 — Right long run to via */}
+        <path
+          className="pcb-signal pcb-signal-8"
+          d="M380 33 L380 20 L530 20 L530 70"
+          stroke="#D4A843"
+          strokeWidth="1.5"
+          fill="none"
+          strokeDasharray="8 30"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+        {/* Signal 9 — Right side to CPU area */}
+        <path
+          className="pcb-signal pcb-signal-9"
+          d="M454 125 L545 125 L545 140"
+          stroke="#22c55e"
+          strokeWidth="1.5"
+          fill="none"
+          strokeDasharray="8 30"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+        {/* Signal 10 — NAND input 2 */}
+        <path
+          className="pcb-signal pcb-signal-10"
+          d="M38 175 L38 153"
+          stroke="#22c55e"
+          strokeWidth="1.5"
+          fill="none"
+          strokeDasharray="5 22"
+          strokeLinecap="round"
+          opacity="0.7"
+        />
+        {/* Signal 11 — Left chip trace */}
+        <path
+          className="pcb-signal pcb-signal-11"
+          d="M146 85 L110 85 L110 88"
+          stroke="#D4A843"
+          strokeWidth="1.5"
+          fill="none"
+          strokeDasharray="8 30"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+        {/* Signal 12 — Bottom left routing */}
+        <path
+          className="pcb-signal pcb-signal-12"
+          d="M195 222 L195 240 L75 240"
+          stroke="#D4A843"
+          strokeWidth="1.5"
+          fill="none"
+          strokeDasharray="8 30"
           strokeLinecap="round"
           opacity="0.6"
         />
