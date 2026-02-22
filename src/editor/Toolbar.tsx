@@ -13,6 +13,7 @@ interface ToolbarProps {
 const buttonBase: React.CSSProperties = {
   padding: '8px 14px',
   border: '1px solid #4a4a6a',
+  borderColor: '#4a4a6a',
   borderRadius: '6px',
   background: '#1a1a2e',
   color: '#e2e8f0',
