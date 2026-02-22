@@ -90,6 +90,11 @@ export default function Play() {
   const [renderVersion, setRenderVersion] = useState(0);
   const [wireColor, setWireColor] = useState('green');
 
+  // Called by Interaction when tool changes (e.g. single-placement auto-reset)
+  const handleToolChange = useCallback((tool: GateType | null) => {
+    setSelectedTool(tool);
+  }, []);
+
   // Compute unlocked compound components from completed levels
   const unlockedComponents = useMemo(() => {
     const components: GateType[] = [];
@@ -216,6 +221,7 @@ export default function Play() {
             simulationResult={simulationResult}
             wireColor={wireColor}
             onWireColorChange={setWireColor}
+            onToolChange={handleToolChange}
           />
 
           {showSuccess && (

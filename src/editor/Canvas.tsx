@@ -8,6 +8,7 @@ import { drawGrid } from './Grid';
 import { drawGate, getGateBounds } from './GateRenderer';
 import { drawWire, drawWirePreview, advanceFlowOffset } from './WireRenderer';
 import { Interaction } from './Interaction';
+import type { RadialMenuState } from './Interaction';
 import WireColorPicker from './WireColorPicker';
 import type { Gate } from '../engine/Gate';
 
@@ -22,6 +23,7 @@ interface CanvasProps {
   simulationResult?: Map<string, boolean> | null;
   wireColor?: string;
   onWireColorChange?: (color: string) => void;
+  onToolChange?: (tool: GateType | null) => void;
 }
 
 export default function Canvas({
@@ -35,6 +37,7 @@ export default function Canvas({
   simulationResult: simulationResultProp,
   wireColor = 'green',
   onWireColorChange,
+  onToolChange,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cameraRef = useRef<Camera>({ offsetX: 100, offsetY: 100, zoom: 1 });
@@ -47,6 +50,7 @@ export default function Canvas({
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const [zoom, setZoom] = useState(1);
   const [colorPicker, setColorPicker] = useState<{ wireId: string; x: number; y: number } | null>(null);
+  const [radialMenu, setRadialMenu] = useState<RadialMenuState | null>(null);
 
   const render = useCallback(() => {
     const canvas = canvasRef.current;
@@ -70,27 +74,51 @@ export default function Canvas({
     ctx.scale(camera.zoom, camera.zoom);
 
     const simulationResult = simulationResultProp ?? undefined;
+    const interaction = interactionRef.current;
+    const selectedGateIds = interaction?.getSelectedGateIds() ?? new Set<string>();
+    const selectedWireIds = interaction?.getSelectedWireIds() ?? new Set<string>();
 
     for (const wire of circuit.getWires()) {
-      drawWire(ctx, circuit, wire, simulationResult);
+      drawWire(ctx, circuit, wire, simulationResult, selectedWireIds.has(wire.id));
     }
 
     for (const gate of circuit.getGates()) {
       const pos = circuit.getGatePosition(gate.id);
       if (pos) {
-        drawGate(ctx, gate, pos, gate.id === selectedGateId, simulationResult);
+        const isSelected = gate.id === selectedGateId || selectedGateIds.has(gate.id);
+        drawGate(ctx, gate, pos, isSelected, simulationResult);
       }
     }
 
-    const interaction = interactionRef.current;
+    // Wire preview while dragging
     if (interaction) {
       const wiringFrom = interaction.getWiringFrom();
       if (wiringFrom && interaction.getState() === 'wiring') {
         drawWirePreview(ctx, wiringFrom.pos, interaction.getMouseWorld());
       }
+
+      // Box selection rectangle
+      const selRect = interaction.getSelectionRect();
+      if (selRect) {
+        ctx.save();
+        ctx.strokeStyle = '#6366f1';
+        ctx.lineWidth = 1 / camera.zoom;
+        ctx.setLineDash([4 / camera.zoom, 4 / camera.zoom]);
+        ctx.fillStyle = 'rgba(99, 102, 241, 0.08)';
+        const rx = selRect.width < 0 ? selRect.x + selRect.width : selRect.x;
+        const ry = selRect.height < 0 ? selRect.y + selRect.height : selRect.y;
+        ctx.fillRect(rx, ry, Math.abs(selRect.width), Math.abs(selRect.height));
+        ctx.strokeRect(rx, ry, Math.abs(selRect.width), Math.abs(selRect.height));
+        ctx.setLineDash([]);
+        ctx.restore();
+      }
     }
 
     ctx.restore();
+
+    // Update radial menu state for React overlay
+    const rmState = interaction?.getRadialMenu() ?? null;
+    setRadialMenu(rmState);
   }, [circuit, selectedGateId, simulationResultProp]);
 
   const requestRender = useCallback(() => {
@@ -105,7 +133,6 @@ export default function Canvas({
       if (needsRenderRef.current) {
         needsRenderRef.current = false;
       }
-      // Always re-render for wire flow animation
       render();
       rafRef.current = requestAnimationFrame(loop);
     };
@@ -133,6 +160,7 @@ export default function Canvas({
             y: screenY - rect.top,
           });
         },
+        onToolChange,
       },
       level,
       undoStackRef.current,
@@ -144,7 +172,7 @@ export default function Canvas({
       interaction.destroy();
       interactionRef.current = null;
     };
-  }, [circuit, onCircuitChange, onSelectGate, requestRender, level]);
+  }, [circuit, onCircuitChange, onSelectGate, requestRender, level, onToolChange]);
 
   useEffect(() => {
     interactionRef.current?.setSelectedTool(selectedTool);
@@ -356,6 +384,56 @@ export default function Canvas({
           />
         );
       })()}
+
+      {/* Radial menu overlay (#3) */}
+      {radialMenu && (
+        <div
+          style={{
+            position: 'fixed',
+            left: radialMenu.screenX,
+            top: radialMenu.screenY,
+            pointerEvents: 'none',
+            zIndex: 40,
+          }}
+        >
+          {/* Center dot */}
+          <div style={{
+            position: 'absolute',
+            left: -4, top: -4,
+            width: 8, height: 8,
+            borderRadius: '50%',
+            background: '#6366f1',
+          }} />
+          {/* Menu items */}
+          {radialMenu.items.map((item, i) => {
+            const isHovered = i === radialMenu.hoveredIndex;
+            return (
+              <div
+                key={item.type}
+                style={{
+                  position: 'absolute',
+                  left: item.x - 24,
+                  top: item.y - 14,
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  background: isHovered ? '#6366f1' : '#1a1a2e',
+                  border: `1px solid ${isHovered ? '#818cf8' : '#4a4a6a'}`,
+                  color: isHovered ? '#fff' : '#e2e8f0',
+                  fontSize: '11px',
+                  fontFamily: 'monospace',
+                  fontWeight: isHovered ? 'bold' : 'normal',
+                  whiteSpace: 'nowrap',
+                  pointerEvents: 'none',
+                  transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                  transition: 'transform 0.1s, background 0.1s',
+                }}
+              >
+                {item.label}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -3,15 +3,15 @@ import type { Wire } from '../engine/Wire';
 import type { Position } from '../engine/types';
 import { getPinPosition } from './GateRenderer';
 
-export const WIRE_COLORS: Record<string, { hex: string; glow: string; flow: string }> = {
-  red:    { hex: '#ef4444', glow: 'rgba(239, 68, 68, 0.25)',  flow: 'rgba(239, 68, 68, 0.5)' },
-  orange: { hex: '#f97316', glow: 'rgba(249, 115, 22, 0.25)', flow: 'rgba(249, 115, 22, 0.5)' },
-  yellow: { hex: '#eab308', glow: 'rgba(234, 179, 8, 0.25)',  flow: 'rgba(234, 179, 8, 0.5)' },
-  green:  { hex: '#22c55e', glow: 'rgba(34, 197, 94, 0.25)',  flow: 'rgba(34, 197, 94, 0.5)' },
-  blue:   { hex: '#3b82f6', glow: 'rgba(59, 130, 246, 0.25)', flow: 'rgba(59, 130, 246, 0.5)' },
-  purple: { hex: '#a855f7', glow: 'rgba(168, 85, 247, 0.25)', flow: 'rgba(168, 85, 247, 0.5)' },
-  white:  { hex: '#e2e8f0', glow: 'rgba(226, 232, 240, 0.25)',flow: 'rgba(226, 232, 240, 0.5)' },
-  gray:   { hex: '#9ca3af', glow: 'rgba(156, 163, 175, 0.25)',flow: 'rgba(156, 163, 175, 0.5)' },
+export const WIRE_COLORS: Record<string, { hex: string; dark: string; glow: string; flow: string }> = {
+  red:    { hex: '#ef4444', dark: '#7f1d1d', glow: 'rgba(239, 68, 68, 0.25)',  flow: 'rgba(239, 68, 68, 0.5)' },
+  orange: { hex: '#f97316', dark: '#7c2d12', glow: 'rgba(249, 115, 22, 0.25)', flow: 'rgba(249, 115, 22, 0.5)' },
+  yellow: { hex: '#eab308', dark: '#713f12', glow: 'rgba(234, 179, 8, 0.25)',  flow: 'rgba(234, 179, 8, 0.5)' },
+  green:  { hex: '#22c55e', dark: '#14532d', glow: 'rgba(34, 197, 94, 0.25)',  flow: 'rgba(34, 197, 94, 0.5)' },
+  blue:   { hex: '#3b82f6', dark: '#1e3a5f', glow: 'rgba(59, 130, 246, 0.25)', flow: 'rgba(59, 130, 246, 0.5)' },
+  purple: { hex: '#a855f7', dark: '#581c87', glow: 'rgba(168, 85, 247, 0.25)', flow: 'rgba(168, 85, 247, 0.5)' },
+  white:  { hex: '#e2e8f0', dark: '#475569', glow: 'rgba(226, 232, 240, 0.25)',flow: 'rgba(226, 232, 240, 0.5)' },
+  gray:   { hex: '#9ca3af', dark: '#374151', glow: 'rgba(156, 163, 175, 0.25)',flow: 'rgba(156, 163, 175, 0.5)' },
 };
 
 export const WIRE_COLOR_NAMES = Object.keys(WIRE_COLORS);
@@ -23,11 +23,55 @@ export function advanceFlowOffset(): void {
   flowOffset = (flowOffset + 0.6) % 20;
 }
 
+/** Compute orthogonal (right-angle) path: horizontal first, then vertical. */
+function orthoPath(
+  ctx: CanvasRenderingContext2D,
+  from: Position,
+  to: Position,
+): void {
+  const midX = (from.x + to.x) / 2;
+  ctx.beginPath();
+  ctx.moveTo(from.x, from.y);
+  ctx.lineTo(midX, from.y);
+  ctx.lineTo(midX, to.y);
+  ctx.lineTo(to.x, to.y);
+}
+
+/** Hit-test orthogonal wire segments. Returns true if point is within dist. */
+export function hitTestOrthoWire(
+  from: Position,
+  to: Position,
+  point: Position,
+  threshold: number,
+): boolean {
+  const midX = (from.x + to.x) / 2;
+  const segments: [Position, Position][] = [
+    { x: from.x, y: from.y } as Position && [from, { x: midX, y: from.y }],
+    [{ x: midX, y: from.y }, { x: midX, y: to.y }],
+    [{ x: midX, y: to.y }, to],
+  ];
+  for (const [a, b] of segments) {
+    if (distToSegment(point, a, b) < threshold) return true;
+  }
+  return false;
+}
+
+function distToSegment(p: Position, a: Position, b: Position): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq === 0) return Math.hypot(p.x - a.x, p.y - a.y);
+  let t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / lenSq;
+  t = Math.max(0, Math.min(1, t));
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+
 export function drawWire(
   ctx: CanvasRenderingContext2D,
   circuit: Circuit,
   wire: Wire,
   simulationResult?: Map<string, boolean>,
+  highlighted?: boolean,
 ): void {
   const fromGate = circuit.getGate(wire.fromGateId);
   const toGate = circuit.getGate(wire.toGateId);
@@ -52,24 +96,31 @@ export function drawWire(
 
   const colorEntry = WIRE_COLORS[wire.color] ?? WIRE_COLORS['green']!;
 
-  // Base wire
-  ctx.strokeStyle = value ? colorEntry.hex : '#6b7280';
-  ctx.lineWidth = 2.5;
+  // Base wire — use dark variant of user's color when signal is 0
+  ctx.strokeStyle = value ? colorEntry.hex : colorEntry.dark;
+  ctx.lineWidth = highlighted ? 3.5 : 2.5;
   ctx.setLineDash([]);
 
-  ctx.beginPath();
-  ctx.moveTo(from.x, from.y);
-  ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
+  orthoPath(ctx, from, to);
   ctx.stroke();
+
+  // Highlight border for selected wires
+  if (highlighted) {
+    ctx.save();
+    ctx.strokeStyle = '#6366f1';
+    ctx.lineWidth = 5;
+    ctx.globalAlpha = 0.3;
+    orthoPath(ctx, from, to);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   // Glow effect for active wires
   if (value) {
     ctx.save();
     ctx.strokeStyle = colorEntry.glow;
     ctx.lineWidth = 8;
-    ctx.beginPath();
-    ctx.moveTo(from.x, from.y);
-    ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
+    orthoPath(ctx, from, to);
     ctx.stroke();
 
     // Animated flow dashes on active wires
@@ -77,9 +128,7 @@ export function drawWire(
     ctx.lineWidth = 2;
     ctx.setLineDash([6, 14]);
     ctx.lineDashOffset = -flowOffset;
-    ctx.beginPath();
-    ctx.moveTo(from.x, from.y);
-    ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
+    orthoPath(ctx, from, to);
     ctx.stroke();
     ctx.setLineDash([]);
     ctx.restore();
@@ -95,9 +144,7 @@ export function drawWirePreview(
   ctx.lineWidth = 2;
   ctx.setLineDash([6, 4]);
 
-  ctx.beginPath();
-  ctx.moveTo(from.x, from.y);
-  ctx.bezierCurveTo(from.x + 60, from.y, to.x - 60, to.y, to.x, to.y);
+  orthoPath(ctx, from, to);
   ctx.stroke();
 
   ctx.setLineDash([]);
