@@ -229,12 +229,13 @@ export default function LevelSelect() {
       {/* Home link */}
       <div
         style={{
-          position: 'sticky',
-          top: 0,
-          left: 0,
-          zIndex: 10,
-          padding: '16px 24px',
-          background: 'linear-gradient(to bottom, #0f0f1a 60%, transparent)',
+          position: 'fixed',
+          top: 12,
+          left: 12,
+          zIndex: 100,
+          padding: '8px 16px',
+          background: 'rgba(15, 15, 26, 0.85)',
+          borderRadius: '6px',
         }}
       >
         <a
