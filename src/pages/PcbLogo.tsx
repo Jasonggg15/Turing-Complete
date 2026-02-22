@@ -377,7 +377,7 @@ export default function PcbLogo() {
           x="300"
           y="152"
           textAnchor="middle"
-          fill="#FFFFFF"
+          fill="#D4A843"
           fontSize="28"
           fontWeight="700"
           letterSpacing="5"
