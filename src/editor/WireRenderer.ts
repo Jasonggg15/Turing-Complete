@@ -47,10 +47,15 @@ function orthoPathMulti(
   for (let i = 1; i < points.length; i++) {
     const from = points[i - 1]!;
     const to = points[i]!;
-    const midX = (from.x + to.x) / 2;
-    ctx.lineTo(midX, from.y);
-    ctx.lineTo(midX, to.y);
-    ctx.lineTo(to.x, to.y);
+    if (from.y === to.y || from.x === to.x) {
+      // Same row or column: straight line
+      ctx.lineTo(to.x, to.y);
+    } else {
+      const midX = (from.x + to.x) / 2;
+      ctx.lineTo(midX, from.y);
+      ctx.lineTo(midX, to.y);
+      ctx.lineTo(to.x, to.y);
+    }
   }
 }
 
@@ -61,6 +66,9 @@ export function hitTestOrthoWire(
   point: Position,
   threshold: number,
 ): boolean {
+  if (from.y === to.y || from.x === to.x) {
+    return distToSegment(point, from, to) < threshold;
+  }
   const midX = (from.x + to.x) / 2;
   const segments: [Position, Position][] = [
     [from, { x: midX, y: from.y }],

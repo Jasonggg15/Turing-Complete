@@ -427,23 +427,25 @@ export default function Canvas({
             const isHovered = i === radialMenu.hoveredIndex;
             return (
               <div
-                key={item.type}
+                key={`${item.type}-${i}`}
                 style={{
                   position: 'absolute',
                   left: item.x - 24,
                   top: item.y - 14,
-                  padding: '4px 10px',
+                  padding: isHovered ? '5px 12px' : '4px 10px',
                   borderRadius: '6px',
                   background: isHovered ? '#6366f1' : '#1a1a2e',
-                  border: `1px solid ${isHovered ? '#818cf8' : '#4a4a6a'}`,
-                  color: isHovered ? '#fff' : '#e2e8f0',
-                  fontSize: '11px',
+                  border: `${isHovered ? 2 : 1}px solid ${isHovered ? '#a5b4fc' : '#4a4a6a'}`,
+                  color: isHovered ? '#fff' : '#94a3b8',
+                  fontSize: isHovered ? '13px' : '11px',
                   fontFamily: 'monospace',
                   fontWeight: isHovered ? 'bold' : 'normal',
                   whiteSpace: 'nowrap',
                   pointerEvents: 'none',
-                  transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-                  transition: 'transform 0.1s, background 0.1s',
+                  transform: isHovered ? 'scale(1.15)' : 'scale(1)',
+                  transition: 'transform 0.1s, background 0.1s, font-size 0.1s, border 0.1s',
+                  boxShadow: isHovered ? '0 0 12px rgba(99, 102, 241, 0.5)' : 'none',
+                  zIndex: isHovered ? 1 : 0,
                 }}
               >
                 {item.label}

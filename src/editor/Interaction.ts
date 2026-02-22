@@ -91,6 +91,9 @@ export class Interaction {
   private dragWireId: string | null = null;
   private dragWaypointIndex: number = -1;
 
+  // Click vs drag tracking (screen coordinates)
+  private mouseDownScreen: Position = { x: 0, y: 0 };
+
   private readonly handleMouseDown: (e: MouseEvent) => void;
   private readonly handleMouseMove: (e: MouseEvent) => void;
   private readonly handleMouseUp: (e: MouseEvent) => void;
@@ -309,24 +312,60 @@ export class Interaction {
   }
 
   /**
-   * Remove redundant waypoints: keep only those that cause an actual direction change
-   * in the orthogonal routing (H-V-H between each consecutive pair).
+   * Build the full rendered polyline (expanding H-V-H between each pair),
+   * then simplify by removing duplicate, collinear, and backtracking points.
+   * Returns cleaned waypoints (interior bend points of the simplified polyline).
    */
   private simplifyWaypoints(from: Position, waypoints: Position[], to: Position): Position[] {
     if (waypoints.length === 0) return [];
-    const pts = [from, ...waypoints, to];
-    const result: Position[] = [];
-    for (let i = 1; i < pts.length - 1; i++) {
-      const prev = pts[i - 1]!;
-      const curr = pts[i]!;
-      const next = pts[i + 1]!;
-      // Same horizontal line → redundant
-      if (prev.y === curr.y && curr.y === next.y) continue;
-      // Same vertical line → redundant
-      if (prev.x === curr.x && curr.x === next.x) continue;
-      result.push(curr);
+
+    // Step 1: Build full rendered polyline via ortho routing
+    const ctrl = [from, ...waypoints, to];
+    const poly: Position[] = [{ ...ctrl[0]! }];
+    for (let i = 1; i < ctrl.length; i++) {
+      const a = ctrl[i - 1]!;
+      const b = ctrl[i]!;
+      if (a.y === b.y || a.x === b.x) {
+        poly.push({ ...b });
+      } else {
+        const midX = (a.x + b.x) / 2;
+        poly.push({ x: midX, y: a.y });
+        poly.push({ x: midX, y: b.y });
+        poly.push({ ...b });
+      }
     }
-    return result;
+
+    // Step 2: Remove consecutive duplicates
+    let pts: Position[] = [poly[0]!];
+    for (let i = 1; i < poly.length; i++) {
+      const prev = pts[pts.length - 1]!;
+      if (prev.x !== poly[i]!.x || prev.y !== poly[i]!.y) {
+        pts.push(poly[i]!);
+      }
+    }
+
+    // Step 3: Iteratively remove collinear points until stable
+    let changed = true;
+    while (changed) {
+      changed = false;
+      const next: Position[] = [pts[0]!];
+      for (let i = 1; i < pts.length - 1; i++) {
+        const prev = next[next.length - 1]!;
+        const curr = pts[i]!;
+        const nxt = pts[i + 1]!;
+        if ((prev.x === curr.x && curr.x === nxt.x) ||
+            (prev.y === curr.y && curr.y === nxt.y)) {
+          changed = true;
+          continue;
+        }
+        next.push(curr);
+      }
+      next.push(pts[pts.length - 1]!);
+      pts = next;
+    }
+
+    // Interior bend points become the new waypoints
+    return pts.slice(1, -1);
   }
 
   private clearSelection(): void {
@@ -359,10 +398,11 @@ export class Interaction {
     if (gates.length === 0) return;
 
     const radius = 80;
-    // Gate items spread evenly, leaving a slot at the bottom for "Pointer"
     const totalSlots = gates.length + 1;
+    // Compute start angle so that the last slot (None) lands at π/2 (bottom)
+    const startAngle = Math.PI / 2 - (gates.length / totalSlots) * Math.PI * 2;
     const items: RadialMenuItem[] = gates.map((type, i) => {
-      const angle = (i / totalSlots) * Math.PI * 2 - Math.PI / 2;
+      const angle = startAngle + (i / totalSlots) * Math.PI * 2;
       return {
         type,
         label: type === GateType.HALF_ADDER ? 'HA' : type === GateType.FULL_ADDER ? 'FA' : type,
@@ -371,14 +411,14 @@ export class Interaction {
         y: Math.sin(angle) * radius,
       };
     });
-    // "Pointer" sector at the bottom (last slot)
-    const pointerAngle = (gates.length / totalSlots) * Math.PI * 2 - Math.PI / 2;
+    // "None" sector fixed at bottom (π/2)
+    const noneAngle = Math.PI / 2;
     items.push({
       type: 'pointer',
       label: '⊘ None',
-      angle: pointerAngle,
-      x: Math.cos(pointerAngle) * radius,
-      y: Math.sin(pointerAngle) * radius,
+      angle: noneAngle,
+      x: Math.cos(noneAngle) * radius,
+      y: Math.sin(noneAngle) * radius,
     });
 
     this.radialMenu = { screenX, screenY, items, hoveredIndex: -1 };
@@ -662,11 +702,12 @@ export class Interaction {
 
     const gateHit = this.findGateAt(world);
     if (gateHit) {
-      // Multi-selection drag — check BEFORE INPUT toggle to prevent spurious toggles
+      // Multi-selection drag — check BEFORE single-gate handling
       if (this.selectedGateIds.has(gateHit.id) && this.selectedGateIds.size > 1) {
         this.pushUndo();
         this.state = 'dragging-selection';
         this.dragOffset = { x: world.x, y: world.y };
+        this.mouseDownScreen = { x: e.clientX, y: e.clientY };
         this.dragSelectionStart.clear();
         for (const id of this.selectedGateIds) {
           const pos = this.circuit.getGatePosition(id);
@@ -676,23 +717,14 @@ export class Interaction {
         return;
       }
 
-      // INPUT toggle (only for single-gate interaction, not multi-drag)
-      if (gateHit.type === GateType.INPUT) {
-        const outPin = gateHit.outputs[0];
-        if (outPin) {
-          outPin.value = !outPin.value;
-          this.callbacks.onCircuitChange();
-          this.callbacks.requestRender();
-        }
-      }
-
-      // Single gate select + drag
+      // Single gate select + drag (INPUT toggle deferred to mouseup)
       this.clearSelection();
       this.selectedGateId = gateHit.id;
       this.selectedGateIds.add(gateHit.id);
       this.callbacks.onSelectGate(gateHit.id);
       this.pushUndo();
       this.state = 'dragging';
+      this.mouseDownScreen = { x: e.clientX, y: e.clientY };
       const gatePos = this.circuit.getGatePosition(gateHit.id);
       if (gatePos) {
         this.dragOffset = { x: world.x - gatePos.x, y: world.y - gatePos.y };
@@ -843,7 +875,27 @@ export class Interaction {
     }
 
     if (this.state === 'dragging') {
+      // Click vs drag: toggle INPUT only if mouse barely moved (≤5px)
+      const dx = e.clientX - this.mouseDownScreen.x;
+      const dy = e.clientY - this.mouseDownScreen.y;
+      if (dx * dx + dy * dy <= 25) {
+        // It was a click, not a drag
+        if (this.selectedGateId) {
+          const gate = this.circuit.getGate(this.selectedGateId);
+          if (gate && gate.type === GateType.INPUT) {
+            const outPin = gate.outputs[0];
+            if (outPin) {
+              outPin.value = !outPin.value;
+              this.callbacks.onCircuitChange();
+            }
+          } else {
+            // No actual position change happened, remove unnecessary undo
+            this.undoStack.pop();
+          }
+        }
+      }
       this.state = this.selectedTool ? 'placing' : 'idle';
+      this.callbacks.requestRender();
     }
 
     if (this.state === 'dragging-selection') {
