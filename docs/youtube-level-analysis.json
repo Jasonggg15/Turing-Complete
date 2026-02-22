@@ -22,7 +22,6 @@
       "NAND (provided, learn how it works)"
     ],
     "mechanics": "truth table: outputs TRUE except when both inputs are TRUE",
-    "unlockInfo": "First level after tutorial. Unlocks the NAND gate component for use in future levels.",
     "solutionApproach": "Toggle inputs to discover: FF=T, FT=T, TF=T, TT=F. NAND is a universal gate.",
     "source": "chapter-walkthrough"
   },
@@ -45,7 +44,6 @@
       "NAND"
     ],
     "mechanics": "truth table: T->F, F->T",
-    "unlockInfo": "Unlocked by NAND Gate",
     "solutionApproach": "Connect both inputs of a NAND gate to the same signal. When input is T, both NAND inputs are T so output is F. When input is F, output is T.",
     "source": "chapter-walkthrough"
   },
@@ -72,7 +70,6 @@
       "NAND"
     ],
     "mechanics": "truth table: FF=F, FT=F, TF=F, TT=T",
-    "unlockInfo": "Unlocked by NOT Gate",
     "solutionApproach": "NAND followed by NOT. Double-negate: NAND gives NOT-AND, then NOT removes the negation.",
     "source": "chapter-walkthrough"
   },
@@ -100,7 +97,6 @@
       "NOT"
     ],
     "mechanics": "truth table: FF=T, FT=F, TF=F, TT=F. NOR = NOT OR",
-    "unlockInfo": "Unlocked by AND Gate",
     "solutionApproach": "Negate both inputs then feed into NAND. By De Morgan's law, NOT(A) NAND NOT(B) = NOT(NOT(A) AND NOT(B)) = A OR B... then negate. Or: negate inputs, then AND, which gives NOR.",
     "source": "chapter-walkthrough"
   },
@@ -128,7 +124,6 @@
       "NOT"
     ],
     "mechanics": "truth table: FF=F, FT=T, TF=T, TT=T",
-    "unlockInfo": "Unlocked by NOR Gate",
     "solutionApproach": "Negate both inputs then feed into NAND gate. NOT(A) NAND NOT(B) = A OR B.",
     "source": "chapter-walkthrough"
   },
@@ -153,7 +148,6 @@
       "OR"
     ],
     "mechanics": "Output must always be TRUE regardless of input",
-    "unlockInfo": "Unlocked by OR Gate. Unlocks first menu page (De Morgan's Law).",
     "solutionApproach": "Take input, NOT it, then OR the input with its negation. One must always be TRUE.",
     "source": "chapter-walkthrough"
   },
@@ -183,7 +177,6 @@
       "OR"
     ],
     "mechanics": "truth table: only row where A=T, B=F outputs TRUE",
-    "unlockInfo": "Unlocked by Always On / De Morgan's Law",
     "solutionApproach": "AND the first input with the NOT of the second input.",
     "source": "chapter-walkthrough"
   },
@@ -213,7 +206,6 @@
       "OR"
     ],
     "mechanics": "truth table: FF=F, FT=T, TF=T, TT=F",
-    "unlockInfo": "Unlocked by Second Tick",
     "solutionApproach": "Two copies: (A AND NOT B) OR (NOT A AND B). Or: 3 NAND gates construction.",
     "source": "chapter-walkthrough"
   },
@@ -248,7 +240,6 @@
       "XOR"
     ],
     "mechanics": "TRUE if at least one input is TRUE. OR is associative.",
-    "unlockInfo": "Unlocked by XOR Gate",
     "solutionApproach": "Chain two OR gates: OR(OR(A,B), C). Order doesn't matter due to associativity.",
     "source": "chapter-walkthrough"
   },
@@ -283,7 +274,6 @@
       "XOR"
     ],
     "mechanics": "TRUE only when all inputs are TRUE. AND is associative.",
-    "unlockInfo": "Unlocked by Bigger OR Gate",
     "solutionApproach": "Chain two AND gates: AND(AND(A,B), C).",
     "source": "chapter-walkthrough"
   },
@@ -314,7 +304,6 @@
       "XOR"
     ],
     "mechanics": "truth table: FF=T, FT=F, TF=F, TT=T. TRUE when inputs are equal.",
-    "unlockInfo": "Unlocked by Bigger AND Gate. Completes Basic Logic chapter.",
     "solutionApproach": "XOR followed by NOT.",
     "source": "chapter-walkthrough"
   },
@@ -327,7 +316,6 @@
       "Toggle switches for bits 1,2,4,8,16,32,64,128"
     ],
     "mechanics": "Binary number representation. Each position is a power of 2.",
-    "unlockInfo": "First level in Arithmetic and Memory chapter",
     "solutionApproach": "Click the largest power of 2 that fits, subtract, repeat. Hacky: look at bottom display.",
     "source": "chapter-walkthrough"
   },
@@ -366,7 +354,6 @@
       "XOR"
     ],
     "mechanics": "Output TRUE when at least 2 of 4 inputs are TRUE",
-    "unlockInfo": "Unlocked by Binary Decoder",
     "solutionApproach": "Check if first pair both on (AND), last pair both on (AND), or one from each pair on (OR both, AND result). Combine all with OR.",
     "source": "chapter-walkthrough"
   },
@@ -401,7 +388,6 @@
       "XOR"
     ],
     "mechanics": "XOR is associative and outputs TRUE for odd number of TRUE inputs",
-    "unlockInfo": "Unlocked by Double Trouble",
     "solutionApproach": "Chain 3 XOR gates: XOR(XOR(XOR(A,B),C),D). XOR naturally checks parity.",
     "source": "chapter-walkthrough"
   },
@@ -417,7 +403,6 @@
       "OR"
     ],
     "mechanics": "Circular dependency: input depends on output. Normally not allowed.",
-    "unlockInfo": "Unlocked by Odd Number of Signals",
     "solutionApproach": "Connect output of one component to input of another, and vice versa. Creates undetermined state.",
     "source": "chapter-walkthrough"
   },
@@ -464,7 +449,6 @@
       "XOR"
     ],
     "mechanics": "Binary counting. XOR chain for ones digit, sock-problem circuit for twos, AND for fours.",
-    "unlockInfo": "Unlocked by Circular Dependency",
     "solutionApproach": "Ones place: chain of 3 XOR gates (parity). Fours place: 4-input AND. Twos place: sock problem (at least 2 TRUE) with XOR to block when all 4 are TRUE.",
     "source": "chapter-walkthrough"
   },
@@ -499,7 +483,6 @@
       "XOR"
     ],
     "mechanics": "Binary addition of two bits. Carry when both inputs TRUE.",
-    "unlockInfo": "Unlocked by Counting Signals",
     "solutionApproach": "Sum = XOR(A,B). Carry = AND(A,B).",
     "source": "chapter-walkthrough"
   },
@@ -522,7 +505,6 @@
       "Delay Line"
     ],
     "mechanics": "Sequential logic. Delay line outputs its input one tick later.",
-    "unlockInfo": "Unlocked by Half Adder. Introduces time/sequential behavior.",
     "solutionApproach": "Chain two delay line components together.",
     "source": "chapter-walkthrough"
   },
@@ -546,7 +528,6 @@
       "Byte Maker"
     ],
     "mechanics": "Byte = 8 bits (0-255). Doubling = left shift by 1.",
-    "unlockInfo": "Unlocked by Delay Line",
     "solutionApproach": "Split byte, connect each bit to the output position one higher (bit 0->bit 1, bit 1->bit 2, etc.). Overflow wraps around mod 256.",
     "source": "chapter-walkthrough"
   },
@@ -585,7 +566,6 @@
       "XOR"
     ],
     "mechanics": "Full binary addition with carry propagation",
-    "unlockInfo": "Unlocked by Double the Number",
     "solutionApproach": "Sum = XOR(XOR(A,B),Cin). Carry = OR(AND(A,B), AND(A,Cin), AND(B,Cin)). Check if at least 2 inputs are TRUE for carry.",
     "source": "chapter-walkthrough"
   },
@@ -604,7 +584,6 @@
       "Delay Line"
     ],
     "mechanics": "Self-referencing circuit with delay. Like Minecraft repeater clock.",
-    "unlockInfo": "Unlocked by Full Adder",
     "solutionApproach": "Connect a NOT gate's output through a delay line back to its own input. Creates oscillating signal.",
     "source": "chapter-walkthrough"
   },
@@ -632,7 +611,6 @@
       "Bit Switch"
     ],
     "mechanics": "Switch component: when top pin is off, output is disabled (gray). Multiple gray outputs can share a wire if only one enabled at a time.",
-    "unlockInfo": "Unlocked by Odd Ticks",
     "solutionApproach": "Two switches controlled by one input's negation. Route input through appropriate switch to create XOR behavior.",
     "source": "chapter-walkthrough"
   },
@@ -661,7 +639,6 @@
       "OR"
     ],
     "mechanics": "Bitwise operation on bytes",
-    "unlockInfo": "Unlocked after Switch",
     "solutionApproach": "Split both bytes, OR corresponding bits, reassemble with byte maker.",
     "source": "chapter-walkthrough"
   },
@@ -686,7 +663,6 @@
       "NOT"
     ],
     "mechanics": "Bitwise NOT on byte",
-    "unlockInfo": "Unlocked after Byte OR",
     "solutionApproach": "Split byte, NOT each bit, reassemble.",
     "source": "chapter-walkthrough"
   },
@@ -723,7 +699,6 @@
       "Full Adder"
     ],
     "mechanics": "8-bit ripple carry adder. Chain full adders from LSB to MSB.",
-    "unlockInfo": "Unlocked after Byte NOT",
     "solutionApproach": "Split both bytes, chain 8 full adders from bit 0 to bit 7, carry propagates through. Final carry is the overflow/carry out.",
     "source": "chapter-walkthrough"
   },
@@ -736,7 +711,6 @@
       "Toggle switches"
     ],
     "mechanics": "Two's complement: highest bit is -128. Range is -128 to 127. To negate: flip all bits and add 1.",
-    "unlockInfo": "Unlocked after Byte Adder",
     "solutionApproach": "Same as binary decoder but highest bit is -128. Negative numbers have bit 8 on.",
     "source": "chapter-walkthrough"
   },
@@ -768,7 +742,6 @@
       "NOT"
     ],
     "mechanics": "Multiplexer - select between two byte inputs",
-    "unlockInfo": "Unlocked after Signed Integers",
     "solutionApproach": "Use two 8-bit switches. When selector is FALSE, enable switch A; when TRUE, enable switch B. Both output to same wire.",
     "source": "chapter-walkthrough"
   },
@@ -792,7 +765,6 @@
       "Byte Adder"
     ],
     "mechanics": "Two's complement negation: flip all bits then add 1.",
-    "unlockInfo": "Unlocked after Byte Selector",
     "solutionApproach": "NOT the input byte, then add 1 using the byte adder (use carry-in as the +1).",
     "source": "chapter-walkthrough"
   },
@@ -832,7 +804,6 @@
       "NOT"
     ],
     "mechanics": "Routing/demultiplexing with switches",
-    "unlockInfo": "Unlocked after Negate",
     "solutionApproach": "Four switches total. Use input select and its negation to pick source, output select and its negation to pick destination.",
     "source": "chapter-walkthrough"
   },
@@ -861,7 +832,6 @@
       "NOT"
     ],
     "mechanics": "Sequential memory. Uses delay line feeding back to itself.",
-    "unlockInfo": "Unlocked after Input Selector",
     "solutionApproach": "Use two switches: when save-enable is OFF, feed the delay line output back to itself (retain value). When ON, feed the new save value through instead.",
     "source": "chapter-walkthrough"
   },
@@ -894,7 +864,6 @@
       "Byte Maker"
     ],
     "mechanics": "8-bit register using 8 individual 1-bit memories. Output has enable pin.",
-    "unlockInfo": "Unlocked after 1 Bit Memory",
     "solutionApproach": "Use 8 copies of 1-bit memory, one per bit. Connect save/load signals to all. Enable output only on load.",
     "source": "chapter-walkthrough"
   },
@@ -926,7 +895,6 @@
       "NOT"
     ],
     "mechanics": "1-to-2 demultiplexer",
-    "unlockInfo": "Unlocked after Byte Memory",
     "solutionApproach": "Two switches: one enabled when control is FALSE, other when TRUE.",
     "source": "chapter-walkthrough"
   },
@@ -958,7 +926,6 @@
       "NOT"
     ],
     "mechanics": "Binary decoder: one-hot encoding from 3-bit input",
-    "unlockInfo": "Unlocked after Little Box",
     "solutionApproach": "For each of 8 outputs, AND the appropriate combination of inputs and their negations. E.g., output 0 = NOT(A) AND NOT(B) AND NOT(C).",
     "source": "chapter-walkthrough"
   },
@@ -992,7 +959,6 @@
       "3 Bit Decoder"
     ],
     "mechanics": "Arithmetic Logic Unit. Instruction 0=OR, 1=NAND, 2=NOR, 3=AND. Red components cannot be moved.",
-    "unlockInfo": "Unlocked after 3 Bit Decoder",
     "solutionApproach": "Build OR core with optional NOT on inputs and output. Use decoder + switches to select operation. OR with negated I/O = NAND (De Morgan's). Control NOTs with instruction bits.",
     "source": "chapter-walkthrough"
   },
@@ -1029,7 +995,6 @@
       "AND"
     ],
     "mechanics": "Addressable memory with 4 locations",
-    "unlockInfo": "Unlocked after ALU",
     "solutionApproach": "4 byte memories connected to same data bus. Use 2-bit decoder to enable save on correct memory. Load reads from correct memory using switches.",
     "source": "chapter-walkthrough"
   },
@@ -1058,7 +1023,6 @@
       "Byte Selector (Mux)"
     ],
     "mechanics": "Sequential counter with feedback loop. Register feeds back through adder.",
-    "unlockInfo": "Unlocked after 4 Byte Memory. Completes Arithmetic and Memory chapter.",
     "solutionApproach": "Register output -> Adder (+1) -> Mux -> Register input. Mux selects between adder output (counting) and overwrite value.",
     "source": "chapter-walkthrough"
   },
@@ -1094,7 +1058,6 @@
       "Negate"
     ],
     "mechanics": "Extending ALU with arithmetic operations. SUB = ADD with negated second input.",
-    "unlockInfo": "First level in CPU Architecture",
     "solutionApproach": "Add switches for arithmetic path. When instruction is 4 or 5, route through adder. For SUB, negate second input before adding.",
     "source": "chapter-walkthrough"
   },
@@ -1124,7 +1087,6 @@
       "Byte Switch"
     ],
     "mechanics": "Register file with 6 registers (Reg0-Reg5), input source, and output destination. Source/destination encoded in instruction.",
-    "unlockInfo": "Unlocked after ALU with Add/Sub",
     "solutionApproach": "Use 3-bit decoders for source and destination. Connect all registers to shared data bus via switches. Source decoder enables load, destination decoder enables save.",
     "source": "chapter-walkthrough"
   },
@@ -1135,7 +1097,6 @@
     "outputs": [],
     "availableComponents": [],
     "mechanics": "Tool level, not a challenge. Components saved here become available in architectures.",
-    "unlockInfo": "Unlocked after Registers",
     "solutionApproach": "Go to level map and continue. This is a tool introduction, not a puzzle.",
     "source": "chapter-walkthrough"
   },
@@ -1172,7 +1133,6 @@
       "NOT"
     ],
     "mechanics": "Top 2 bits of instruction determine mode. Saved to Component Factory.",
-    "unlockInfo": "Unlocked after Component Factory",
     "solutionApproach": "Split byte, take top 2 bits. Use AND/NOT combinations to decode 4 states.",
     "source": "chapter-walkthrough"
   },
@@ -1193,7 +1153,6 @@
       "Byte Switch"
     ],
     "mechanics": "Integrating ALU with register file. Instruction decoder routes between copy and calculate modes.",
-    "unlockInfo": "Unlocked after Instruction Decoder",
     "solutionApproach": "Use instruction decoder to determine mode. In calculate mode, feed Reg1 and Reg2 to ALU, save result to Reg3. In copy mode, use register circuit.",
     "source": "chapter-walkthrough"
   },
@@ -1224,7 +1183,6 @@
       "XOR"
     ],
     "mechanics": "6 conditions paired by XOR: Never/Always, EqZero/NeqZero, LtZero/GeqZero. Last bit XORs the result to get the inverse.",
-    "unlockInfo": "Unlocked after Calculating",
     "solutionApproach": "Test for zero: OR all bits, if any is 1, not zero. Test for negative: check if highest bit is on. Use AND gates to select active test based on condition bits. XOR with last bit for inverse conditions.",
     "source": "chapter-walkthrough"
   },
@@ -1238,7 +1196,6 @@
       "Counter"
     ],
     "mechanics": "Program counter drives program memory. Each tick loads next instruction.",
-    "unlockInfo": "Unlocked after Conditions",
     "solutionApproach": "Connect counter output to program address input. Counter increments each tick.",
     "source": "chapter-walkthrough"
   },
@@ -1258,7 +1215,6 @@
       "AND"
     ],
     "mechanics": "Immediate mode: instruction itself contains a value to load into Reg0.",
-    "unlockInfo": "Unlocked after Program",
     "solutionApproach": "When immediate mode detected, take lower 6 bits of instruction and save to Reg0 using a switch gated by the immediate signal.",
     "source": "chapter-walkthrough"
   },
@@ -1279,7 +1235,6 @@
       "AND"
     ],
     "mechanics": "Conditional branching. Enables loops and if-statements. Completes Turing-complete computer.",
-    "unlockInfo": "Unlocked after Immediate Values. Completes the Overture computer - a Turing-complete machine.",
     "solutionApproach": "Feed Reg3 and condition bits to conditions component. If TRUE and in condition mode, overwrite counter with Reg0 value.",
     "source": "chapter-walkthrough"
   },
@@ -1302,7 +1257,6 @@
       "Assembly: Copy, Immediate, Add"
     ],
     "mechanics": "Assembly programming on the Overture computer.",
-    "unlockInfo": "First level in Programming chapter",
     "solutionApproach": "Copy input to Reg1, set Reg0=5 (immediate), copy to Reg2, ADD, copy Reg3 to output.",
     "source": "chapter-walkthrough"
   },
@@ -1325,7 +1279,6 @@
       "Assembly: Copy, Immediate, Add, Sub"
     ],
     "mechanics": "Assembly programming. Introduces assembly syntax with named instructions.",
-    "unlockInfo": "Unlocked after Add 5",
     "solutionApproach": "Multiply by 6 (2*3) using repeated addition: add input to itself 6 times using a loop or sequential adds.",
     "source": "chapter-walkthrough"
   },
@@ -1348,7 +1301,6 @@
       "Assembly: Copy, Immediate, Add, Sub, Conditions, Labels"
     ],
     "mechanics": "Robot programming with movement and shooting. Input shows what robot sees. Tab key reveals strategy.",
-    "unlockInfo": "Unlocked after Circumference",
     "solutionApproach": "Position robot in center, rotate and wait. When sensor detects enemy (not zero), shoot. After 4 shots, turn right. Loop. Use labels and conditions for flow control.",
     "source": "chapter-walkthrough"
   },
@@ -1371,7 +1323,6 @@
       "Assembly: Copy, Immediate, Add, Sub, Conditions, Labels"
     ],
     "mechanics": "Search algorithm. Can use linear scan or binary search.",
-    "unlockInfo": "Unlocked after Space Rats",
     "solutionApproach": "Start at 0, increment by 1 each guess until correct (no output = fail, correct = pass). Optimization: increment by 32 first, then go back and increment by 1.",
     "source": "chapter-walkthrough"
   },
@@ -1394,7 +1345,6 @@
       "Assembly: Copy, Immediate, AND"
     ],
     "mechanics": "Bit masking. Modulo power-of-2 = AND with (n-1).",
-    "unlockInfo": "Unlocked after Storage Cracker",
     "solutionApproach": "AND the input with 3 (binary 00000011). This extracts the bottom 2 bits which is the remainder when dividing by 4.",
     "source": "chapter-walkthrough"
   },
@@ -1417,7 +1367,6 @@
       "Assembly: Copy, Immediate, Add, Sub, Conditions, Labels"
     ],
     "mechanics": "Robot maze navigation. Commands: left(0), forward(1), right(2), enjoy(3), action(4), shoot(5).",
-    "unlockInfo": "Unlocked after Modulo 4. Completing this wins the competition (story milestone).",
     "solutionApproach": "Wall-following algorithm: always try to turn right first, then go forward, then turn left. Check for walls by looking and using action. Loop until exit found.",
     "source": "chapter-walkthrough"
   },
@@ -1444,7 +1393,6 @@
       "Assembly: NAND, Copy"
     ],
     "mechanics": "Building XOR from NAND gates in assembly. XOR(A,B) = NAND(NAND(A,NAND(A,B)), NAND(B,NAND(A,B)))",
-    "unlockInfo": "First level in CPU Architecture 2",
     "solutionApproach": "Compute NAND(A,B), then NAND(A,result) and NAND(B,result), then NAND those two results.",
     "source": "chapter-walkthrough"
   },
@@ -1462,7 +1410,6 @@
       "Wire"
     ],
     "mechanics": "Hard-wired constant. 164 = 128+32+4.",
-    "unlockInfo": "Unlocked in CPU Architecture 2",
     "solutionApproach": "Wire the bits for 128, 32, and 4 to ON. Leave rest OFF.",
     "source": "chapter-walkthrough"
   },
@@ -1494,7 +1441,6 @@
       "Byte Maker"
     ],
     "mechanics": "Bitwise XOR on bytes using basic gates",
-    "unlockInfo": "Unlocked after Constant 164",
     "solutionApproach": "Split both bytes, XOR each pair of corresponding bits using NAND construction, reassemble.",
     "source": "chapter-walkthrough"
   },
@@ -1524,7 +1470,6 @@
       "NOR"
     ],
     "mechanics": "Equality comparison",
-    "unlockInfo": "Unlocked after Byte XOR",
     "solutionApproach": "Subtract A from B. If result is zero (all bits 0), they're equal. OR all result bits, then NOR for final output.",
     "source": "chapter-walkthrough"
   },
@@ -1552,7 +1497,6 @@
       "Byte Adder"
     ],
     "mechanics": "Unsigned comparison using overflow detection",
-    "unlockInfo": "Unlocked after Byte Equal",
     "solutionApproach": "NOT(A) + B. If carry bit is OFF, A >= B (no overflow). If carry is ON, A < B (overflow occurred). Uses the property that A + NOT(A) = 255.",
     "source": "chapter-walkthrough"
   },
@@ -1581,7 +1525,6 @@
       "Constant 128"
     ],
     "mechanics": "Signed comparison by converting to unsigned",
-    "unlockInfo": "Unlocked after Unsigned Less Than",
     "solutionApproach": "XOR both inputs with 128 to convert signed to unsigned (flip sign bit), then use unsigned less than comparison.",
     "source": "chapter-walkthrough"
   },
@@ -1610,7 +1553,6 @@
       "Switch"
     ],
     "mechanics": "Instruction widening - reading 2 bytes per instruction cycle",
-    "unlockInfo": "First building block of LEG architecture",
     "solutionApproach": "Use oscillator to alternate. On even ticks, save byte to register. On odd ticks, output both saved byte and current byte.",
     "source": "chapter-walkthrough"
   },
@@ -1628,7 +1570,6 @@
       "Switch"
     ],
     "mechanics": "New architecture with opcode-based instructions. Args are register addresses. Counter increments by 4.",
-    "unlockInfo": "Major milestone in CPU Architecture 2",
     "solutionApproach": "Place program with 4 outputs, counter with increment=4. Wire 6 registers to data bus. Use equality comparisons to select correct register for read/write based on arg1, arg2, and result addresses.",
     "source": "chapter-walkthrough"
   },
@@ -1666,7 +1607,6 @@
       "Decoder"
     ],
     "mechanics": "ALU for LEG architecture with 6 operations",
-    "unlockInfo": "Unlocked after LEG Architecture",
     "solutionApproach": "Build as component (ALU Plus). Compute all operations in parallel, use switches controlled by opcode decoder to select correct output.",
     "source": "chapter-walkthrough"
   },
@@ -1685,7 +1625,6 @@
       "Byte Splitter"
     ],
     "mechanics": "Immediate mode for LEG: args can be literal values instead of register addresses",
-    "unlockInfo": "Unlocked after LEG Opcodes",
     "solutionApproach": "Use mux components. Check bits 7 and 8 of opcode. When set, bypass register lookup and use arg value directly.",
     "source": "chapter-walkthrough"
   },
@@ -1720,7 +1659,6 @@
       "Counter"
     ],
     "mechanics": "Conditional branching for LEG architecture",
-    "unlockInfo": "Unlocked after Immediate Values (LEG). Completes LEG computer.",
     "solutionApproach": "When opcode bit 5 is set, compare args using equality and less-than. Build all 6 conditions, select with decoder. If condition true, overwrite counter with jump address.",
     "source": "chapter-walkthrough"
   },
@@ -1733,7 +1671,6 @@
       "Toggle switches"
     ],
     "mechanics": "Hex representation: each hex digit = 4 bits. 0-9, A-F.",
-    "unlockInfo": "First level in Functions chapter",
     "solutionApproach": "Convert each hex digit to 4 binary bits. 0=0000, F=1111, A=1010, etc.",
     "source": "chapter-walkthrough"
   },
@@ -1762,7 +1699,6 @@
       "Byte Switch"
     ],
     "mechanics": "Left shift = multiply by power of 2. Each position doubles the value.",
-    "unlockInfo": "Unlocked after Hexadecimal",
     "solutionApproach": "Chain 7 adders, each adding the value to itself (doubling). Use 3-bit decoder on shift amount to select which stage's output to use via switches.",
     "source": "chapter-walkthrough"
   },
@@ -1792,7 +1728,6 @@
       "Byte Switch"
     ],
     "mechanics": "Right shift = integer divide by power of 2",
-    "unlockInfo": "Unlocked after Shift Left",
     "solutionApproach": "Mirror of shift left schematic.",
     "source": "chapter-walkthrough"
   },
@@ -1820,7 +1755,6 @@
       "Register"
     ],
     "mechanics": "256-byte addressable memory. One register dedicated to address selection.",
-    "unlockInfo": "Unlocked after Shift Right",
     "solutionApproach": "Wire register 4 output to RAM address input. Read all 32 inputs first (store to RAM), then output them in order.",
     "source": "chapter-walkthrough"
   },
@@ -1835,7 +1769,6 @@
       "Counter"
     ],
     "mechanics": "Stack: push adds to top, pop removes from top. Uses stack pointer.",
-    "unlockInfo": "Unlocked after RAM",
     "solutionApproach": "Use a register as stack pointer. Push: write to RAM at stack pointer, increment pointer. Pop: decrement pointer, read from RAM.",
     "source": "chapter-walkthrough"
   },
@@ -1858,7 +1791,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Sorting algorithm implementation in assembly",
-    "unlockInfo": "Assembly Challenges",
     "solutionApproach": "Nested loops: outer loop repeats until no swaps, inner loop compares adjacent elements and swaps if out of order.",
     "source": "chapter-walkthrough"
   },
@@ -1881,7 +1813,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Robot programming challenges with increasingly complex courses",
-    "unlockInfo": "Assembly Challenges",
     "solutionApproach": "Various pathfinding and optimization algorithms.",
     "source": "per-level"
   },
@@ -1904,7 +1835,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Pattern matching and sequence execution",
-    "unlockInfo": "Assembly Challenges",
     "solutionApproach": "Read input patterns and output corresponding dance moves.",
     "source": "per-level"
   },
@@ -1927,7 +1857,6 @@
       "LEG Assembly"
     ],
     "mechanics": "String/character manipulation in assembly",
-    "unlockInfo": "Assembly Challenges",
     "solutionApproach": "Process ASCII character data for planet name operations.",
     "source": "per-level"
   },
@@ -1950,7 +1879,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Complex assembly challenge",
-    "unlockInfo": "Late Assembly Challenges",
     "solutionApproach": "Advanced assembly programming challenge.",
     "source": "per-level"
   },
@@ -1973,7 +1901,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Game implementation in assembly",
-    "unlockInfo": "Late Assembly Challenges",
     "solutionApproach": "Implement snake movement, food collection, and collision detection in assembly.",
     "source": "per-level"
   },
@@ -1996,7 +1923,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Final challenge requiring advanced AI/strategy programming",
-    "unlockInfo": "Final level of the game",
     "solutionApproach": "Implement game strategy AI in assembly.",
     "source": "per-level"
   },
@@ -2019,7 +1945,6 @@
       "LEG Assembly"
     ],
     "mechanics": "Recursive algorithm implementation",
-    "unlockInfo": "Assembly Challenges",
     "solutionApproach": "Implement Tower of Hanoi algorithm, potentially using stack for recursion.",
     "source": "per-level"
   },
@@ -2042,7 +1967,6 @@
       "Overture Assembly"
     ],
     "mechanics": "Game defense programming",
-    "unlockInfo": "Unlocked in Programming chapter",
     "solutionApproach": "Scan for enemies and shoot them systematically.",
     "source": "per-level"
   },
@@ -2065,7 +1989,6 @@
       "Delay Line"
     ],
     "mechanics": "Sequential delay chaining",
-    "unlockInfo": "Functions chapter",
     "solutionApproach": "Chain 6 delay line components.",
     "source": "chapter-walkthrough"
   },
@@ -2080,19 +2003,7 @@
       "LEG Architecture"
     ],
     "mechanics": "CALL pushes return address to stack and jumps. RET pops address and jumps back.",
-    "unlockInfo": "Functions chapter - enables proper function calls",
     "solutionApproach": "Add CALL opcode: push current counter+4 to stack, set counter to target. Add RET opcode: pop from stack, set counter to popped value.",
     "source": "per-level"
-  },
-  "_LEVEL_ORDER": {
-    "chapter": "META",
-    "objective": "Level unlock order / tree structure",
-    "inputs": [],
-    "outputs": [],
-    "availableComponents": [],
-    "mechanics": "\nCHAPTER 1 - Basic Logic:\n  NAND Gate -> NOT Gate -> AND Gate -> NOR Gate -> OR Gate -> Always On -> De Morgan's Law (menu)\n  -> Second Tick -> XOR Gate -> Bigger OR -> Bigger AND -> XNOR Gate\n\nCHAPTER 2 - Arithmetic and Memory:\n  Binary Decoder -> Double Trouble -> Odd Number of Signals -> Circular Dependency -> Counting Signals\n  -> Half Adder -> Delay Line -> Double the Number -> Full Adder -> Odd Ticks -> Switch\n  -> Byte OR -> Byte NOT -> Byte Adder -> Signed Integers -> Byte Selector (Mux) -> Negate\n  -> Input Selector -> 1 Bit Memory -> Byte Memory -> Little Box -> 3 Bit Decoder -> ALU -> 4 Byte Memory -> Counter\n\nCHAPTER 3 - CPU Architecture (Overture):\n  ALU with Add/Sub -> Registers -> Component Factory -> Instruction Decoder -> Calculating -> Conditions -> Program -> Immediate Values -> Conditional Jump\n  (Completes Overture computer)\n\nCHAPTER 4 - Programming (Overture Assembly):\n  Add 5 -> Circumference -> Space Rats -> Storage Cracker -> Modulo 4 -> The Maze -> Spatial Invasion\n\nCHAPTER 5 - CPU Architecture 2 (LEG):\n  XOR in Assembly -> Constant 164 -> Byte XOR -> Byte Equal -> Unsigned Less Than -> Signed Less Than\n  -> Wide Instructions -> LEG Architecture -> LEG Opcodes -> Immediate Values (LEG) -> Conditionals (LEG)\n\nCHAPTER 6 - Functions:\n  Hexadecimal -> Shift Left -> Shift Right -> RAM -> Stack -> Call and Return -> Delay 6 Ticks\n\nCHAPTERS 7-8 - Assembly Challenges:\n  Bubble Sort, Robot Racing, Dancing Machine, Planet Names, Water World, Nibbles, Tower of Alloy, AI Showdown\n",
-    "unlockInfo": "Complete tree from start to finish",
-    "solutionApproach": "",
-    "source": "chapter-walkthrough"
   }
 }
