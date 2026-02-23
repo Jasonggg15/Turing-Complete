@@ -224,7 +224,7 @@ export default function Play() {
   if (!level) return <Navigate to="/levels" replace />;
   if (locked) return <Navigate to="/levels" replace />;
 
-  const handleCircuitChange = () => {
+  const handleCircuitChange = useCallback(() => {
     if (!level || !circuitRef.current) return;
     saveCircuit(level.id, circuitRef.current.serialize());
     setRenderVersion((n) => n + 1);
@@ -245,7 +245,7 @@ export default function Play() {
     } catch {
       setSimulationResult(null);
     }
-  };
+  }, [level]);
 
   const handleVerify = () => {
     if (!level || !circuitRef.current) return;
