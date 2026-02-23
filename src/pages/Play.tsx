@@ -185,7 +185,6 @@ export default function Play() {
   > | null>(null);
   const [renderVersion, setRenderVersion] = useState(0);
   const [wireColor, setWireColor] = useState('green');
-  const [loading, setLoading] = useState(true);
   const [failFlash, setFailFlash] = useState(false);
 
   // Called by Interaction when tool changes (e.g. single-placement auto-reset)
@@ -214,33 +213,16 @@ export default function Play() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderVersion]);
 
-  // Brief loading state to prevent white flash
+  // Auto-dismiss success modal
   useEffect(() => {
-    const t = requestAnimationFrame(() => setLoading(false));
-    return () => cancelAnimationFrame(t);
-  }, []);
+    if (showSuccess) {
+      const timer = setTimeout(() => setShowSuccess(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess]);
 
   if (!level) return <Navigate to="/levels" replace />;
   if (locked) return <Navigate to="/levels" replace />;
-
-  if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        background: '#0f0f1a',
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <div className="pcb-spinner" style={{ margin: '0 auto 16px' }} />
-          <div style={{ color: '#4a4a6a', fontFamily: 'monospace', fontSize: '12px' }}>
-            Loading circuit...
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const handleCircuitChange = () => {
     if (!level || !circuitRef.current) return;
@@ -296,15 +278,6 @@ export default function Play() {
     saveCircuit(level.id, circuit.serialize());
     setRenderVersion((n) => n + 1);
   };
-
-  // Auto-dismiss success modal
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    if (showSuccess) {
-      const timer = setTimeout(() => setShowSuccess(false), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showSuccess]);
 
   const circuit = circuitRef.current!;
 
