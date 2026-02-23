@@ -12,6 +12,7 @@ interface ToolbarProps {
   onBack?: () => void;
   wireColor?: string;
   onWireColorChange?: (color: string) => void;
+  gateCount?: number;
 }
 
 const buttonBase: React.CSSProperties = {
@@ -25,14 +26,14 @@ const buttonBase: React.CSSProperties = {
   fontSize: '13px',
   fontFamily: 'monospace',
   fontWeight: 'bold',
-  transition: 'background 0.15s',
+  transition: 'background 0.15s, box-shadow 0.15s',
   outline: 'none',
 };
 
 const selectedStyle: React.CSSProperties = {
   ...buttonBase,
   background: '#6366f1',
-  borderColor: '#6366f1',
+  borderColor: '#818cf8',
 };
 
 const actionStyle: React.CSSProperties = {
@@ -49,8 +50,30 @@ const componentButtonStyle: React.CSSProperties = {
 const componentSelectedStyle: React.CSSProperties = {
   ...componentButtonStyle,
   background: '#2d6a4f',
-  borderColor: '#2d6a4f',
+  borderColor: '#4ade80',
 };
+
+const separatorStyle: React.CSSProperties = {
+  width: '1px',
+  height: '28px',
+  background: '#4a4a6a',
+  margin: '0 4px',
+};
+
+const groupLabelStyle: React.CSSProperties = {
+  fontSize: '9px',
+  color: '#4a4a6a',
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.5px',
+  marginRight: '2px',
+  userSelect: 'none' as const,
+};
+
+function gateLabel(gate: GateType): string {
+  if (gate === GateType.HALF_ADDER) return 'HALF ADD';
+  if (gate === GateType.FULL_ADDER) return 'FULL ADD';
+  return gate;
+}
 
 export default function Toolbar({
   availableGates,
@@ -62,6 +85,7 @@ export default function Toolbar({
   onBack,
   wireColor = 'green',
   onWireColorChange,
+  gateCount,
 }: ToolbarProps) {
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
@@ -81,80 +105,77 @@ export default function Toolbar({
     <div
       style={{
         display: 'flex',
-        gap: '8px',
-        padding: '10px 16px',
+        gap: '6px',
+        padding: '8px 12px',
         background: '#1a1a2e',
         borderBottom: '1px solid #2d2d44',
         alignItems: 'center',
         flexWrap: 'wrap',
+        minHeight: '44px',
       }}
     >
+      {/* Navigation */}
       {onBack && (
         <>
           <button
-            style={{ ...actionStyle, borderColor: '#94a3b8', color: '#94a3b8' }}
+            className="toolbar-btn"
+            data-tooltip="Back to levels"
+            style={{ ...actionStyle, borderColor: '#94a3b8', color: '#94a3b8', padding: '6px 10px' }}
             onClick={onBack}
           >
             ← Back
           </button>
-          <div
-            style={{
-              width: '1px',
-              height: '28px',
-              background: '#4a4a6a',
-              margin: '0 4px',
-            }}
-          />
+          <div style={separatorStyle} />
         </>
       )}
 
-      {availableGates.map((gate) => (
-        <button
-          key={gate}
-          style={selectedTool === gate ? selectedStyle : buttonBase}
-          onClick={() => onSelectTool(selectedTool === gate ? null : gate)}
-        >
-          {gate}
-        </button>
-      ))}
+      {/* Gate tools group */}
+      <span style={groupLabelStyle}>Gates</span>
+      {availableGates.map((gate) => {
+        const isSelected = selectedTool === gate;
+        return (
+          <button
+            key={gate}
+            className={`toolbar-btn${isSelected ? ' toolbar-btn--selected' : ''}`}
+            data-tooltip={gateLabel(gate)}
+            style={isSelected ? selectedStyle : buttonBase}
+            onClick={() => onSelectTool(isSelected ? null : gate)}
+          >
+            {gateLabel(gate)}
+          </button>
+        );
+      })}
 
+      {/* Unlocked components group */}
       {unlockedComponents && unlockedComponents.length > 0 && (
         <>
-          <div
-            style={{
-              width: '1px',
-              height: '28px',
-              background: '#4a4a6a',
-              margin: '0 4px',
-            }}
-          />
-          <span style={{ color: '#2d6a4f', fontSize: '11px', marginRight: '4px' }}>
-            Components:
-          </span>
-          {unlockedComponents.map((gate) => (
-            <button
-              key={gate}
-              style={selectedTool === gate ? componentSelectedStyle : componentButtonStyle}
-              onClick={() => onSelectTool(selectedTool === gate ? null : gate)}
-            >
-              {gate === GateType.HALF_ADDER ? 'HALF ADD' : gate === GateType.FULL_ADDER ? 'FULL ADD' : gate}
-            </button>
-          ))}
+          <div style={separatorStyle} />
+          <span style={{ ...groupLabelStyle, color: '#2d6a4f' }}>Components</span>
+          {unlockedComponents.map((gate) => {
+            const isSelected = selectedTool === gate;
+            return (
+              <button
+                key={gate}
+                className={`toolbar-btn${isSelected ? ' toolbar-btn--selected' : ''}`}
+                data-tooltip={gateLabel(gate)}
+                style={isSelected ? componentSelectedStyle : componentButtonStyle}
+                onClick={() => onSelectTool(isSelected ? null : gate)}
+              >
+                {gateLabel(gate)}
+              </button>
+            );
+          })}
         </>
       )}
 
+      {/* Wire color */}
       {onWireColorChange && (
         <>
-          <div
-            style={{
-              width: '1px',
-              height: '28px',
-              background: '#4a4a6a',
-              margin: '0 4px',
-            }}
-          />
+          <div style={separatorStyle} />
           <div ref={colorPickerRef} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <button
+              className="toolbar-btn"
+              data-tooltip="Wire color"
               style={{
                 ...buttonBase,
                 display: 'flex',
@@ -163,7 +184,6 @@ export default function Toolbar({
                 padding: '6px 10px',
               }}
               onClick={() => setColorPickerOpen(!colorPickerOpen)}
-              title={`Wire color: ${wireColor}`}
             >
               <span
                 style={{
@@ -223,22 +243,30 @@ export default function Toolbar({
         </>
       )}
 
-      <div
-        style={{
-          width: '1px',
-          height: '28px',
-          background: '#4a4a6a',
-          margin: '0 4px',
-        }}
-      />
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
 
+      {/* Gate count */}
+      {gateCount !== undefined && (
+        <span style={{ fontSize: '11px', color: '#4a4a6a', fontFamily: 'monospace', marginRight: '4px' }}>
+          {gateCount} gates
+        </span>
+      )}
+
+      {/* Actions group */}
+      <div style={separatorStyle} />
+      <span style={groupLabelStyle}>Actions</span>
       <button
+        className="toolbar-btn"
+        data-tooltip="Verify circuit"
         style={{ ...actionStyle, borderColor: '#22c55e', color: '#22c55e' }}
         onClick={onVerify}
       >
         ✓ Verify
       </button>
       <button
+        className="toolbar-btn"
+        data-tooltip="Clear circuit"
         style={{ ...actionStyle, borderColor: '#ef4444', color: '#ef4444' }}
         onClick={onClear}
       >

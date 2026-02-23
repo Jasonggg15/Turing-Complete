@@ -101,6 +101,7 @@ export class Interaction {
   private readonly handleWheel: (e: WheelEvent) => void;
   private readonly handleKeyDown: (e: KeyboardEvent) => void;
   private readonly handleKeyUp: (e: KeyboardEvent) => void;
+  private readonly handleDblClick: (e: MouseEvent) => void;
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -120,12 +121,14 @@ export class Interaction {
     this.handleWheel = this.onWheel.bind(this);
     this.handleKeyDown = this.onKeyDown.bind(this);
     this.handleKeyUp = this.onKeyUp.bind(this);
+    this.handleDblClick = this.onDblClick.bind(this);
 
     canvas.addEventListener('mousedown', this.handleMouseDown);
     canvas.addEventListener('mousemove', this.handleMouseMove);
     canvas.addEventListener('mouseup', this.handleMouseUp);
     canvas.addEventListener('contextmenu', this.handleContextMenu);
     canvas.addEventListener('wheel', this.handleWheel, { passive: false });
+    canvas.addEventListener('dblclick', this.handleDblClick);
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
   }
@@ -136,6 +139,7 @@ export class Interaction {
     this.canvas.removeEventListener('mouseup', this.handleMouseUp);
     this.canvas.removeEventListener('contextmenu', this.handleContextMenu);
     this.canvas.removeEventListener('wheel', this.handleWheel);
+    this.canvas.removeEventListener('dblclick', this.handleDblClick);
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
   }
@@ -934,6 +938,21 @@ export class Interaction {
     this.camera.offsetX = mouseX - worldBefore.x * this.camera.zoom;
     this.camera.offsetY = mouseY - worldBefore.y * this.camera.zoom;
 
+    this.callbacks.requestRender();
+  }
+
+  private onDblClick(e: MouseEvent): void {
+    // Double-click resets zoom to 100%, centered on cursor position
+    const rect = this.canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const worldX = (mouseX - this.camera.offsetX) / this.camera.zoom;
+    const worldY = (mouseY - this.camera.offsetY) / this.camera.zoom;
+
+    this.camera.zoom = 1;
+    this.camera.offsetX = mouseX - worldX;
+    this.camera.offsetY = mouseY - worldY;
     this.callbacks.requestRender();
   }
 

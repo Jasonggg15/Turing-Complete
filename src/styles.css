@@ -230,3 +230,163 @@ body {
 button:focus, button:focus-visible {
   outline: none;
 }
+
+/* ===== Page Transitions ===== */
+.page-enter {
+  animation: page-fade-in 150ms ease-out both;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== PCB Spinner ===== */
+.pcb-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #2d2d44;
+  border-top-color: #d4a843;
+  border-right-color: #6366f1;
+  border-radius: 50%;
+  animation: pcb-spin 0.8s linear infinite;
+  position: relative;
+}
+
+.pcb-spinner::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 2px solid #2d2d44;
+  border-bottom-color: #22c55e;
+  border-radius: 50%;
+  animation: pcb-spin 1.2s linear infinite reverse;
+}
+
+@keyframes pcb-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Success Modal ===== */
+.success-modal-enter {
+  animation: success-scale-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes success-scale-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.success-overlay-enter {
+  animation: overlay-fade-in 200ms ease-out both;
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Success particles */
+.success-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: particle-burst 1s ease-out both;
+  pointer-events: none;
+}
+
+@keyframes particle-burst {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Verify fail flash */
+.verify-fail-flash {
+  animation: fail-flash 400ms ease-out;
+}
+
+@keyframes fail-flash {
+  0% { box-shadow: inset 0 0 0 0 rgba(239, 68, 68, 0); }
+  30% { box-shadow: inset 0 0 40px 0 rgba(239, 68, 68, 0.15); }
+  100% { box-shadow: inset 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* ===== Toolbar Tooltips ===== */
+.toolbar-btn {
+  position: relative;
+}
+
+.toolbar-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f0f1a;
+  color: #94a3b8;
+  font-size: 10px;
+  font-family: monospace;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: 1px solid #2d2d44;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 50;
+}
+
+.toolbar-btn:hover::after {
+  opacity: 1;
+}
+
+/* Selected tool glow */
+.toolbar-btn--selected {
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5), inset 0 0 8px rgba(99, 102, 241, 0.1);
+}
+
+/* ===== Shortcuts Bar ===== */
+.shortcuts-bar {
+  display: flex;
+  gap: 12px;
+  padding: 5px 12px;
+  background: #12121f;
+  border-top: 1px solid #2d2d44;
+  font-size: 10px;
+  font-family: monospace;
+  color: #4a4a6a;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+  transition: max-height 0.2s ease, padding 0.2s ease;
+}
+
+.shortcuts-bar--collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.shortcut-key {
+  background: #1a1a2e;
+  border: 1px solid #2d2d44;
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: #6366f1;
+  font-size: 10px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .play-sidebar {
+    flex: 0 0 240px !important;
+    min-width: 240px;
+  }
+}
+
+@media (max-width: 800px) {
+  .play-sidebar {
+    display: none !important;
+  }
+}
